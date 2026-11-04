@@ -97,11 +97,11 @@ export function useImageSkeletons() {
   useEffect(() => {
     const mark = (img: HTMLImageElement) => img.classList.add('ld')
     const onLoad = (e: Event) => { const t = e.target as HTMLElement; if (t.tagName === 'IMG') mark(t as HTMLImageElement) }
-    const onError = (e: Event) => {
-      const img = e.target as HTMLImageElement
-      if (img.tagName !== 'IMG') return
+    const onError = (e: Event) => fail(e.target as HTMLImageElement)
+    const fail = (img: HTMLImageElement) => {
+      if (img.tagName !== 'IMG' || img.classList.contains('img-failed')) return
       if (!img.dataset.retried) {
-        img.dataset.retried = '1'
+        img.dataset.retried = '1'; img.dataset.retriedAt = String(Date.now() + 600)
         const base = img.getAttribute('src') || ''
         setTimeout(() => { img.removeAttribute('srcset'); img.src = base + (base.includes('?') ? '&' : '?') + 'r=' + Date.now() }, 600)
       } else { img.classList.add('img-failed'); img.closest('.stage')?.classList.add('ready') }
@@ -110,6 +110,13 @@ export function useImageSkeletons() {
     document.addEventListener('error', onError, true)
     const mo = new MutationObserver(() => document.querySelectorAll<HTMLImageElement>('img:not(.ld)').forEach((i) => i.complete && i.naturalWidth && mark(i)))
     mo.observe(document.body, { childList: true, subtree: true })
-    return () => { document.removeEventListener('load', onLoad, true); document.removeEventListener('error', onError, true); mo.disconnect() }
+    // Safari doesn't always fire "error" for a failed srcset candidate, so also sweep for images that finished without pixels
+    const sweep = setInterval(() => document.querySelectorAll<HTMLImageElement>('img:not(.ld):not(.img-failed)').forEach((i) => {
+      if (!i.complete || i.naturalWidth || !i.getAttribute('src')) return
+      const r = i.getBoundingClientRect(); if (r.bottom < -innerHeight || r.top > innerHeight * 2) return
+      if (i.dataset.retried && Date.now() - Number(i.dataset.retriedAt || 0) < 1500) return
+      fail(i)
+    }), 1200)
+    return () => { document.removeEventListener('load', onLoad, true); document.removeEventListener('error', onError, true); mo.disconnect(); clearInterval(sweep) }
   }, [])
 }

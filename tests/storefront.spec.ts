@@ -9,7 +9,8 @@ function watch(page: Page) {
   const errs: string[] = []
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()))
   page.on('pageerror', (e) => errs.push(String(e)))
-  page.on('requestfailed', (r) => { if (!/favicon|\.webm$/.test(r.url())) errs.push('request failed: ' + r.url()) })
+  // third-party embeds (the map) depend on the test machine's network, so only our own requests count
+  page.on('requestfailed', (r) => { if (!/favicon|\.webm$/.test(r.url()) && r.url().startsWith('http://localhost')) errs.push('request failed: ' + r.url()) })
   page.on('response', (r) => { if (r.status() >= 400 && /\.(webp|png|jpg|svg|mp4|js|css)(\?|$)/.test(r.url())) errs.push(`${r.status()} ${r.url()}`) })
   return errs
 }
@@ -325,8 +326,7 @@ test.describe('round 2', () => {
     let hits = 0
     await page.route('**/media/products/rope-chain-1*.webp*', (r) => { hits++; return r.abort() })
     await page.goto('/products/rope-chain', { waitUntil: 'networkidle' })
-    await page.waitForTimeout(1500)
-    expect(hits).toBeGreaterThanOrEqual(2)
+    await expect.poll(() => hits, { timeout: 8000 }).toBeGreaterThanOrEqual(2)
     await expect(page.locator('.gallery__slide img').first()).toHaveClass(/img-failed/)
   })
 })
