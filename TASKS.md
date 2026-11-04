@@ -47,6 +47,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` completed · `[!]` blocked. 
 - [x] Human-eye visual pass per page at 390 / 1440, plus menu, drawer, quick view, search, three themes, V2 wall and chain states
 - [ ] Lighthouse / performance pass on the production build (bundle: main ~600 kB incl. GSAP + catalogue JSON; three.js lazy on /v2)
 
+## Review round 2
+- [x] Phone menu: Shop section with every category · smaller type scale (rem/em throughout) · homepage order and one-screen sections · custom work swipe rail on phone
+- [x] About rebuilt with motion and the V2 shutter · custom inquiry questions · contact page rebuilt · PDP metal preview · sample stars and reviews · image retry
+- [x] Blind QA agent pass; fixes: in-site checkout, send panel, focus traps, Safari carousel, Firefox hero, anchors, size dialog, 320px header, WebGL fallback, copy
+- [x] Playwright on Chromium, Firefox, WebKit; screenshot pass 320/390/1440
+
 ## Phase 10 — Delivery
 - [x] Docs (README, DESIGN_SYSTEM, CHANGELOG, research)
 - [x] Final stable push after QA green (56 Playwright tests passing locally)

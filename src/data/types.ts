@@ -31,6 +31,8 @@ export type Product = {
   collections: string[]
   /** Short spec rows for the PDP (material, stone, width, weight…) */
   specs: { label: string; value: string }[]
+  /** The metal the product photos actually show (drives the metal colour preview). */
+  photoMetal?: string
   /** Set on the sample catalogue so the UI can label unverified content. */
   sample?: boolean
   createdAt?: string

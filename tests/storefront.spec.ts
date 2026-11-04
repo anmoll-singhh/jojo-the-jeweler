@@ -9,7 +9,8 @@ function watch(page: Page) {
   const errs: string[] = []
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()))
   page.on('pageerror', (e) => errs.push(String(e)))
-  page.on('requestfailed', (r) => { if (!/favicon|\.webm$/.test(r.url())) errs.push('request failed: ' + r.url()) })
+  // third-party embeds (the map) depend on the test machine's network, so only our own requests count
+  page.on('requestfailed', (r) => { if (!/favicon|\.webm$/.test(r.url()) && r.url().startsWith('http://localhost')) errs.push('request failed: ' + r.url()) })
   page.on('response', (r) => { if (r.status() >= 400 && /\.(webp|png|jpg|svg|mp4|js|css)(\?|$)/.test(r.url())) errs.push(`${r.status()} ${r.url()}`) })
   return errs
 }
@@ -71,7 +72,7 @@ test.describe('commerce', () => {
     await expect(page.locator('.lines .qty .num')).toHaveText('2')
     await expect(page.locator('.nav .bag i')).toHaveText('2')
     const checkout = page.locator('.drawer__foot a.btn')
-    await expect(checkout).toHaveAttribute('href', /myshopify\.com\/cart\/\d+:2/)
+    await expect(checkout).toHaveAttribute('href', '/checkout')
     await page.locator('.drawer__head button').click()
     await expect(page.locator('.drawer.is-open')).toHaveCount(0)
     await page.goto('/cart')
@@ -80,9 +81,19 @@ test.describe('commerce', () => {
     await expect(page.locator('h1')).toContainText('empty')
   })
 
-  test('buy now links to Shopify cart permalink', async ({ page }) => {
-    await page.goto('/products/diamond-studs')
-    await expect(page.getByRole('link', { name: 'Buy now' })).toHaveAttribute('href', /myshopify\.com\/cart\/\d+:1/)
+  test('buy now goes to checkout, which validates and composes the order', async ({ page }) => {
+    await page.goto('/products/diamond-studs', { waitUntil: 'networkidle' })
+    await page.getByRole('button', { name: 'Buy now' }).click()
+    await expect(page).toHaveURL(/\/checkout$/)
+    await expect(page.locator('.co-sum li')).toHaveCount(1)
+    await page.getByRole('button', { name: /Send order to JoJo/ }).click()
+    await expect(page.locator('.cu-err')).toContainText('name')
+    await page.getByLabel('Name').fill('Test Buyer')
+    await page.getByLabel('Phone').fill('(212) 555-0100')
+    await page.getByRole('radio', { name: /Pick up/ }).click()
+    await page.getByRole('button', { name: /Send order to JoJo/ }).click()
+    await expect(page.locator('.send .cu-msg')).toContainText('Diamond')
+    await expect(page.locator('.send .cu-msg')).toContainText('Pick up')
   })
 
   test('quick add from a card', async ({ page }) => {
@@ -122,10 +133,10 @@ test.describe('commerce', () => {
     const n = await page.locator('.grid .card').count()
     await page.locator('.filters').getByLabel(/Chains/).click()
     await expect(page).toHaveURL(/type=Chains/)
-    expect(await page.locator('.grid .card').count()).toBeLessThan(n)
+    await expect.poll(() => page.locator('.grid .card').count()).toBeLessThan(n)
     await page.locator('.shop__sort select').selectOption('high')
     await expect(page).toHaveURL(/sort=high/)
-    const prices = await page.$$eval('.grid .card .num', (els) => els.map((e) => Number((e.textContent || '').replace(/[^0-9]/g, ''))))
+    const prices = await page.$$eval('.grid .card p.num', (els) => els.map((e) => Number((e.textContent || '').replace(/[^0-9]/g, ''))))
     expect([...prices].sort((a, b) => b - a)).toEqual(prices)
     await page.getByRole('button', { name: 'Clear all' }).click()
     await expect(page.locator('.grid .card')).toHaveCount(n)
@@ -222,5 +233,100 @@ test.describe('accessibility and seo', () => {
     await page.goto('/v2', { waitUntil: 'load' })
     await expect(page.locator('.v2-open__h .display')).toBeVisible()
     await ctx.close()
+  })
+})
+
+test.describe('round 2', () => {
+  test('PDP metal choice recolours the photo and says so; stars and sample reviews show', async ({ page }) => {
+    await page.goto('/products/miami-cuban-link-chain', { waitUntil: 'networkidle' })
+    const img = page.locator('.gallery__slide img').first()
+    expect(await img.evaluate((e) => getComputedStyle(e).filter)).toBe('none')
+    await page.getByRole('radio', { name: 'White gold' }).click()
+    await expect.poll(() => img.evaluate((e) => getComputedStyle(e).filter)).toContain('grayscale')
+    await expect(page.locator('.gallery__note')).toContainText('Photographed in yellow gold')
+    await expect(page.locator('.buy__stars .stars')).toBeVisible()
+    await expect(page.locator('#reviews .reviews__list li')).toHaveCount(3)
+    await expect(page.locator('#reviews .sample')).toContainText('Sample reviews')
+  })
+
+  test('PDP opens on the metal the photo was shot in', async ({ page }) => {
+    await page.goto('/products/iced-cuban-link-chain', { waitUntil: 'networkidle' })
+    await expect(page.getByRole('radio', { name: 'Rose gold' })).toHaveAttribute('aria-checked', 'true')
+    await expect(page.locator('.gallery__note')).toHaveCount(0)
+  })
+
+  test('card metal dots preview the colour', async ({ page }) => {
+    await page.setViewportSize({ width: 1366, height: 768 })
+    await page.goto('/collections/chains', { waitUntil: 'networkidle' })
+    const card = page.locator('.card').first()
+    await card.getByRole('button', { name: 'White gold' }).click()
+    expect(await card.locator('.card__frame img').first().evaluate((e) => getComputedStyle(e).filter)).toContain('grayscale')
+  })
+
+  test('phone menu has a Shop section listing every category', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    const shop = page.locator('.menu__acc')
+    await expect(shop).toHaveAttribute('aria-expanded', 'true')
+    for (const c of ['Chains', 'Pendants', 'Bracelets', 'Rings', 'Earrings', 'Grillz', 'Watches', 'All pieces']) await expect(page.locator('#menu-shop a', { hasText: new RegExp('^' + c) }).first()).toBeVisible()
+    await shop.click()
+    await expect(shop).toHaveAttribute('aria-expanded', 'false')
+    for (const t of ['Custom', 'About', 'Contact']) await expect(page.locator('.menu__main > a', { hasText: t })).toBeVisible()
+  })
+
+  test('homepage order', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'networkidle' })
+    const order = await page.$$eval('main > section', (s) => s.map((e) => e.className.split(' ')[0]))
+    expect(order).toEqual(['hero', 'sbp', 'field', 'picks', 'look', 'proof', 'room'])
+  })
+
+  test('custom inquiry: validation, three steps, review', async ({ page }) => {
+    await page.goto('/custom', { waitUntil: 'networkidle' })
+    await page.evaluate(() => localStorage.removeItem('jojo-custom-draft'))
+    await page.reload({ waitUntil: 'networkidle' })
+    await page.getByRole('button', { name: /Next/ }).click()
+    await expect(page.locator('.cu-err')).toContainText('Pick what kind of piece')
+    await page.getByRole('radio', { name: 'Pendant' }).click()
+    await page.getByRole('radio', { name: 'Rose gold' }).click()
+    await page.getByRole('radio', { name: 'Natural diamonds' }).click()
+    await page.getByRole('button', { name: /Next/ }).click()
+    await page.getByLabel('Describe the idea').fill('My initials in baguettes with a crown on top')
+    await page.getByRole('radio', { name: '$5,000 – $10,000' }).click()
+    await page.getByRole('button', { name: /Next/ }).click()
+    await page.getByLabel('Name').fill('Test Buyer')
+    await page.getByLabel('Phone').fill('+1 212 555 0100')
+    await page.getByRole('button', { name: /Review/ }).click()
+    const msg = page.locator('.cu-msg')
+    for (const t of ['Test Buyer', 'Pendant', 'Rose gold', 'Natural diamonds', 'crown', '$5,000 – $10,000', '+1 212 555 0100']) await expect(msg).toContainText(t)
+    await expect(page.getByRole('button', { name: /Send to JoJo/ })).toBeVisible()
+  })
+
+  test('contact: topic shows watch field, validation, actions', async ({ page }) => {
+    await page.goto('/contact?topic=watch', { waitUntil: 'networkidle' })
+    await expect(page.getByRole('radio', { name: 'Selling a watch' })).toHaveAttribute('aria-checked', 'true')
+    await expect(page.getByLabel(/The watch/)).toBeVisible()
+    await page.getByRole('button', { name: /Send to JoJo/ }).click()
+    await expect(page.locator('.cu-err')).toContainText('name')
+    await expect(page.locator('.ct-acts a')).toHaveCount(4)
+    await expect(page.locator('.ct-acts a').first()).toHaveAttribute('href', /^sms:/)
+    await expect(page.locator('.ct-now')).toContainText('47th Street')
+  })
+
+  test('about: shutter, story, counters, steps', async ({ page }) => {
+    await page.goto('/about', { waitUntil: 'networkidle' })
+    await expect(page.locator('.shutter')).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Started at\s*fifteen/ })).toBeAttached()
+    await page.locator('.ab-facts').scrollIntoViewIfNeeded()
+    await expect.poll(() => page.locator('.ab-count').nth(1).textContent(), { timeout: 5000 }).toBe('109K')
+    await expect(page.locator('.ab-steps__list li')).toHaveCount(3)
+  })
+
+  test('failed image is retried, then hidden (no broken icon)', async ({ page }) => {
+    let hits = 0
+    await page.route('**/media/products/rope-chain-1*.webp*', (r) => { hits++; return r.abort() })
+    await page.goto('/products/rope-chain', { waitUntil: 'networkidle' })
+    await expect.poll(() => hits, { timeout: 8000 }).toBeGreaterThanOrEqual(2)
+    await expect(page.locator('.gallery__slide img').first()).toHaveClass(/img-failed/)
   })
 })

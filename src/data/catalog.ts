@@ -26,8 +26,10 @@ export const fromPrice = (p: Product) => (minPrice(p) === maxPrice(p) ? money(mi
 
 export const findVariant = (p: Product, sel: Record<string, string>): Variant =>
   p.variants.find((v) => v.selectedOptions.every((o) => sel[o.name] === o.value)) ?? p.variants[0]
+/** First available variant, preferring the metal the photos were shot in so the first view is the real photo. */
 export const defaultSelection = (p: Product): Record<string, string> => {
-  const v = p.variants.find((x) => x.availableForSale) ?? p.variants[0]
+  const inPhotoMetal = (x: Variant) => !p.photoMetal || x.selectedOptions.every((o) => !/metal|colou?r/i.test(o.name) || o.value === p.photoMetal)
+  const v = p.variants.find((x) => x.availableForSale && inPhotoMetal(x)) ?? p.variants.find((x) => x.availableForSale) ?? p.variants[0]
   return Object.fromEntries(v.selectedOptions.map((o) => [o.name, o.value]))
 }
 /** Is this option value purchasable given the other current selections? */
@@ -58,3 +60,29 @@ export const related = (p: Product, n = 4) => {
 }
 export const bestSellers = (n = 8) => [...products].sort((a, b) => (b.tags.includes('best-seller') ? 1 : 0) - (a.tags.includes('best-seller') ? 1 : 0)).slice(0, n)
 export const newest = (n = 8) => [...products].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, n)
+
+/**
+ * Responsive image props for product photos: an 800px copy for phones and small cards, the 1600px
+ * original for large screens. Other media (films, Instagram) pass through unchanged.
+ */
+export const rs = (src: string, sizes = '(min-width: 68.75em) 25vw, (min-width: 43.75em) 33vw, 72vw') =>
+  /\/media\/products\/.+-\d\.webp$/.test(src) ? { src, srcSet: `${src.replace(/\.webp$/, '-800.webp')} 800w, ${src} 1600w`, sizes } : { src }
+
+/**
+ * Metal preview: recolours a product photo shot in one metal to show another. Tuned on the sample
+ * photography (black satin ground); from yellow or rose the result is close, from white it is a light
+ * tint only, so the PDP always says which metal the photo really shows.
+ */
+type MetalKey = 'yellow' | 'white' | 'rose'
+export const metalKey = (v?: string): MetalKey | null => (!v ? null : /rose/i.test(v) ? 'rose' : /white|silver|platinum|steel/i.test(v) ? 'white' : /yellow|gold/i.test(v) ? 'yellow' : null)
+const TINT: Record<MetalKey, Partial<Record<MetalKey, string>>> = {
+  yellow: { white: 'grayscale(1) brightness(1.12) contrast(1.06)', rose: 'hue-rotate(-24deg) saturate(.85) brightness(1.02)' },
+  rose: { yellow: 'hue-rotate(22deg) saturate(1.25)', white: 'grayscale(1) brightness(1.08) contrast(1.05)' },
+  white: { yellow: 'sepia(.42) saturate(1.5) hue-rotate(-4deg) brightness(1.03)', rose: 'sepia(.36) saturate(1.25) hue-rotate(-30deg) brightness(1.02)' },
+}
+export const metalFilter = (photo?: string, chosen?: string) => {
+  const a = metalKey(photo), b = metalKey(chosen)
+  return a && b && a !== b ? TINT[a][b] ?? 'none' : 'none'
+}
+/** The selected metal option value on a product, if it has a metal option. */
+export const chosenMetal = (p: Product, sel: Record<string, string>) => { const o = p.options.find((x) => isMetalOption(x.name)); return o ? sel[o.name] : undefined }

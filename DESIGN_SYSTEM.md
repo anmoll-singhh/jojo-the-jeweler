@@ -30,19 +30,22 @@ Switch with `data-theme` on `<html>`; the design controller (`src/components/Des
 Two families max per theme, one job each. Fonts self-hosted from `@fontsource-variable/*`.
 | Role | Size | Notes |
 |---|---|---|
-| `.display` | `clamp(3rem, 9.5vw, 11rem)` | hero only, ≤2 lines at 390/768/1440, `line-height .92`, `letter-spacing -.03em`, `text-wrap: balance` |
-| `.h1` | `clamp(2.75rem, 7vw, 7.5rem)` | page titles |
-| `.h2` | `clamp(2rem, 4.8vw, 4.75rem)` | every section opens with one, 2–5 words, on the anchor line |
-| `.h3` | `clamp(1.5rem, 2.6vw, 2.5rem)` | product titles on PDP, drawer heads |
-| `.lede` | `clamp(1.125rem, 1.6vw, 1.5rem)` | one supporting sentence, ≤22 words |
-| body | `1rem / 1.5` | full ink, `max-width 62ch`, never under 13px |
+| `.display` | `clamp(2.5rem, 1.2rem + 5.6vw, 6.5rem)` | hero only, ≤2 lines at every width, `line-height .92`, `letter-spacing -.03em`, `text-wrap: balance` |
+| `.h1` | `clamp(2.125rem, 1.25rem + 3.9vw, 5rem)` | page titles |
+| `.h2` | `clamp(1.75rem, 1.1rem + 2.6vw, 3.5rem)` | every section opens with one, 2–5 words |
+| `.h3` | `clamp(1.375rem, 1rem + 1.1vw, 2rem)` | product titles, drawer heads |
+| `.lede` | `clamp(1.0625rem, 0.95rem + 0.45vw, 1.3125rem)` | one supporting sentence, ≤22 words |
+| body | `1rem / 1.5` | full ink, `max-width 62ch`, never under 0.8125rem |
 Display ≥4× body. Regular weight is fine on serif themes; no bold accent words, no italic accent, no text shadow. Prices use `tabular-nums`.
+
+## Units
+All lengths are `rem` (they follow the visitor's base font size); media queries use `em` (the only unit that behaves the same in every browser there); 1–2px hairlines and borders stay `px` so they stay crisp. Fluid sizes are `clamp(min, rem + vw, max)` so they grow with the screen but never past a cap. Heights tied to the screen use `svh` (stable when the phone's address bar hides).
 
 ## Layout
 - One pair of outer margins: `--pad: clamp(16px, 2.5vw, 32px)` at every width; nav sits on the same margins.
 - No centred 1200px frame; large things run edge to edge, paragraphs are capped in `ch`. Page cap 1760px.
 - Anchor line `--anchor: 42%` reused by editorial sections; two or three left edges per page.
-- Sections `--section: clamp(72px, 10vw, 200px)` apart; no two neighbouring sections share a layout.
+- Homepage sections are sized to one screen (`min-height: 100svh`, media capped in svh); other pages space sections `--section: clamp(4.5rem, 10vw, 12.5rem)` apart. No two neighbouring sections share a layout.
 - Corners square (`--r: 0`); the controller can switch to 14px as a preview.
 - Phone is its own composition: hero re-cropped portrait, one dominant thing per screen, 44px targets.
 

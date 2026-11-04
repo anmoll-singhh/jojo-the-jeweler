@@ -5,13 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, ProductCard } from '../components/Product'
-import { bestSellers, byHandle, findVariant, money } from '../data/catalog'
+import { bestSellers, byHandle, findVariant, money, rs } from '../data/catalog'
 import { BRAND, CLIENTS } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { reduced } from '../lib/motion'
 import { useCart } from '../lib/store'
 import { Lines } from './HomeV1'
 import type { Metal } from '../components/Chain3D'
+import { Boundary } from '../components/Boundary'
 
 const Chain3D = lazy(() => import('../components/Chain3D'))
 gsap.registerPlugin(ScrollTrigger)
@@ -79,7 +80,7 @@ function WidthWall() {
             const grams = Math.round(48 * (parseInt(w) / 8) ** 2 * (22 / 18))
             return (
               <article key={w} className="v2-stop" style={{ ['--s' as string]: 0.62 + i * 0.13 }}>
-                <div className="v2-stop__img"><img src={p.images[0].src} alt="" loading="lazy" /></div>
+                <div className="v2-stop__img"><img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} alt="" loading="lazy" /></div>
                 <div className="v2-stop__num" aria-hidden="true">{w}</div>
                 <div className="v2-stop__meta"><b className="num">{money(v.price.amount)}</b><span className="num">≈ {grams} g</span><Link className="link" to={`/products/${p.handle}`}>{w} Cuban</Link></div>
               </article>)
@@ -106,7 +107,7 @@ function Chain() {
   const v = findVariant(p, sel)
   return (
     <section className="v2-chain" ref={ref}>
-      <div className="v2-chain__stage">{ready && <Suspense fallback={null}><Chain3D metal={metal} width={parseInt(width)} /></Suspense>}</div>
+      <div className="v2-chain__stage">{ready && <Boundary fallback={<img className="chain3d--still" src="/media/products/miami-cuban-link-chain-1-800.webp" alt="Miami Cuban link chain" />}><Suspense fallback={null}><Chain3D metal={metal} width={parseInt(width)} /></Suspense></Boundary>}</div>
       <div className="v2-chain__ui wrap">
         <h2 className="h2"><Lines lines={['Turn it', 'over']} /></h2>
         <p className="rv">Drag the chain. Pick the gold. Built in the browser, so it is a model, not the piece; the real one is on 47th Street.</p>

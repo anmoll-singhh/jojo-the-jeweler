@@ -21,9 +21,9 @@ export function Footer() {
           <label className="lab" htmlFor="foot-email">Or get them by email</label>
           <div className="foot__row">
             <input id="foot-email" type="email" placeholder="you@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={ok} />
-            <button className="btn" disabled={ok}>{ok ? 'On the list' : 'Join'}</button>
+            <button className="btn" disabled={ok}>{ok ? 'Saved' : 'Join'}</button>
           </div>
-          <p className="small muted">{ok ? 'Saved on this device. Email sign-up connects to Shopify when the store goes live.' : 'No spam. Drops, restocks and custom work.'}</p>
+          <p className="small muted">{ok ? 'Email drops start when the new store opens. Until then they go up first on Instagram.' : 'No spam. Drops, restocks and custom work.'}</p>
         </form>
       </div>
       <nav className="foot__links wrap" aria-label="Footer">

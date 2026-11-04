@@ -3,7 +3,9 @@ import { createPortal, flushSync } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { Check, Handbag, Heart, X, Plus } from '@phosphor-icons/react'
 import type { Product } from '../data/types'
-import { defaultSelection, findVariant, fromPrice, isMetalOption, metalSwatch, money, onSale, valueAvailable, byHandle } from '../data/catalog'
+import { chosenMetal, defaultSelection, findVariant, fromPrice, isMetalOption, metalFilter, metalSwatch, money, onSale, valueAvailable, byHandle, rs } from '../data/catalog'
+import { SAMPLE_REVIEWS, rating } from '../data/reviews'
+import { Stars } from './Stars'
 import { lastAdd, useCart, useRecent, useWish, wish } from '../lib/store'
 
 /* ── Product card ─────────────────────────────────────────── */
@@ -14,12 +16,15 @@ export function ProductCard({ p, eager = false, variant = 'grid' }: { p: Product
   const [qv, setQv] = useState(false)
   const metal = p.options.find((o) => isMetalOption(o.name))
   const v0 = p.variants[0]
+  // metal dots preview the colour on the card photo (hover on desktop, tap on touch)
+  const [m, setM] = useState<string>()
+  const tint = metalFilter(p.photoMetal, m)
   return (
     <article className={'card card--' + variant}>
       <div className="card__media stage">
         <Link to={'/products/' + p.handle} aria-label={p.title} className="card__frame" onClick={(e) => glide(e, '/products/' + p.handle, nav)}>
-          <img src={p.images[0].src} alt={p.images[0].alt} loading={eager ? 'eager' : 'lazy'} />
-          {p.images[1] && <img className="card__alt" src={p.images[1].src} alt="" loading="lazy" />}
+          <img {...rs(p.images[0].src)} style={{ filter: tint }} alt={p.images[0].alt} loading={eager ? 'eager' : 'lazy'} />
+          {p.images[1] && <img className="card__alt" {...rs(p.images[1].src)} style={{ filter: tint }} alt="" loading="lazy" />}
         </Link>
         {onSale(p) && <span className="card__tag">Sale</span>}
         <button className={'heart' + (on ? ' on' : '')} aria-pressed={on} aria-label={(on ? 'Remove from wishlist: ' : 'Save to wishlist: ') + p.title} onClick={() => wish.toggle(p.handle)}><Heart size={18} weight={on ? 'fill' : 'regular'} /></button>
@@ -28,7 +33,8 @@ export function ProductCard({ p, eager = false, variant = 'grid' }: { p: Product
       <div className="card__meta">
         <Link to={'/products/' + p.handle}><h3>{p.title}</h3></Link>
         <p className="num">{fromPrice(p)}{v0.compareAtPrice && v0.compareAtPrice.amount > v0.price.amount && <s className="muted"> {money(v0.compareAtPrice.amount)}</s>}</p>
-        {metal && metal.values.length > 1 && <span className="dots" aria-hidden="true">{metal.values.slice(0, 4).map((v) => <i key={v} style={{ background: metalSwatch(v) }} />)}</span>}
+        {SAMPLE_REVIEWS && <span className="card__stars"><Stars value={rating(p).stars} size={12} /><span className="num">{rating(p).stars.toFixed(1)}</span></span>}
+        {metal && metal.values.length > 1 && <span className="dots" role="group" aria-label={'Preview ' + p.title + ' in'} onPointerLeave={(e) => e.pointerType === 'mouse' && setM(undefined)}>{metal.values.slice(0, 4).map((v) => <button key={v} className={'dot' + (m === v ? ' on' : '')} style={{ ['--c' as string]: metalSwatch(v) }} aria-label={v} aria-pressed={m === v} onPointerEnter={(e) => e.pointerType === 'mouse' && setM(v)} onFocus={() => setM(v)} onClick={() => setM(v)} />)}</span>}
       </div>
       {qv && <QuickView p={p} close={() => setQv(false)} />}
     </article>
@@ -92,12 +98,13 @@ export function QuickView({ p, close }: { p: Product; close: () => void }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && bye(); addEventListener('keydown', k); document.body.style.overflow = 'hidden'; return () => { removeEventListener('keydown', k); document.body.style.overflow = '' } }, [])
   const img = v.image?.src || p.images[0].src
+  const tint = metalFilter(p.photoMetal, chosenMetal(p, sel))
   return createPortal(
     <div className={'qv' + (shut ? ' out' : '')} role="dialog" aria-modal="true" aria-label={'Options for ' + p.title}>
       <div className="qv__scrim" onClick={bye} />
       <aside className="qv__panel" data-lenis-prevent>
         <button className="icon qv__x" aria-label="Close" onClick={bye}><X size={22} /></button>
-        <div className="qv__img stage" ref={ref}><img src={img} alt={p.title} /></div>
+        <div className="qv__img stage" ref={ref}><img {...rs(img, '(min-width: 56.25em) 30rem, 100vw')} style={{ filter: tint }} alt={p.title} /></div>
         <div className="qv__body">
           <h2 className="h3">{p.title}</h2>
           <p className="qv__price num">{money(v.price.amount)}{v.compareAtPrice && <s className="muted"> {money(v.compareAtPrice.amount)}</s>}</p>

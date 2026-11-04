@@ -17,13 +17,13 @@
   --fd-lh: 0.92;
   --fd-case: none;
 
-  --pad: clamp(16px, 2.5vw, 32px);  /* the one pair of outer margins */
+  --pad: clamp(1rem, 2.5vw, 2rem);  /* the one pair of outer margins */
   --anchor: 42%;                    /* off-centre line text hangs from in editorial sections */
   --r: 0px;                         /* square corners, decided once */
-  --r-pill: 999px;
-  --nav-h: 64px;
-  --section: clamp(72px, 10vw, 200px);
-  --max: 1760px;
+  --r-pill: 62.4375rem;
+  --nav-h: 4rem;
+  --section: clamp(4.5rem, 10vw, 12.5rem);
+  --max: 110rem;
 
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-expo: cubic-bezier(.16, 1, .3, 1);

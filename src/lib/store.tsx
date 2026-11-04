@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { byHandle } from '../data/catalog'
 
 export type Line = { key: string; handle: string; variantId: string; title: string; options: Record<string, string>; price: number; image: string; qty: number }
-type Cart = { lines: Line[]; add: (l: Omit<Line, 'key' | 'qty'>, from?: HTMLElement | null, qty?: number) => void; setQty: (k: string, q: number) => void; clear: () => void; open: boolean; setOpen: (b: boolean) => void; total: number; count: number }
+type Cart = { lines: Line[]; add: (l: Omit<Line, 'key' | 'qty'>, from?: HTMLElement | null, qty?: number, quiet?: boolean) => void; setQty: (k: string, q: number) => void; clear: () => void; open: boolean; setOpen: (b: boolean) => void; total: number; count: number }
 const Ctx = createContext<Cart>(null!)
 export const useCart = () => useContext(Ctx)
 export const load = <T,>(k: string, d: T): T => { try { return JSON.parse(localStorage.getItem(k) || '') ?? d } catch { return d } }
@@ -12,9 +12,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<Line[]>(() => load('jojo-cart', []))
   const [open, setOpen] = useState(false)
   useEffect(() => save('jojo-cart', lines), [lines])
-  const add: Cart['add'] = (l, from, qty = 1) => {
+  const add: Cart['add'] = (l, from, qty = 1, quiet = false) => {
     const key = l.variantId + '|' + JSON.stringify(l.options)
     const put = () => setLines((ls) => (ls.some((x) => x.key === key) ? ls.map((x) => (x.key === key ? { ...x, qty: x.qty + qty } : x)) : [...ls, { ...l, key, qty }]))
+    if (quiet) return put()
     flyToBag(from, put, () => setOpen(true))
   }
   const setQty = (k: string, q: number) => setLines((ls) => (q < 1 ? ls.filter((x) => x.key !== k) : ls.map((x) => (x.key === k ? { ...x, qty: q } : x))))
@@ -30,6 +31,10 @@ function flyToBag(from: HTMLElement | null | undefined, land: () => void, done: 
   const bag = document.querySelector('.nav .bag') as HTMLElement | null
   const img = (from?.tagName === 'IMG' ? from : from?.querySelector('img')) as HTMLImageElement | null
   if (!bag || !img || reduced()) { land(); return done() }
+  // Escape while the picture is travelling cancels the drawer (the piece is still added)
+  let cancel = false
+  const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') cancel = true }
+  addEventListener('keydown', esc)
   const vis = (r: DOMRect) => r.bottom > 60 && r.top < innerHeight - 40 && r.width > 0
   let a = img.getBoundingClientRect()
   const btn = lastAdd.el
@@ -44,8 +49,9 @@ function flyToBag(from: HTMLElement | null | undefined, land: () => void, done: 
     { transform: 'translate(0,0) scale(1)', opacity: 1 },
     { transform: `translate(${dx * 0.4}px,${dy * 0.4 - 80}px) scale(${(1 + s) / 1.7})`, opacity: 1, offset: 0.45 },
     { transform: `translate(${dx}px,${dy}px) scale(${s})`, opacity: 0.4 },
-  ], { duration: 760, easing: 'cubic-bezier(.76,0,.24,1)' }).onfinish = () => {
-    c.remove(); land(); bag.classList.remove('bump'); void bag.offsetWidth; bag.classList.add('bump'); setTimeout(done, 420)
+  ], { duration: 560, easing: 'cubic-bezier(.76,0,.24,1)' }).onfinish = () => {
+    removeEventListener('keydown', esc)
+    c.remove(); land(); bag.classList.remove('bump'); void bag.offsetWidth; bag.classList.add('bump'); if (!cancel) setTimeout(done, 120)
   }
 }
 

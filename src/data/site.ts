@@ -68,3 +68,10 @@ export const SAMPLE = {
   warranty: 'Every piece made by JoJo comes with lifetime cleaning and inspection on 47th Street.',
   payments: ['Visa', 'Mastercard', 'Amex', 'Apple Pay', 'Google Pay', 'Shop Pay', 'PayPal'],
 }
+
+/** Sizing guide, shown on About and in the PDP size dialog. */
+export const SIZING = [
+  'Chains: 18" sits at the collarbone, 20" just below, 22" mid-chest, 24" and 26" for pendants.',
+  'Bracelets: measure the wrist and add half an inch.',
+  'Rings: US sizes; text a photo of a ring that fits and JoJo will size it.',
+]
