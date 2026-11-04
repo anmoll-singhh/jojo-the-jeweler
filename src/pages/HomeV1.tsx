@@ -4,9 +4,10 @@ import { ArrowRight, ArrowUpRight, Phone } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, OptionPicker, ProductCard } from '../components/Product'
+import { Carousel3D } from '../components/Carousel3D'
 import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVariant, inCollection, money, newest, products } from '../data/catalog'
-import { BRAND, CLIENTS, PROCESS } from '../data/site'
-import { LIFESTYLE, PIECES, PROOF_POSTS } from '../data/content'
+import { BRAND } from '../data/site'
+import { PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
 
 /** Text that rises line by line from behind a mask (motion.ts animates `.ln > span`). */
@@ -16,13 +17,13 @@ export default function HomeV1() {
   useTitle('')
   return (
     <main id="main" className="home">
+      {/* Order: what it is → browse by piece → the pieces → price one → have one made → who wears it → where to buy it */}
       <Hero />
-      <Tiles />
+      <ShopByPiece />
       <Picks />
-      <CustomWork />
       <CubanBuilder />
+      <CustomWork />
       <Proof />
-      <Story />
       <Showroom />
     </main>
   )
@@ -36,32 +37,29 @@ function Hero() {
       <div className="hero__media"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
       <div className="hero__txt wrap">
         <h1 className="display"><Lines lines={['Done the', 'JoJo way']} /></h1>
-        <p className="lede rv" data-d="0.3">Custom pieces and solid gold chains from 3 W 47th Street, New York. Worn by Lil Baby, Young Thug and the people who get there first.</p>
+        <p className="lede rv" data-d="0.3">Custom pieces, Miami Cuban chains and watches from 3 W 47th Street, New York. Shipped worldwide.</p>
         <div className="hero__cta rv" data-d="0.4"><Link className="btn btn--lg" to="/collections/chains">Shop chains</Link><Link className="link" to="/custom">Start a custom piece</Link></div>
       </div>
-      <p className="hero__cap rv" data-d="0.6">{p.title}, filmed on 47th Street</p>
+      <p className="hero__cap rv" data-d="0.6">Custom R money-bag pendant, iced rose gold</p>
     </section>
   )
 }
 
-/* 2 · Shop by piece: six tiles, edge to edge. */
-function Tiles() {
-  const tiles = ['chains', 'pendants', 'bracelets', 'rings', 'earrings', 'grillz'].map((h) => ({ c: collectionByHandle(h)!, p: inCollection(h)[0] })).filter((t) => t.c && t.p)
+/* 2 · Shop by piece: a 3D ring of the categories, each shown with a piece from it. */
+function ShopByPiece() {
+  const items = ['chains', 'pendants', 'bracelets', 'rings', 'earrings', 'grillz', 'watches']
+    .map((h) => ({ c: collectionByHandle(h), p: inCollection(h).find((x) => x.sample) ?? inCollection(h)[0] }))
+    .filter((t) => t.c && t.p)
+    .map(({ c, p }) => ({ key: c!.handle, href: '/collections/' + c!.handle, title: c!.title, sub: `${c!.products.length} ${c!.products.length === 1 ? 'piece' : 'pieces'}`, img: p!.images[0].src }))
   return (
-    <section className="tiles-s">
-      <div className="wrap tiles-s__head"><h2 className="h2"><Lines lines={['Shop by piece']} /></h2><p className="muted rv">Solid gold, stamped. Natural VS diamonds on anything iced.</p></div>
-      <div className="tiles">
-        {tiles.map(({ c, p }) => (
-          <Link key={c.handle} to={'/collections/' + c.handle} className="tile stage">
-            <img src={p.images[0].src} alt="" loading="lazy" />
-            <span className="tile__t">{c.title}<small className="num">{c.products.length} {c.products.length === 1 ? 'piece' : 'pieces'}</small></span>
-          </Link>))}
-      </div>
+    <section className="sbp">
+      <div className="wrap sbp__head"><h2 className="h2"><Lines lines={['Shop by piece']} /></h2><p className="muted rv">Solid gold, stamped. Natural VS diamonds on anything iced. Drag to turn.</p></div>
+      <Carousel3D items={items} label="Shop by piece" />
     </section>
   )
 }
 
-/* 3 · Tabbed picks: one module, three intents. */
+/* 3 · The pieces: one rail, four ways in. */
 function Picks() {
   const sets = useMemo(() => [
     ['Best sellers', bestSellers(8)],
@@ -72,7 +70,7 @@ function Picks() {
   const [i, setI] = useState(0)
   return (
     <section className="picks wrap">
-      <div className="rail__head"><h2 className="h2"><Lines lines={['Leaving 47th', 'Street most']} /></h2>
+      <div className="rail__head"><h2 className="h2"><Lines lines={['The pieces']} /></h2>
         <div className="tabs rv" role="tablist" aria-label="Pick a set">{sets.map(([t], k) => <button key={t} role="tab" aria-selected={i === k} onClick={() => setI(k)}>{t}</button>)}</div>
       </div>
       <div className="rail__track" key={i}>{sets[i][1].map((p, k) => <ProductCard key={p.handle} p={p} variant="rail" eager={k < 2} />)}</div>
@@ -81,7 +79,7 @@ function Picks() {
   )
 }
 
-/* 4 · Custom work: the four real pieces as a pinned horizontal scroll on desktop, a stack on phone. */
+/* 5 · Custom work: the four real pieces as a pinned horizontal scroll on desktop, a stack on phone. */
 function CustomWork() {
   return (
     <section className="look">
@@ -89,7 +87,7 @@ function CustomWork() {
         <div className="look__track">
           <div className="look__intro">
             <h2 className="h2"><Lines lines={['Custom work']} /></h2>
-            <p className="lede rv">Four pieces that left the bench this year. Every one started as a reference on someone’s phone.</p>
+            <p className="lede rv">When the piece doesn’t exist yet, JoJo makes it: sketch, mold, then polish and inspection. Four from his bench.</p>
             <Link className="btn rv" to="/custom">Start yours</Link>
           </div>
           {PIECES.map((p) => (
@@ -104,7 +102,7 @@ function CustomWork() {
   )
 }
 
-/* 5 · The live thing: price a Cuban. */
+/* 4 · The live thing: price a Cuban (after browsing, before custom). */
 function CubanBuilder() {
   const p = byHandle('miami-cuban-link-chain')
   const { add } = useCart()
@@ -143,8 +141,8 @@ function Proof() {
   return (
     <section className="proof wrap">
       <div className="proof__head">
-        <h2 className="h2"><Lines lines={['Worn by', 'the first']} /></h2>
-        <p className="lede rv">{CLIENTS.slice(0, 4).join(', ')} and the people around them. Every picture here is from JoJo’s own feed.</p>
+        <h2 className="h2"><Lines lines={['Who wears it']} /></h2>
+        <p className="lede rv">Recent custom work and the people wearing it, from JoJo’s Instagram, with his captions.</p>
       </div>
       <div className="proof__grid">
         {PROOF_POSTS.slice(0, 5).map((x, i) => (
@@ -158,26 +156,7 @@ function Proof() {
   )
 }
 
-/* 7 · The jeweler: facts from the client's own pages, no myth-making. */
-function Story() {
-  return (
-    <section className="story">
-      <div className="story__pic stage"><img className="drift" src={LIFESTYLE[0].src} alt={LIFESTYLE[0].alt} loading="lazy" /></div>
-      <div className="story__txt">
-        <h2 className="h2"><Lines lines={['Started at', 'fifteen']} /></h2>
-        <p className="rv">JoJo started in jewelry at 15 and now works out of 3 W 47th Street, the block the whole industry buys from. The store calls him America’s youngest jeweler; the feed shows who wears the work.</p>
-        <p className="rv">Custom pieces, Miami Cuban chains and luxury watches, sourced or bought. NYC and Miami, shipped worldwide.</p>
-        <ul className="story__facts rv-group">
-          {PROCESS.map(([t, body], i) => <li key={t}><b className="num">{i + 1}</b><span><b>{t}</b><br />{body}</span></li>)}
-        </ul>
-        <Link className="btn btn--ghost rv" to="/about">About JoJo</Link>
-      </div>
-      <div className="story__pic2 stage"><img className="drift" src={LIFESTYLE[6].src} alt={LIFESTYLE[6].alt} loading="lazy" /></div>
-    </section>
-  )
-}
-
-/* 8 · Showroom: the address as the headline. */
+/* 7 · Showroom: the address as the headline. */
 function Showroom() {
   return (
     <section className="room wrap">

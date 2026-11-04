@@ -26,39 +26,39 @@ export function Custom() {
   }
   return (
     <main id="main" className="page custom">
-      <section className="custom__hero">
-        <div className="custom__media stage"><Video mp4={PIECES[1].mp4} webm={PIECES[1].webm} poster={PIECES[1].poster} label={PIECES[1].title} /></div>
-        <div className="custom__txt wrap">
+      <section className="custom__top wrap" id="inquiry">
+        <div className="custom__intro">
           <h1 className="h1"><Lines lines={['Custom, the', 'JoJo way']} /></h1>
-          <p className="lede rv">Send a reference. Approve a sketch. Get a piece nobody else has, cast in solid gold and set by hand on 47th Street.</p>
-          <a className="btn btn--lg rv" href="#inquiry">Start an inquiry</a>
-        </div>
-      </section>
-      <section className="process wrap">
-        <h2 className="h2"><Lines lines={['How a custom', 'piece is made']} /></h2>
-        <ol className="process__list rv-group">{PROCESS.map(([t, body], i) => <li key={t}><span className="num">{i + 1}</span><b>{t}</b><p>{body}</p></li>)}</ol>
-        <p className="muted small">The quote and consultation are free. A 50% deposit by wire, Zelle or Cash App starts the design and development stage.</p>
-      </section>
-      <section className="pieces">
-        {PIECES.map((p, i) => (
-          <article key={p.id} className={'piece' + (i % 2 ? ' piece--flip' : '')}>
-            <div className="piece__media stage clip"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
-            <div className="piece__txt"><h3 className="h3">{p.title}</h3><p>{p.line}</p></div>
-          </article>))}
-      </section>
-      <section className="inquiry field" id="inquiry">
-        <div className="wrap inquiry__in">
-          <div><h2 className="h2"><Lines lines={['Tell JoJo', 'the idea']} /></h2><p className="rv">Or skip the form: text <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a> with a picture of the reference.</p></div>
-          {sent ? <p className="lede">Your message is drafted in your messaging app. Send it and JoJo gets back to you with a quote.</p> : (
-            <form className="form rv-group" onSubmit={submit}>
+          <p className="lede rv">Tell JoJo what you want made. The quote and consultation are free; he replies with a price and a sketch.</p>
+          {sent ? <p className="lede custom__sent">Your message is drafted in your messaging app. Send it and JoJo gets back to you with a quote.</p> : (
+            <form className="form rv-group" onSubmit={submit} aria-label="Custom inquiry">
               <label><span className="lab">Name</span><input required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" /></label>
               <label><span className="lab">Phone</span><input required type="tel" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" /></label>
               <label><span className="lab">What kind of piece</span><select value={f.piece} onChange={(e) => setF({ ...f, piece: e.target.value })}>{['Pendant', 'Chain', 'Ring', 'Bracelet', 'Grillz', 'Watch bust-down', 'Something else'].map((x) => <option key={x}>{x}</option>)}</select></label>
               <label><span className="lab">Budget <span className="muted">optional</span></span><input value={f.budget} onChange={(e) => setF({ ...f, budget: e.target.value })} placeholder="e.g. $5,000 – $10,000" inputMode="numeric" /></label>
               <label className="form__wide"><span className="lab">The idea</span><textarea required rows={4} value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} placeholder="Describe it, or tell us what reference you'll send" /></label>
               <button className="btn btn--lg form__wide">Send the inquiry</button>
+              <p className="small muted form__wide">Rather text? Send a picture of the reference to <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a>.</p>
             </form>)}
         </div>
+        <figure className="custom__film">
+          <div className="stage"><Video mp4={PIECES[1].mp4} webm={PIECES[1].webm} poster={PIECES[1].poster} label={PIECES[1].title} /></div>
+          <figcaption className="small muted">{PIECES[1].title}: {PIECES[1].line}</figcaption>
+        </figure>
+      </section>
+      <section className="process wrap">
+        <h2 className="h2"><Lines lines={['How a custom', 'piece is made']} /></h2>
+        <ol className="process__list rv-group">{PROCESS.map(([t, body], i) => <li key={t}><span className="num">{i + 1}</span><b>{t}</b><p>{body}</p></li>)}</ol>
+        <p className="muted small">A 50% deposit by wire, Zelle or Cash App starts the design and development stage.</p>
+      </section>
+      <section className="pieces">
+        <h2 className="h2 wrap pieces__h"><Lines lines={['From the bench']} /></h2>
+        {PIECES.filter((_, i) => i !== 1).map((p, i) => (
+          <article key={p.id} className={'piece' + (i % 2 ? ' piece--flip' : '')}>
+            <div className="piece__media stage clip"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+            <div className="piece__txt"><h3 className="h3">{p.title}</h3><p>{p.line}</p></div>
+          </article>))}
+        <div className="wrap"><a className="btn btn--lg" href="#inquiry">Start yours</a></div>
       </section>
     </main>
   )
@@ -73,22 +73,33 @@ export function About() {
       <section className="about__hero">
         <div className="about__media stage"><Video mp4={HERO_REEL.mp4} webm={HERO_REEL.webm} poster={HERO_REEL.poster} label="JoJo The Jeweler" /></div>
         <div className="about__txt wrap">
-          <h1 className="h1"><Lines lines={['Youngest', 'on 47th']} /></h1>
-          <p className="lede rv">JoJo started in jewelry at 15. Today he works from 3 W 47th Street in the Diamond District, between New York and Miami, making custom pieces for artists and the people who follow them.</p>
+          <h1 className="h1"><Lines lines={['Meet JoJo']} /></h1>
+          <p className="lede rv">JoJo The Jeweler, 3 W 47th Street, New York Diamond District. Jewelry, watches and custom pieces.</p>
         </div>
+      </section>
+      <section className="story">
+        <div className="story__pic stage"><img className="drift" src={LIFESTYLE[0].src} alt={LIFESTYLE[0].alt} loading="lazy" /></div>
+        <div className="story__txt">
+          <h2 className="h2"><Lines lines={['Started at', 'fifteen']} /></h2>
+          <p className="rv">JoJo started in jewelry at 15 and now works out of 3 W 47th Street in the New York Diamond District. His store calls him America’s youngest jeweler; his feed shows who wears the work.</p>
+          <p className="rv">Custom pieces, Miami Cuban chains and luxury watches, sourced or bought. NYC and Miami, shipped worldwide.</p>
+          <p className="rv">Every custom piece goes the same way: sketch and design, mold and production, then polish, inspection and delivery.</p>
+          <Link className="btn btn--ghost rv" to="/custom">Start a custom piece</Link>
+        </div>
+        <div className="story__pic2 stage"><img className="drift" src={LIFESTYLE[6].src} alt={LIFESTYLE[6].alt} loading="lazy" /></div>
       </section>
       <section className="facts wrap">
         <dl className="facts__list rv-group">
           <div><dt>Started</dt><dd>At {BRAND.startedAt}</dd></div>
           <div><dt>Where</dt><dd>3 W 47th Street, NYC</dd></div>
           <div><dt>Also</dt><dd>Miami</dd></div>
-          <div><dt>On Instagram</dt><dd>{BRAND.followers} following {BRAND.handle}</dd></div>
+          <div><dt>Instagram</dt><dd>{BRAND.followers} followers</dd></div>
           <div><dt>Worn by</dt><dd>{CLIENTS.join(', ')}</dd></div>
           <div><dt>Ships</dt><dd>Worldwide</dd></div>
         </dl>
       </section>
       <section className="gallery-s">
-        {LIFESTYLE.slice(2, 10).map((l, i) => <div key={l.src} className={'gallery-s__item stage' + (i === 0 || i === 5 ? ' gallery-s__item--wide' : '')}><img src={l.src} alt={l.alt} loading="lazy" /></div>)}
+        {LIFESTYLE.filter((_, i) => i !== 0 && i !== 6).slice(0, 6).map((l, i) => <div key={l.src} className={'gallery-s__item stage' + (i === 0 || i === 5 ? ' gallery-s__item--wide' : '')}><img src={l.src} alt={l.alt} loading="lazy" /></div>)}
       </section>
       <section className="watches wrap" id="watches">
         <div className="watches__txt">

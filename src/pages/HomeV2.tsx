@@ -7,7 +7,7 @@ import { Video } from '../components/Media'
 import { AddButton, ProductCard } from '../components/Product'
 import { bestSellers, byHandle, findVariant, money } from '../data/catalog'
 import { BRAND, CLIENTS } from '../data/site'
-import { LIFESTYLE, PIECES, PROOF_POSTS } from '../data/content'
+import { PIECES, PROOF_POSTS } from '../data/content'
 import { reduced } from '../lib/motion'
 import { useCart } from '../lib/store'
 import { Lines } from './HomeV1'
@@ -165,11 +165,10 @@ function ShopRail() {
   )
 }
 
-/* 6 · Close: the address, and a picture of the city. */
+/* 6 · Close: the address on black, the mark beside it. No photo: none of the client's pictures is of 47th Street. */
 function Close() {
   return (
     <section className="v2-close">
-      <div className="v2-close__pic stage"><img className="drift" src={LIFESTYLE[8].src} alt={LIFESTYLE[8].alt} loading="lazy" /></div>
       <div className="v2-close__txt wrap">
         <h2 className="display"><Lines lines={['3 W 47th']} /></h2>
         <p className="lede rv">{BRAND.address[1]}. {BRAND.hours}. Text <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a>.</p>

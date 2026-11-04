@@ -25,7 +25,7 @@
 @keyframes tick { from { transform: translateY(-6px); opacity: 0 } }
 @keyframes fade { from { opacity: 0 } }
 @media (max-width: 900px) { .nav__menu { margin-left: -8px; } .nav__links { display: none; } }
-@media (min-width: 901px) { .nav__menu { display: none; } }
+@media (min-width: 901px) { .nav__menu { display: none; } .nav__l .nav__links { margin-left: 0; } }
 
 /* ── Full-screen menu ── */
 .menu { position: fixed; inset: 0; z-index: 65; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; padding: 10px var(--pad) 32px; clip-path: inset(0 0 100% 0); transition: clip-path .55s var(--ease-io), visibility 0s .55s; visibility: hidden; overflow: auto; }
@@ -157,6 +157,7 @@
 .rail__head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
 .rail__track { display: grid; grid-auto-flow: column; grid-auto-columns: 68%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad); scrollbar-width: none; }
 .rail__track::-webkit-scrollbar { display: none; }
+.rail__track { scroll-padding-inline: var(--pad); }
 .rail__track > * { scroll-snap-align: start; }
 @media (min-width: 700px) { .rail__track { grid-auto-columns: 38%; gap: 20px; } }
 @media (min-width: 1100px) { .rail__track { grid-auto-columns: calc((100% - 60px) / 4); } }
@@ -210,3 +211,30 @@
 /* a rail inside a wrapped page keeps the page margins, not doubled ones */
 .wrap .rail.wrap { padding-inline: 0; max-width: none; }
 .wrap .rail .rail__track { margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad); }
+
+/* ── Nav: Shop hover panel ── */
+.nav__shop { position: static; }
+.nav__shopbtn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 0; font-size: .9375rem; color: inherit; }
+.nav__shopbtn svg { transition: transform .24s var(--ease-out); }
+.nav__shopbtn.on svg { transform: rotate(180deg); }
+.mega { position: fixed; left: 0; right: 0; top: var(--nav-h); background: var(--bg); color: var(--ink); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .4s var(--ease-io), visibility 0s .4s; box-shadow: 0 30px 60px -30px oklch(0% 0 0 / .6); }
+.mega.open { clip-path: inset(0 0 -60px 0); visibility: visible; transition: clip-path .4s var(--ease-io); }
+.mega__in { display: grid; grid-template-columns: minmax(260px, 1fr) 2fr; gap: 48px; padding: 28px var(--pad) 36px; max-width: var(--max); margin-inline: auto; }
+.mega__list { display: grid; align-content: start; }
+.mega__list a { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; font-family: var(--fd); font-weight: var(--fd-wght); font-variation-settings: 'wdth' var(--fd-wdth); letter-spacing: var(--fd-ls); text-transform: var(--fd-case); font-size: clamp(1.5rem, 2.2vw, 2.25rem); line-height: 1.05; transition: color .18s; }
+.mega__list a:hover { color: var(--accent); }
+.mega__list .num { font: 400 .875rem var(--fb); color: var(--muted); letter-spacing: 0; }
+.mega__feat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.mega__feat a { aspect-ratio: 4/5; }
+.mega__feat img { position: absolute; inset: 0; }
+.mega__feat img { transition: transform 1s var(--ease-soft); }
+.mega__feat a:hover img { transform: scale(1.04); }
+.mega__feat a::after { content: ''; position: absolute; inset: 60% 0 0; background: linear-gradient(to top, oklch(8% 0 0 / .6), transparent); }
+.mega__feat span { position: absolute; left: 12px; bottom: 10px; z-index: 1; color: oklch(96% 0.01 85); font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) {
+  .mega__list li, .mega__feat a { opacity: 0; transform: translateY(10px); transition: opacity .35s var(--ease-out), transform .5s var(--ease-expo); }
+  .mega.open .mega__list li, .mega.open .mega__feat a { opacity: 1; transform: none; }
+  .mega.open .mega__list li:nth-child(n) { transition-delay: calc(.06s + var(--d, 0s)); }
+  .mega.open .mega__feat a { transition-delay: .14s; }
+}
+@media (max-width: 900px) { .mega { display: none; } }

@@ -15,22 +15,22 @@ export const PIECES: Piece[] = [
 
 /** Lifestyle photography from the client's Drive. */
 export const LIFESTYLE = [
-  { src: '/media/drive/27081c3e-bb5d-4f02-9209-451ad9ce25fa.webp', w: 2000, h: 3000, alt: 'JoJo seated on a private jet' },
-  { src: '/media/drive/9129b316-9a3c-4ab3-bdf3-a7a7ec797e03.webp', w: 2000, h: 3000, alt: 'JoJo on a jet with a travel bag' },
-  { src: '/media/drive/d31529fc-3d01-465b-a237-7166a5c8a754.webp', w: 2000, h: 1334, alt: 'JoJo courtside with clients' },
+  { src: '/media/drive/27081c3e-bb5d-4f02-9209-451ad9ce25fa.webp', w: 2000, h: 3000, alt: 'Seated in a private jet cabin' },
+  { src: '/media/drive/9129b316-9a3c-4ab3-bdf3-a7a7ec797e03.webp', w: 2000, h: 3000, alt: 'On a private jet with a monogram travel bag' },
+  { src: '/media/drive/d31529fc-3d01-465b-a237-7166a5c8a754.webp', w: 2000, h: 1334, alt: 'Courtside, chains on' },
   { src: '/media/drive/dsc01276.webp', w: 2000, h: 3000, alt: 'Backstage under stage lights' },
-  { src: '/media/drive/dsc04942.webp', w: 2000, h: 2684, alt: 'JoJo with a group of clients outdoors' },
-  { src: '/media/drive/img-4620.webp', w: 2000, h: 2994, alt: 'JoJo with artists at an event' },
-  { src: '/media/drive/img-4638.webp', w: 2000, h: 3000, alt: 'JoJo and a client showing grillz' },
+  { src: '/media/drive/dsc04942.webp', w: 2000, h: 2684, alt: 'A group in chains outdoors' },
+  { src: '/media/drive/img-4620.webp', w: 2000, h: 2994, alt: 'Three friends in chains at an event' },
+  { src: '/media/drive/img-4638.webp', w: 2000, h: 3000, alt: 'Two people posing at a party, chains on' },
   { src: '/media/drive/img-6778.webp', w: 1196, h: 1474, alt: 'Walking out at night' },
   { src: '/media/drive/img-8523.webp', w: 2000, h: 3000, alt: 'Chrome Hearts fit beside a Rolls-Royce' },
-  { src: '/media/drive/img-8798.webp', w: 1206, h: 1468, alt: 'JoJo in a crowd holding up a cross pendant' },
+  { src: '/media/drive/img-8798.webp', w: 1206, h: 1468, alt: 'In a crowd, a cross pendant held up' },
 ]
 
 /** Photos from the client's existing store (the 22 Crew pieces). */
 export const STORE_PHOTOS = [
-  { src: '/media/store/crew-1.webp', alt: 'Client wearing a 22 Crew pendant on a tennis chain' },
-  { src: '/media/store/crew-2.webp', alt: 'JoJo with a client, iced chains' },
+  { src: '/media/store/crew-1.webp', alt: 'A 22 Crew pendant on a tennis chain' },
+  { src: '/media/store/crew-2.webp', alt: 'Two people with iced chains' },
   { src: '/media/store/crew-3.webp', alt: 'Stacked iced chains and a 22 Crew pendant, close up' },
   { src: '/media/store/crew-4.webp', alt: 'Client smiling in a 22 Crew hoodie and chain' },
   { src: '/media/store/crew-5.webp', alt: 'Client with iced watches and chains' },

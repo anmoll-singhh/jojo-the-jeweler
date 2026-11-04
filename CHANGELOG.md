@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-04 (review round 1)
+
+### Changed
+- Nav: desktop is now Shop · Custom · About on the left, the wordmark, and search / wishlist / bag. Shop opens a category panel on hover (or click/keyboard) with counts and three category pictures. Contact lives in the footer and the phone menu.
+- Homepage order: hero → shop by piece → the pieces → price your Cuban → custom work → who wears it → showroom.
+- Shop by piece is a 3D ring carousel (`src/components/Carousel3D.tsx`): drag, swipe, arrows or arrow keys; side cards come to the front on click; the front card opens the collection.
+- "Started at fifteen" moved from the homepage to About, after the hero ("Meet JoJo", the store's own label).
+- Custom page: the inquiry form is the first thing on the page, beside the Sp5der film; process and the other three pieces follow.
+- Copy on and beside pictures checked against what each one shows: hero caption names the piece, photo alt text no longer guesses who is pictured, no unverified claims ("filmed on 47th Street", "this year", "the block the industry buys from" removed).
+
 ## 2026-11-04
 
 ### Added

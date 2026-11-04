@@ -82,7 +82,8 @@
 /* shop + close */
 .v2-shop { padding-top: var(--section); }
 .v2 .card__meta h3, .v2 .card__meta p { color: oklch(96% 0.01 85); }
-.v2-close { position: relative; margin-top: var(--section); min-height: 80svh; display: grid; align-items: end; overflow: hidden; }
+.v2-close { position: relative; margin-top: var(--section); min-height: 70svh; display: grid; align-items: end; overflow: hidden; border-top: 1px solid oklch(20% 0 0); }
+.v2-close::before { content: ''; position: absolute; right: var(--pad); top: 50%; width: min(42vw, 520px); aspect-ratio: 1; transform: translateY(-58%); background: oklch(22% 0 0); mask: url('/media/brand/monogram.svg') center / contain no-repeat; -webkit-mask: url('/media/brand/monogram.svg') center / contain no-repeat; }
 .v2-close__pic { position: absolute; inset: 0; }
 .v2-close__pic img { height: 110%; }
 .v2-close__pic::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, oklch(8% 0 0 / .85), oklch(8% 0 0 / .15) 60%); }

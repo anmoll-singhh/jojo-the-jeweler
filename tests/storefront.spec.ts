@@ -154,6 +154,29 @@ test.describe('navigation and controller', () => {
     await expect(page).toHaveURL(/\/collections\/rings/)
   })
 
+  test('desktop Shop panel opens on hover, lists categories, closes on leave', async ({ page }) => {
+    await page.setViewportSize({ width: 1366, height: 768 })
+    await page.goto('/')
+    await page.hover('.nav__shopbtn')
+    await expect(page.locator('.mega.open')).toBeVisible()
+    await expect(page.locator('.mega__list a')).toHaveCount(8)
+    await page.mouse.move(600, 700)
+    await expect(page.locator('.mega.open')).toHaveCount(0)
+    await page.locator('.nav__shopbtn').click()
+    await page.locator('.mega__list a', { hasText: 'Grillz' }).click()
+    await expect(page).toHaveURL(/\/collections\/grillz/)
+  })
+
+  test('shop-by-piece carousel turns and opens the front category', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/', { waitUntil: 'networkidle' })
+    await page.locator('.sbp').scrollIntoViewIfNeeded()
+    await page.getByRole('button', { name: 'Next' }).click()
+    await expect(page.locator('.c3d__ui .btn')).toHaveText('Shop pendants')
+    await page.locator('.c3d__item.is-front').click()
+    await expect(page).toHaveURL(/\/collections\/pendants/)
+  })
+
   test('design controller switches theme live', async ({ page }) => {
     await page.goto('/?design=1')
     await page.getByRole('button', { name: 'Design' }).click()
