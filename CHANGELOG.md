@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-05 (review round 2)
+
+### Changed
+- Units: every CSS length is now rem (media queries in em; 1–2px hairlines stay px), so the layout scales with the browser's base font size. Type scale reduced and made more gradual: display tops out at 6.5rem (was 11rem), h1 5rem, h2 3.5rem, so MacBook-width screens no longer get 140px headlines.
+- Phone menu: one "Shop" section (open by default, collapsible) lists every category with counts and two category pictures; Custom, About, Contact below; wishlist, search, Instagram and the phone number underneath.
+- Homepage order: hero → shop by piece → price your Cuban → the pieces → custom work → who wears it → showroom. Each section is sized to one screen (svh). Custom work is a swipe rail on phone; on desktop its intro stays pinned while the films slide past. "Who wears it" is a swipe rail on phone.
+- Images: product photos ship an 800px copy for phones (srcset), and any image that fails to load is retried once, then hidden instead of showing a broken icon.
+- Product page: choosing a metal recolours the photo (also on cards via the metal dots, in quick view, the Cuban builder and the bag), with a note saying which metal the photo really shows; pages open on that metal. Sample star ratings on the product title and cards, and a sample reviews section, all labelled sample (`SAMPLE_REVIEWS` in `src/data/reviews.ts` hides them).
+- About: the V2 monogram shutter opens onto JoJo's reel; "15" scrubs in beside the story; counters for the facts; two rows of photographs move against each other with the scroll; the three custom steps are drawn by a line that fills as you read; the watch picture opens from the centre.
+- Custom: three-step inquiry (the piece, the idea, you) with a review screen: piece type, metal, karat, stones, size or measurements, the idea, reference photos, text on the piece, budget range, needed-by date and occasion, name, phone, email, Instagram and preferred contact. Sends a formatted text (or email once `VITE_CONTACT_EMAIL` is set); draft kept on the device.
+- Contact: rebuilt with the number as the headline, the current New York time against store hours, Text / Call / Instagram DM / Directions, a topic-based form (with a watch field for selling), a map, store facts, and the store's four-step sell-a-watch process.
+- Tests: Firefox and WebKit projects; new tests for the metal preview, reviews, phone menu, homepage order, custom and contact forms, About, and image retry.
+
 ## 2026-11-04 (review round 1)
 
 ### Changed

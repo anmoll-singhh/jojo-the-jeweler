@@ -50,3 +50,6 @@ dist-ssr
 # Playwright
 test-results
 playwright-report
+
+# scratch space for the independent QA agent
+.qa/

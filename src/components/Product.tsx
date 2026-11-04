@@ -34,7 +34,7 @@ export function ProductCard({ p, eager = false, variant = 'grid' }: { p: Product
         <Link to={'/products/' + p.handle}><h3>{p.title}</h3></Link>
         <p className="num">{fromPrice(p)}{v0.compareAtPrice && v0.compareAtPrice.amount > v0.price.amount && <s className="muted"> {money(v0.compareAtPrice.amount)}</s>}</p>
         {SAMPLE_REVIEWS && <span className="card__stars"><Stars value={rating(p).stars} size={12} /><span className="num">{rating(p).stars.toFixed(1)}</span></span>}
-        {metal && metal.values.length > 1 && <span className="dots" role="group" aria-label={'Preview ' + p.title + ' in'}>{metal.values.slice(0, 4).map((v) => <button key={v} className={'dot' + (m === v ? ' on' : '')} style={{ ['--c' as string]: metalSwatch(v) }} aria-label={v} aria-pressed={m === v} onPointerEnter={(e) => e.pointerType === 'mouse' && setM(v)} onFocus={() => setM(v)} onClick={() => setM(m === v ? undefined : v)} />)}</span>}
+        {metal && metal.values.length > 1 && <span className="dots" role="group" aria-label={'Preview ' + p.title + ' in'} onPointerLeave={(e) => e.pointerType === 'mouse' && setM(undefined)}>{metal.values.slice(0, 4).map((v) => <button key={v} className={'dot' + (m === v ? ' on' : '')} style={{ ['--c' as string]: metalSwatch(v) }} aria-label={v} aria-pressed={m === v} onPointerEnter={(e) => e.pointerType === 'mouse' && setM(v)} onFocus={() => setM(v)} onClick={() => setM(v)} />)}</span>}
       </div>
       {qv && <QuickView p={p} close={() => setQv(false)} />}
     </article>
