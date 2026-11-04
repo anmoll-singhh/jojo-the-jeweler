@@ -41,11 +41,12 @@ test.describe('responsive', () => {
         const sw = await page.evaluate(() => document.documentElement.scrollWidth)
         expect(sw, 'scrollWidth').toBeLessThanOrEqual(w + 1)
         // headings ≤ 2 lines (taste rule): line-height × 2.2 as the ceiling
+        // count laid-out lines from offsetHeight (not affected by the reveal transforms); line-mask headings sum their lines
         const tall = await page.$$eval('main h1, main h2', (els) => els.filter((e) => {
-          // count rendered text lines: distinct top offsets of the text's client rects
-          const r = document.createRange(); r.selectNodeContents(e)
-          const tops = new Set([...r.getClientRects()].filter((x) => x.width > 2).map((x) => Math.round(x.top / 4)))
-          return tops.size > 2
+          const lh = parseFloat(getComputedStyle(e).lineHeight) || parseFloat(getComputedStyle(e).fontSize)
+          const parts = e.querySelectorAll(':scope > .ln')
+          const lines = parts.length ? [...parts].reduce((n, l) => n + Math.round((l as HTMLElement).offsetHeight / lh), 0) : Math.round((e as HTMLElement).offsetHeight / lh)
+          return lines > 2
         }).map((e) => e.textContent?.trim().slice(0, 40)))
         expect(tall, 'headings over two lines').toEqual([])
       })
@@ -99,9 +100,10 @@ test.describe('commerce', () => {
     await page.goto('/collections/rings', { waitUntil: 'networkidle' })
     await page.locator('.card .heart').first().click()
     await page.goto('/wishlist')
-    await expect(page.locator('.card')).toHaveCount(1)
-    await page.locator('.card .heart').first().click()
-    await expect(page.locator('.card')).toHaveCount(0)
+    const saved = page.locator('.wishpage > .grid .card')
+    await expect(saved).toHaveCount(1)
+    await saved.first().locator('.heart').click()
+    await expect(saved).toHaveCount(0)
   })
 
   test('search overlay and search page', async ({ page }) => {
@@ -118,7 +120,7 @@ test.describe('commerce', () => {
     await page.setViewportSize({ width: 1366, height: 768 })
     await page.goto('/collections/all', { waitUntil: 'networkidle' })
     const n = await page.locator('.grid .card').count()
-    await page.locator('.filters').getByLabel(/Chains/).check()
+    await page.locator('.filters').getByLabel(/Chains/).click()
     await expect(page).toHaveURL(/type=Chains/)
     expect(await page.locator('.grid .card').count()).toBeLessThan(n)
     await page.locator('.shop__sort select').selectOption('high')
@@ -150,7 +152,7 @@ test.describe('navigation and controller', () => {
     await page.keyboard.press('Escape')
     await expect(page.locator('.menu.open')).toHaveCount(0)
     await page.getByRole('button', { name: 'Open menu' }).click()
-    await page.locator('.menu__main a', { hasText: 'Rings' }).click()
+    await page.locator('.menu__main a', { hasText: /^Rings/ }).click()
     await expect(page).toHaveURL(/\/collections\/rings/)
   })
 
