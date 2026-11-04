@@ -1,0 +1,13 @@
+{
+  "started": "2026-11-04T14:00:38.563Z",
+  "shopify": {
+    "products": 3,
+    "collections": 5,
+    "images": 5
+  },
+  "drive": {
+    "files": 17
+  },
+  "failed": [],
+  "finished": "2026-11-04T14:11:16.285Z"
+}

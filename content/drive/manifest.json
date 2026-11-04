@@ -1,0 +1,167 @@
+{
+  "folder": "https://drive.google.com/drive/folders/1chCfcTjSx9Mq0aJ6K_qu8koo70kmi_M0",
+  "fetched": "2026-11-04T14:11:16.284Z",
+  "files": [
+    {
+      "kind": "image",
+      "name": "27081C3E-BB5D-4F02-9209-451AD9CE25FA.JPG",
+      "src": "/media/drive/27081c3e-bb5d-4f02-9209-451ad9ce25fa.webp",
+      "thumb": "/media/drive/27081c3e-bb5d-4f02-9209-451ad9ce25fa-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 384548
+    },
+    {
+      "kind": "image",
+      "name": "9129B316-9A3C-4AB3-BDF3-A7A7EC797E03.JPG",
+      "src": "/media/drive/9129b316-9a3c-4ab3-bdf3-a7a7ec797e03.webp",
+      "thumb": "/media/drive/9129b316-9a3c-4ab3-bdf3-a7a7ec797e03-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 773044
+    },
+    {
+      "kind": "image",
+      "name": "D31529FC-3D01-465B-A237-7166A5C8A754.JPG",
+      "src": "/media/drive/d31529fc-3d01-465b-a237-7166a5c8a754.webp",
+      "thumb": "/media/drive/d31529fc-3d01-465b-a237-7166a5c8a754-sm.webp",
+      "w": 2000,
+      "h": 1334,
+      "bytes": 317932
+    },
+    {
+      "kind": "image",
+      "name": "DSC01276.JPG",
+      "src": "/media/drive/dsc01276.webp",
+      "thumb": "/media/drive/dsc01276-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 1451694
+    },
+    {
+      "kind": "image",
+      "name": "DSC04942.jpg",
+      "src": "/media/drive/dsc04942.webp",
+      "thumb": "/media/drive/dsc04942-sm.webp",
+      "w": 2000,
+      "h": 2684,
+      "bytes": 761292
+    },
+    {
+      "kind": "image",
+      "name": "IMG_4620.JPG",
+      "src": "/media/drive/img-4620.webp",
+      "thumb": "/media/drive/img-4620-sm.webp",
+      "w": 2000,
+      "h": 2994,
+      "bytes": 1381918
+    },
+    {
+      "kind": "image",
+      "name": "IMG_4638.JPG",
+      "src": "/media/drive/img-4638.webp",
+      "thumb": "/media/drive/img-4638-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 749764
+    },
+    {
+      "kind": "image",
+      "name": "IMG_6778.jpg",
+      "src": "/media/drive/img-6778.webp",
+      "thumb": "/media/drive/img-6778-sm.webp",
+      "w": 1196,
+      "h": 1474,
+      "bytes": 141228
+    },
+    {
+      "kind": "image",
+      "name": "IMG_8523.JPG",
+      "src": "/media/drive/img-8523.webp",
+      "thumb": "/media/drive/img-8523-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 1243282
+    },
+    {
+      "kind": "image",
+      "name": "IMG_8798.jpg",
+      "src": "/media/drive/img-8798.webp",
+      "thumb": "/media/drive/img-8798-sm.webp",
+      "w": 1206,
+      "h": 1468,
+      "bytes": 109114
+    },
+    {
+      "kind": "video",
+      "name": "M ring .mov",
+      "src": "/media/drive/m-ring.mp4",
+      "webm": "/media/drive/m-ring.webm",
+      "poster": "/media/drive/m-ring.webp",
+      "w": 608,
+      "h": 1080,
+      "originalSeconds": 33,
+      "bytes": 8056303
+    },
+    {
+      "kind": "video",
+      "name": "R money .mov",
+      "src": "/media/drive/r-money.mp4",
+      "webm": "/media/drive/r-money.webm",
+      "poster": "/media/drive/r-money.webp",
+      "w": 608,
+      "h": 1080,
+      "originalSeconds": 48,
+      "bytes": 8166252
+    },
+    {
+      "kind": "video",
+      "name": "danny P.mov",
+      "src": "/media/drive/danny-p.mp4",
+      "webm": "/media/drive/danny-p.webm",
+      "poster": "/media/drive/danny-p.webp",
+      "w": 608,
+      "h": 1080,
+      "originalSeconds": 46,
+      "bytes": 4740494
+    },
+    {
+      "kind": "image",
+      "name": "fqs 2026-09-27 200300C8AAAA9C84E2.JPG",
+      "src": "/media/drive/fqs-2026-09-27-200300c8aaaa9c84e2.webp",
+      "thumb": "/media/drive/fqs-2026-09-27-200300c8aaaa9c84e2-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 405654
+    },
+    {
+      "kind": "image",
+      "name": "fqs 2026-10-08 171822C24997A1AEAD.JPG",
+      "src": "/media/drive/fqs-2026-10-08-171822c24997a1aead.webp",
+      "thumb": "/media/drive/fqs-2026-10-08-171822c24997a1aead-sm.webp",
+      "w": 2000,
+      "h": 3000,
+      "bytes": 828974
+    },
+    {
+      "kind": "image",
+      "name": "joe-146.jpg",
+      "src": "/media/drive/joe-146.webp",
+      "thumb": "/media/drive/joe-146-sm.webp",
+      "w": 2000,
+      "h": 2904,
+      "bytes": 384332
+    },
+    {
+      "kind": "video",
+      "name": "young thug v3.mov",
+      "src": "/media/drive/young-thug-v3.mp4",
+      "webm": "/media/drive/young-thug-v3.webm",
+      "poster": "/media/drive/young-thug-v3.webp",
+      "w": 608,
+      "h": 1080,
+      "originalSeconds": 42,
+      "bytes": 6251753
+    }
+  ]
+}

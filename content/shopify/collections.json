@@ -1,0 +1,81 @@
+[
+  {
+    "id": 486039847217,
+    "title": "Custom jewelery",
+    "handle": "custom-jewelery-1",
+    "description": "",
+    "published_at": "2024-05-09T09:33:23-04:00",
+    "updated_at": "2024-05-09T09:33:23-04:00",
+    "image": {
+      "id": 1741163823409,
+      "created_at": "2024-05-09T09:33:22-04:00",
+      "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/collections/bennycustomjewelry-banner-1920w.webp?v=1715261602",
+      "alt": null
+    },
+    "products_count": 0,
+    "products": []
+  },
+  {
+    "id": 482663858481,
+    "title": "Home page",
+    "handle": "frontpage",
+    "description": null,
+    "published_at": "2024-04-06T20:39:18-04:00",
+    "updated_at": "2026-07-18T05:04:42-04:00",
+    "image": null,
+    "products_count": 1,
+    "products": [
+      "custom-jewelry-inquiry"
+    ]
+  },
+  {
+    "id": 486039683377,
+    "title": "jewelery",
+    "handle": "custom-jewelery",
+    "description": "",
+    "published_at": "2024-05-09T09:31:58-04:00",
+    "updated_at": "2024-05-09T09:32:54-04:00",
+    "image": {
+      "id": 1741163790641,
+      "created_at": "2024-05-09T09:31:57-04:00",
+      "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/collections/pexels-photo-2735970-094e1828-1920w.webp?v=1715261518",
+      "alt": null
+    },
+    "products_count": 0,
+    "products": []
+  },
+  {
+    "id": 486039650609,
+    "title": "Luxury watches",
+    "handle": "luxury-watches",
+    "description": "",
+    "published_at": "2024-05-09T09:31:12-04:00",
+    "updated_at": "2026-07-18T05:04:42-04:00",
+    "image": {
+      "id": 1741163757873,
+      "created_at": "2024-05-09T09:31:11-04:00",
+      "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/collections/aud-piguet-25-1920w.webp?v=1715261548",
+      "alt": null
+    },
+    "products_count": 1,
+    "products": [
+      "richard-mille"
+    ]
+  },
+  {
+    "id": 486040076593,
+    "title": "Sell your watch",
+    "handle": "sell-your-watch",
+    "description": "",
+    "published_at": "2024-05-09T09:33:48-04:00",
+    "updated_at": "2024-05-09T09:33:48-04:00",
+    "image": {
+      "id": 1741164052785,
+      "created_at": "2024-05-09T09:33:47-04:00",
+      "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/collections/aud-piguet-25-1920w_0146b767-995a-400b-a6f2-28b803912f0f.webp?v=1715261627",
+      "alt": null
+    },
+    "products_count": 0,
+    "products": []
+  }
+]

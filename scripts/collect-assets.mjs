@@ -72,7 +72,7 @@ function drive() {
   if (!DRIVE) return
   const raw = '/tmp/drive-raw'
   rmSync(raw, { recursive: true, force: true }); mkdirSync(raw, { recursive: true })
-  execFileSync('gdown', ['--folder', '--remaining-ok', '-O', raw, DRIVE], { stdio: 'inherit' })
+  execFileSync('gdown', ['--folder', '-O', raw, DRIVE], { stdio: 'inherit' })
   const files = []
   const walk = (d) => readdirSync(d).forEach((f) => { const p = join(d, f); statSync(p).isDirectory() ? walk(p) : files.push(p) })
   walk(raw)

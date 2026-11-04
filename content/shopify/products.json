@@ -1,0 +1,193 @@
+[
+  {
+    "id": 9701424169265,
+    "title": "RICHARD MILLE",
+    "handle": "richard-mille",
+    "body_html": "",
+    "published_at": "2024-05-17T09:15:00-04:00",
+    "created_at": "2024-05-17T09:15:00-04:00",
+    "updated_at": "2026-11-04T09:00:41-05:00",
+    "vendor": "Jojoxwaves",
+    "product_type": "",
+    "tags": [],
+    "variants": [
+      {
+        "id": 49235754942769,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": false,
+        "price": "0.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 2,
+        "product_id": 9701424169265,
+        "created_at": "2024-05-17T09:15:01-04:00",
+        "updated_at": "2026-11-04T09:00:41-05:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 45134332231985,
+        "created_at": "2024-05-17T09:14:56-04:00",
+        "position": 1,
+        "updated_at": "2024-05-17T09:14:57-04:00",
+        "product_id": 9701424169265,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/files/richard-mille-rm-42-img01-1920w_1dffb896-f0f2-467c-abd4-64c87e3eb61f.webp?v=1715951697",
+        "width": 373,
+        "height": 428,
+        "local": "/media/shopify/richard-mille-1.webp"
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9492655309105,
+    "title": "Watch Sourcing Deposit",
+    "handle": "watch-sourcing",
+    "body_html": "<p>This is a non-refundable $50 deposit for us to source your watch for you.</p>\n<p>After placing your deposit, Jojo will personally reach out to you to help get the watch of your dreams on your wrist!</p>",
+    "published_at": "2024-04-06T20:45:16-04:00",
+    "created_at": "2024-04-06T20:45:16-04:00",
+    "updated_at": "2026-11-04T09:00:41-05:00",
+    "vendor": "Jojoxwaves",
+    "product_type": "",
+    "tags": [],
+    "variants": [
+      {
+        "id": 48732325314865,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "50.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 2,
+        "product_id": 9492655309105,
+        "created_at": "2024-04-06T20:45:17-04:00",
+        "updated_at": "2026-11-04T09:00:41-05:00"
+      }
+    ],
+    "images": [],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9492652032305,
+    "title": "Custom Jewelry Inquiry",
+    "handle": "custom-jewelry-inquiry",
+    "body_html": "<div class=\"selector-wrapper bcpo-simple bcpo-instructions\" data-unique=\"_sxlkes272\">\n<div style=\"text-align: left;\">Disclaimer: This is a form to receive a free quote &amp; consultation only.</div>\n<div style=\"text-align: left;\"><br></div>\n<div style=\"text-align: left;\">Once you fill out the form we will provide you with a quote, if you wish to proceed we will take a deposit through wire, zelle, or cashapp.</div>\n</div>\n<div style=\"text-align: center;\" class=\"selector-wrapper bcpo-simple bcpo-default\" data-unique=\"_oqhsb56xc\"><br></div>\n<div style=\"text-align: center;\" class=\"selector-wrapper bcpo-simple bcpo-default\" data-unique=\"_oqhsb56xc\"><br></div>\n<div class=\"selector-wrapper bcpo-simple bcpo-default\" data-unique=\"_oqhsb56xc\">\n<div class=\"product-block product-block--tab\">\n<div class=\"collapsibles-wrapper collapsibles-wrapper--border-bottom\">\n<div class=\"collapsible-content collapsible-content--all is-open\" id=\"Product-content-description6646253256756\">\n<div class=\"collapsible-content__inner rte\">\n<div>\n<div>\n<div style=\"text-align: center;\"><strong>How Your Custom Is Made</strong></div>\n<div>\n<div style=\"text-align: center;\"><strong>Part One: The Sketch &amp; Design</strong></div>\n<div style=\"text-align: center;\"><strong><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0557/0710/7380/files/SmartSelect_20220503-131926_Drive_480x480.gif?v=1652210015\"></strong></div>\n<div style=\"text-align: center;\">\n<strong></strong><br>\n</div>\n<div style=\"text-align: center;\"><strong> Part Two: Mold and Production<img src=\"https://cdn.shopify.com/s/files/1/0557/0710/7380/files/ezgif.com-gif-maker_480x480.gif?v=1652211044\" alt=\"\"></strong></div>\n<div style=\"text-align: center;\"><strong>Part Three: Polish, Inspection and Delivery</strong></div>\n<div><strong><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://cdn.shopify.com/s/files/1/0557/0710/7380/files/SmartSelect_20220503-132035_Drive_480x480.gif?v=1652211173\" alt=\"\"></strong></div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"product-block product-block--tab\">\n<div class=\"collapsibles-wrapper collapsibles-wrapper--border-bottom\"><form class=\"contact-form\" id=\"contact-contact\" action=\"https://flawlessdiamondsco.com/contact#contact-contact\" method=\"post\"></form></div>\n</div>\n</div>",
+    "published_at": "2024-04-06T20:39:54-04:00",
+    "created_at": "2024-04-06T20:39:54-04:00",
+    "updated_at": "2026-11-04T09:00:41-05:00",
+    "vendor": "Jojoxwaves",
+    "product_type": "",
+    "tags": [],
+    "variants": [
+      {
+        "id": 48732310798641,
+        "title": "Default Title",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "sku": "",
+        "requires_shipping": true,
+        "taxable": true,
+        "featured_image": null,
+        "available": true,
+        "price": "0.00",
+        "grams": 0,
+        "compare_at_price": null,
+        "position": 2,
+        "product_id": 9492652032305,
+        "created_at": "2024-04-06T20:39:55-04:00",
+        "updated_at": "2026-11-04T09:00:41-05:00"
+      }
+    ],
+    "images": [
+      {
+        "id": 49751868899633,
+        "created_at": "2025-05-15T18:52:35-04:00",
+        "position": 1,
+        "updated_at": "2025-05-15T19:18:54-04:00",
+        "product_id": 9492652032305,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/files/WhatsApp_Image_2025-05-15_at_14.07.20_d16f83aa_dce2c084-c5ac-4d47-acd0-110fadbfbe50.jpg?v=1747351134",
+        "width": 982,
+        "height": 1228,
+        "local": "/media/shopify/custom-jewelry-inquiry-1.webp"
+      },
+      {
+        "id": 49751868801329,
+        "created_at": "2025-05-15T18:52:35-04:00",
+        "position": 2,
+        "updated_at": "2025-05-15T19:18:54-04:00",
+        "product_id": 9492652032305,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/files/WhatsApp_Image_2025-05-15_at_14.07.03_0d014714_5412ed07-9841-4fc6-a00f-599f3a48e204.jpg?v=1747351134",
+        "width": 1068,
+        "height": 1600,
+        "local": "/media/shopify/custom-jewelry-inquiry-2.webp"
+      },
+      {
+        "id": 49751868932401,
+        "created_at": "2025-05-15T18:52:35-04:00",
+        "position": 3,
+        "updated_at": "2025-05-15T19:18:54-04:00",
+        "product_id": 9492652032305,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/files/WhatsApp_Image_2025-05-15_at_14.07.29_448f3250_e3169213-c2f2-4c84-a4e4-c5e4070a6b54.jpg?v=1747351134",
+        "width": 1068,
+        "height": 1600,
+        "local": "/media/shopify/custom-jewelry-inquiry-3.webp"
+      },
+      {
+        "id": 49752874352945,
+        "created_at": "2024-04-06T21:38:08-04:00",
+        "position": 4,
+        "updated_at": "2025-05-15T19:18:54-04:00",
+        "product_id": 9492652032305,
+        "variant_ids": [],
+        "src": "https://cdn.shopify.com/s/files/1/0870/9472/2865/files/jojo_watch.png?v=1747351134",
+        "width": 1138,
+        "height": 1287,
+        "local": "/media/shopify/custom-jewelry-inquiry-4.webp"
+      }
+    ],
+    "options": [
+      {
+        "name": "Title",
+        "position": 1,
+        "values": [
+          "Default Title"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,84 @@
+/* ═══ Base ═══ */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html.theming * { transition: background-color .4s, color .4s, border-color .4s; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.5 var(--fb); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, video, svg { max-width: 100%; display: block; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; padding: 0; }
+p { margin: 0; text-wrap: pretty; }
+h1, h2, h3, h4 { margin: 0; font-weight: inherit; hyphens: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: -999px; top: 8px; z-index: 99; background: var(--ink); color: var(--bg); padding: 8px 14px; }
+.skip:focus { left: 8px; }
+
+/* ── Type ── */
+.display, .h1, .h2, .h3 { font-family: var(--fd); font-weight: var(--fd-wght); font-variation-settings: 'wdth' var(--fd-wdth); letter-spacing: var(--fd-ls); line-height: var(--fd-lh); text-transform: var(--fd-case); text-wrap: balance; margin-left: -0.04em; }
+.display { font-size: clamp(3rem, 9.5vw, 11rem); }
+.h1 { font-size: clamp(2.75rem, 7vw, 7.5rem); }
+.h2 { font-size: clamp(2rem, 4.8vw, 4.75rem); }
+.h3 { font-size: clamp(1.5rem, 2.6vw, 2.5rem); }
+.lede { font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.35; max-width: 34ch; }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+.num { font-variant-numeric: tabular-nums; }
+.measure { max-width: 62ch; }
+
+/* ── Layout ── */
+.wrap { padding-inline: var(--pad); max-width: var(--max); margin-inline: auto; }
+.bleed { margin-inline: calc(var(--pad) * -1); }
+.section { padding-block: var(--section); }
+.field { background: var(--field); color: var(--field-ink); }
+.field .muted { color: color-mix(in oklch, var(--field-ink) 72%, var(--field)); }
+.page { min-height: 70vh; padding-top: var(--nav-h); }
+.only-m { display: none; }
+@media (max-width: 900px) { .only-d { display: none !important; } .only-m { display: block; } }
+
+/* ── Controls ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 28px; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: var(--r); font-weight: 600; font-size: .9375rem; letter-spacing: -0.005em; white-space: nowrap; transition: background .2s, color .2s, border-color .2s, transform .14s var(--ease-out); }
+.btn:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn--accent { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn--accent:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: color-mix(in oklch, var(--ink) 35%, transparent); }
+.btn--ghost:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn--full { width: 100%; }
+.btn--lg { min-height: 60px; padding: 0 36px; font-size: 1rem; }
+.field .btn { background: var(--field-ink); color: var(--field); border-color: var(--field-ink); }
+.field .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.link { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; transition: color .18s; }
+.link:hover { color: var(--accent); }
+.icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; transition: background .18s; }
+.icon:hover { background: var(--surface-2); }
+input, select, textarea { background: var(--surface); border: 0; border-radius: var(--r); padding: 14px 16px; width: 100%; color: var(--ink); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+label.lab, .lab { display: flex; justify-content: space-between; font-size: .875rem; margin-bottom: 8px; }
+
+/* ── Media stages & skeletons ── */
+.stage { position: relative; background: var(--surface); overflow: hidden; }
+.stage img, .stage video { width: 100%; height: 100%; object-fit: cover; }
+@media (prefers-reduced-motion: no-preference) {
+  .stage::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in oklch, var(--ink) 6%, transparent) 50%, transparent 70%); background-size: 250% 100%; animation: shimmer 1.4s linear infinite; opacity: 1; transition: opacity .4s; }
+  .stage:has(img.ld)::before, .stage:has(video)::before, .stage.ready::before { opacity: 0; animation: none; }
+}
+@keyframes shimmer { from { background-position: 150% 0 } to { background-position: -100% 0 } }
+img.ld { animation: none; }
+
+/* ── Reveal hooks (motion.ts animates these; without JS or with reduced motion the page is already finished) ── */
+.ln { display: block; overflow: hidden; }
+.ln > span { display: block; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+
+/* fly-to-bag clone */
+.flyimg { position: fixed; z-index: 120; object-fit: cover; pointer-events: none; border-radius: 4px; will-change: transform; }
+
+/* route transitions (View Transitions API) */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .42s; animation-timing-function: var(--ease-io); }
+::view-transition-old(pimg), ::view-transition-new(pimg) { animation-duration: .48s; mix-blend-mode: normal; }
