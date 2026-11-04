@@ -36,6 +36,7 @@ export function Footer() {
       <div className="foot__base wrap">
         <span>© {new Date().getFullYear()} {BRAND.name}</span>
         <button className="link" onClick={() => { const l = getLenis(); if (l) l.scrollTo(0); else scrollTo({ top: 0, behavior: 'smooth' }) }}>Back to top</button>
+        <Link to="/v2">The film version</Link>
         <a href="https://wavesmvmnt.com" target="_blank" rel="noopener noreferrer">Site by WAVES</a>
       </div>
     </footer>
