@@ -1,12 +1,12 @@
 import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, Phone } from '@phosphor-icons/react'
-import { useTitle } from '../App'
+import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, OptionPicker, ProductCard } from '../components/Product'
 import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVariant, inCollection, money, newest, products } from '../data/catalog'
 import { BRAND, CLIENTS, PROCESS } from '../data/site'
-import { HERO_REEL, LIFESTYLE, PIECES, PROOF_POSTS } from '../data/content'
+import { LIFESTYLE, PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
 
 /** Text that rises line by line from behind a mask (motion.ts animates `.ln > span`). */
@@ -72,7 +72,7 @@ function Picks() {
   const [i, setI] = useState(0)
   return (
     <section className="picks wrap">
-      <div className="rail__head"><h2 className="h2"><Lines lines={['What leaves', '47th Street most']} /></h2>
+      <div className="rail__head"><h2 className="h2"><Lines lines={['Leaving 47th', 'Street most']} /></h2>
         <div className="tabs rv" role="tablist" aria-label="Pick a set">{sets.map(([t], k) => <button key={t} role="tab" aria-selected={i === k} onClick={() => setI(k)}>{t}</button>)}</div>
       </div>
       <div className="rail__track" key={i}>{sets[i][1].map((p, k) => <ProductCard key={p.handle} p={p} variant="rail" eager={k < 2} />)}</div>

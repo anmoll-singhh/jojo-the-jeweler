@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import type { Product } from '../data/types'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CaretDown, Heart, Ruler } from '@phosphor-icons/react'
-import { useTitle } from '../App'
+import { useTitle } from '../lib/seo'
 import { AddButton, OptionPicker, Qty, Rail, RecentlyViewed } from '../components/Product'
 import { byHandle, collectionByHandle, defaultSelection, findVariant, money, related } from '../data/catalog'
 import { BRAND, SAMPLE } from '../data/site'
@@ -9,33 +10,38 @@ import { checkoutUrl } from '../data/shopify'
 import { recent, useCart, useWish, wish } from '../lib/store'
 import { NotFound } from './Pages'
 
+/** Remounts per handle so every piece of state starts fresh on the next product. */
 export function ProductPage() {
   const { handle } = useParams()
   const p = byHandle(handle)
   useTitle(p?.title ?? 'Not found')
+  if (!p) return <NotFound />
+  return <ProductView key={p.handle} p={p} />
+}
+
+function ProductView({ p }: { p: Product }) {
   const { add } = useCart()
   const w = useWish()
-  const [sel, setSel] = useState<Record<string, string>>({})
+  const [sel, setSel] = useState<Record<string, string>>(() => defaultSelection(p))
   const [qty, setQty] = useState(1)
   const [img, setImg] = useState(0)
   const [sticky, setSticky] = useState(false)
   const stage = useRef<HTMLDivElement>(null)
   const galleryRef = useRef<HTMLDivElement>(null)
-  useEffect(() => { if (p) { setSel(defaultSelection(p)); setQty(1); setImg(0); recent.push(p.handle) } }, [p?.handle])
+  useEffect(() => { recent.push(p.handle) }, [p.handle])
   // Sticky buy bar appears once the main button has scrolled off the top.
   useEffect(() => {
     const el = document.querySelector('.buy .addbtn'); if (!el) return
     const io = new IntersectionObserver(([e]) => setSticky(!e.isIntersecting && e.boundingClientRect.top < 0))
     io.observe(el); return () => io.disconnect()
-  }, [p?.handle])
+  }, [p.handle])
   // Phone gallery: swipe-scroll with snap; keep the index in sync for the dots.
   useEffect(() => {
     const g = galleryRef.current; if (!g) return
     const f = () => setImg(Math.round(g.scrollLeft / g.clientWidth))
     g.addEventListener('scroll', f, { passive: true }); return () => g.removeEventListener('scroll', f)
-  }, [p?.handle])
-  if (!p) return <NotFound />
-  const v = findVariant(p, Object.keys(sel).length ? sel : defaultSelection(p))
+  }, [p.handle])
+  const v = findVariant(p, sel)
   const images = v.image ? [v.image, ...p.images.filter((i) => i.src !== v.image!.src)] : p.images
   const on = w.includes(p.handle)
   const col = collectionByHandle(p.collections[0])
@@ -47,7 +53,7 @@ export function ProductPage() {
     <main id="main" className="page pdp">
       <div className="pdp__main">
         <div className="gallery">
-          <div className="gallery__track" ref={galleryRef}>
+          <div className="gallery__track" ref={galleryRef} tabIndex={0} aria-label="Product images">
             {images.map((im, i) => <div key={im.src} className="stage gallery__slide" ref={i === 0 ? stage : undefined} style={i === 0 ? { viewTransitionName: 'pimg' } : undefined}><img src={im.src} alt={im.alt || p.title} loading={i ? 'lazy' : 'eager'} fetchPriority={i ? 'auto' : 'high'} /></div>)}
           </div>
           {images.length > 1 && <>

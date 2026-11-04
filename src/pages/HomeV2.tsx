@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useTitle } from '../App'
+import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, ProductCard } from '../components/Product'
 import { bestSellers, byHandle, findVariant, money } from '../data/catalog'
@@ -73,7 +73,7 @@ function WidthWall() {
     <section className="v2-wall look">
       <div className="look__pin">
         <div className="look__track">
-          <div className="v2-wall__intro"><h2 className="h2"><Lines lines={['The chain,', 'by the millimetre']} /></h2><p className="lede rv">Same links, same clasp. Only the width and the weight change. 14K yellow, 22 inches.</p></div>
+          <div className="v2-wall__intro"><h2 className="h2"><Lines lines={['By the', 'millimetre']} /></h2><p className="lede rv">Same links, same clasp. Only the width and the weight change. 14K yellow, 22 inches.</p></div>
           {widths.map((w, i) => {
             const v = findVariant(p, { ...base, Width: w })
             const grams = Math.round(48 * (parseInt(w) / 8) ** 2 * (22 / 18))

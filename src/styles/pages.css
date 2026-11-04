@@ -6,7 +6,7 @@
 .shop__nav::-webkit-scrollbar { display: none; }
 .shop__nav a { flex: none; padding: 8px 14px; background: var(--surface); font-size: .9375rem; }
 .shop__nav a.on { background: var(--ink); color: var(--bg); }
-.shop__bar { display: flex; align-items: center; gap: 16px; padding-block: 12px; position: sticky; top: var(--nav-h); z-index: 20; background: var(--bg); }
+.shop__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 12px; position: sticky; top: var(--nav-h); z-index: 20; background: var(--bg); }
 .shop__sort { margin-left: auto; width: auto; }
 .shop__sort select { width: auto; padding: 10px 40px 10px 14px; }
 .shop__body { display: grid; gap: 32px; padding-top: 16px; }
@@ -103,13 +103,13 @@
 }
 .inquiry { margin-top: var(--section); padding-block: var(--section); }
 .inquiry__in { display: grid; gap: 32px; }
-.inquiry__in > div { display: grid; gap: 14px; }
+.inquiry__in > div { display: grid; gap: 14px; align-content: start; }
 .form { display: grid; gap: 16px; }
 .form label { display: grid; gap: 6px; }
 .form__wide { grid-column: 1 / -1; }
 .field input, .field select, .field textarea { background: color-mix(in oklch, var(--field-ink) 8%, var(--field)); color: var(--field-ink); }
 .field input::placeholder, .field textarea::placeholder { color: color-mix(in oklch, var(--field-ink) 55%, var(--field)); }
-@media (min-width: 900px) { .inquiry__in { grid-template-columns: 1fr 1.2fr; gap: 64px; } .form { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .inquiry__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 64px; } .form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 /* about */
 .facts { padding-top: var(--section); }
@@ -122,9 +122,9 @@
 .gallery-s__item--wide { grid-column: span 2; aspect-ratio: 3/2; }
 @media (min-width: 900px) { .gallery-s { grid-template-columns: repeat(4, 1fr); } .gallery-s__item--wide { aspect-ratio: 3/2; } }
 .watches { padding-top: var(--section); display: grid; gap: 32px; }
-.watches__txt { display: grid; gap: 18px; max-width: 58ch; }
+.watches__txt { display: grid; gap: 18px; max-width: 58ch; align-content: start; }
 .watches__pic { aspect-ratio: 4/5; }
-@media (min-width: 900px) { .watches { grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; } .watches__pic { max-width: 480px; justify-self: end; } }
+@media (min-width: 900px) { .watches { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 64px; } .watches__pic { max-width: 480px; justify-self: end; } }
 .policies, .faq { padding-top: var(--section); display: grid; gap: 28px; }
 .policies__grid { display: grid; gap: 24px; }
 .policies__grid h3 { font-weight: 600; margin-bottom: 6px; }
@@ -141,7 +141,7 @@
 .contact__facts dd { margin: 0; }
 .contact__pics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .contact__pics .stage { aspect-ratio: 3/4; }
-@media (min-width: 900px) { .contact__grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+@media (min-width: 900px) { .contact__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; } }
 
 /* search, cart, wishlist, 404 */
 .results { padding-top: calc(var(--nav-h) + 24px); display: grid; gap: 20px; }

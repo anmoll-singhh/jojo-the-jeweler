@@ -62,7 +62,7 @@
 .builder__out dd { margin: 0; font-family: var(--fd); font-weight: var(--fd-wght); font-variation-settings: 'wdth' var(--fd-wdth); letter-spacing: var(--fd-ls); font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1; }
 .builder__out dd:not(.num) { font-family: var(--fb); font-weight: 500; font-size: 1.0625rem; letter-spacing: 0; align-self: end; padding-bottom: 4px; }
 .builder__cta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-@media (min-width: 900px) { .builder__in { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; } .builder__img { position: sticky; top: 100px; } }
+@media (min-width: 900px) { .builder__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: start; } .builder__img { position: sticky; top: 100px; } }
 
 /* proof */
 .proof { padding-top: var(--section); display: grid; gap: 28px; justify-items: start; }

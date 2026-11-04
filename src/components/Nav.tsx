@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { Handbag, Heart, List, MagnifyingGlass, X, ArrowUpRight } from '@phosphor-icons/react'
 import { useCart, useWish } from '../lib/store'
 import { getLenis } from '../lib/motion'
@@ -10,7 +10,7 @@ import { SearchOverlay } from './SearchOverlay'
 import { CartDrawer } from './CartDrawer'
 
 /**
- * Nav: wordmark, four plain links, three actions. Transparent over heroes (`.nav--over`), solid
+ * Nav (remounted on every route change by App, which closes the menu and search): wordmark, four plain links, three actions. Transparent over heroes (`.nav--over`), solid
  * once scrolled. The menu opens as a full-screen sheet with a clip-path reveal; its sections
  * stagger in (CSS) and the first collection images live inside it, so the menu is a page, not a list.
  */
@@ -20,9 +20,7 @@ export function Nav({ over = false }: { over?: boolean }) {
   const [menu, setMenu] = useState(false)
   const [search, setSearch] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { pathname } = useLocation()
   const closeBtn = useRef<HTMLButtonElement>(null)
-  useEffect(() => { setMenu(false); setSearch(false) }, [pathname])
   useEffect(() => { const f = () => setScrolled(scrollY > 24); f(); addEventListener('scroll', f, { passive: true }); return () => removeEventListener('scroll', f) }, [])
   useEffect(() => {
     document.body.style.overflow = menu ? 'hidden' : ''

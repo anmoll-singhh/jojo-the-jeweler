@@ -19,9 +19,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* ── Type ── */
 .display, .h1, .h2, .h3 { font-family: var(--fd); font-weight: var(--fd-wght); font-variation-settings: 'wdth' var(--fd-wdth); letter-spacing: var(--fd-ls); line-height: var(--fd-lh); text-transform: var(--fd-case); text-wrap: balance; margin-left: -0.04em; }
-.display { font-size: clamp(3rem, 9.5vw, 11rem); }
-.h1 { font-size: clamp(2.75rem, 7vw, 7.5rem); }
-.h2 { font-size: clamp(2rem, 4.8vw, 4.75rem); }
+.display { font-size: clamp(2.5rem, 9.5vw, 11rem); }
+.h1 { font-size: clamp(2.25rem, 7vw, 7.5rem); }
+.h2 { font-size: clamp(1.75rem, 4.6vw, 4.5rem); }
 .h3 { font-size: clamp(1.5rem, 2.6vw, 2.5rem); }
 .lede { font-size: clamp(1.125rem, 1.6vw, 1.5rem); line-height: 1.35; max-width: 34ch; }
 .muted { color: var(--muted); }

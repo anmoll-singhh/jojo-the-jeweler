@@ -63,6 +63,7 @@ export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { meta
     }
     loop()
     return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); renderer.dispose(); link.dispose(); mat.dispose(); pmrem.dispose(); el.removeChild(renderer.domElement) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => { matRef.current?.color.setHex(COLORS[metal]) }, [metal])
   useEffect(() => { groupRef.current?.scale.setScalar(0.6 + (width - 8) * 0.04) }, [width])

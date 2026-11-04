@@ -30,6 +30,7 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
     } }
   }`
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function fetchCatalog(): Promise<Catalog> {
   if (!isLive()) throw new Error('Storefront API not configured')
   const r = await fetch(`https://${SHOP}/api/${API_VERSION}/graphql.json`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': TOKEN! }, body: JSON.stringify({ query: PRODUCTS_QUERY, variables: { first: 100 } }) })

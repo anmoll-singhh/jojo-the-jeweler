@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { CartProvider } from './lib/store'
 import { DesignProvider, CONTROLLER_ENABLED } from './lib/design'
@@ -13,18 +13,13 @@ import { About, Contact, Custom, SearchPage, Cart, Wishlist, NotFound } from './
 
 const HomeV2 = lazy(() => import('./pages/HomeV2'))
 
-/** Page titles per route; the SPA has no server, so this is the <title> the person and the crawler see. */
-export function useTitle(t: string) {
-  useEffect(() => { document.title = t ? `${t} · JoJo The Jeweler` : 'JoJo The Jeweler' }, [t])
-}
-
 function Shell() {
   const { pathname } = useLocation()
   useSmoothScroll(); useRouteMotion(); useMagnetic(); useImageSkeletons()
   const over = pathname === '/' || pathname === '/v2'
   return (
     <>
-      <Nav over={over} />
+      <Nav key={pathname} over={over} />
       <Routes>
         <Route path="/" element={<HomeV1 />} />
         <Route path="/v2" element={<Suspense fallback={<main id="main" className="page" />}><HomeV2 /></Suspense>} />

@@ -206,3 +206,7 @@
 .dc__seg button.on { background: #efece4; color: #151412; }
 .dc__seg--sw button { width: 32px; height: 32px; padding: 0; display: grid; place-items: center; font-size: .75rem; }
 .dc__seg--sw i { width: 18px; height: 18px; border-radius: 50%; }
+
+/* a rail inside a wrapped page keeps the page margins, not doubled ones */
+.wrap .rail.wrap { padding-inline: 0; max-width: none; }
+.wrap .rail .rail__track { margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad); }

@@ -89,6 +89,7 @@ export function QuickView({ p, close }: { p: Product; close: () => void }) {
   const ref = useRef<HTMLDivElement>(null)
   const [shut, setShut] = useState(false)
   const bye = () => { setShut(true); setTimeout(close, 300) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { const k = (e: KeyboardEvent) => e.key === 'Escape' && bye(); addEventListener('keydown', k); document.body.style.overflow = 'hidden'; return () => { removeEventListener('keydown', k); document.body.style.overflow = '' } }, [])
   const img = v.image?.src || p.images[0].src
   return createPortal(

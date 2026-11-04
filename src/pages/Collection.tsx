@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { SlidersHorizontal, X } from '@phosphor-icons/react'
-import { useTitle } from '../App'
+import { useTitle } from '../lib/seo'
 import { ProductCard } from '../components/Product'
 import { collectionByHandle, collections, inCollection, isMetalOption, minPrice, newest } from '../data/catalog'
 import type { Product } from '../data/types'
@@ -29,6 +29,7 @@ export function Collection() {
   }
   const passes = (p: Product, skip = '') => (!f.iced || skip === 'iced' || p.collections.includes('iced')) && (['metal', 'type', 'price'] as const).every((k) => k === skip || !f[k].length || test(k, p, f[k]))
   const count = (k: string, v: string) => base.filter((p) => passes(p, k) && test(k, p, [v])).length
+  const key = sp.toString()
   const list = useMemo(() => {
     let l = base.filter((p) => passes(p))
     if (sort === 'low') l = [...l].sort((a, b) => minPrice(a) - minPrice(b))
@@ -36,9 +37,9 @@ export function Collection() {
     if (sort === 'new') l = newest(999).filter((p) => l.includes(p))
     return l
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handle, sp.toString()])
+  }, [handle, key])
   const write = (n: URLSearchParams) => setSp(n, { replace: true })
-  const toggle = (k: 'metal' | 'type' | 'price', v: string) => { const cur = f[k]; const nx = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v]; const n = new URLSearchParams(sp); nx.length ? n.set(k, nx.join(',')) : n.delete(k); write(n) }
+  const toggle = (k: 'metal' | 'type' | 'price', v: string) => { const cur = f[k]; const nx = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v]; const n = new URLSearchParams(sp); if (nx.length) n.set(k, nx.join(',')); else n.delete(k); write(n) }
   const clearAll = () => { const n = new URLSearchParams(sp); ['metal', 'type', 'price', 'iced'].forEach((k) => n.delete(k)); write(n) }
   const active = f.metal.length + f.type.length + f.price.length + (f.iced ? 1 : 0)
   const metals = [...new Set(base.flatMap(metalOf))]
@@ -48,13 +49,13 @@ export function Collection() {
     ...(metals.length > 1 ? [['Metal', 'metal', metals] as [string, 'metal', string[]]] : []),
     ['Price', 'price', PRICE_BANDS.map((b) => b[0])],
   ]
-  const Filters = () => (
+  const filters = (
     <div className="filters__body">
       {groups.map(([label, key, vals]) => (
         <fieldset key={key} className="fgroup"><legend>{label}</legend>
           {vals.map((v) => { const n = count(key, v); return <label key={v} className={n ? '' : 'off'}><input type="checkbox" checked={f[key].includes(v)} onChange={() => toggle(key, v)} disabled={!n && !f[key].includes(v)} /> {v} <span className="num muted">{n}</span></label> })}
         </fieldset>))}
-      {handle !== 'iced' && <label className="fgroup fgroup--row"><input type="checkbox" checked={f.iced} onChange={() => { const n = new URLSearchParams(sp); f.iced ? n.delete('iced') : n.set('iced', '1'); write(n) }} /> Iced out only</label>}
+      {handle !== 'iced' && <label className="fgroup fgroup--row"><input type="checkbox" checked={f.iced} onChange={() => { const n = new URLSearchParams(sp); if (f.iced) n.delete('iced'); else n.set('iced', '1'); write(n) }} /> Iced out only</label>}
       {active > 0 && <button className="link small" onClick={clearAll}>Clear all</button>}
     </div>
   )
@@ -68,10 +69,10 @@ export function Collection() {
       <div className="shop__bar wrap">
         <button className="btn btn--ghost only-m" onClick={() => setOpen(true)}><SlidersHorizontal size={18} /> Filter{active ? ` · ${active}` : ''}</button>
         <span className="num muted">{list.length} {list.length === 1 ? 'piece' : 'pieces'}</span>
-        <label className="shop__sort"><span className="sr-only">Sort</span><select value={sort} onChange={(e) => { const n = new URLSearchParams(sp); e.target.value === 'featured' ? n.delete('sort') : n.set('sort', e.target.value); write(n) }}>{SORTS.map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select></label>
+        <label className="shop__sort"><span className="sr-only">Sort</span><select value={sort} onChange={(e) => { const n = new URLSearchParams(sp); if (e.target.value === 'featured') n.delete('sort'); else n.set('sort', e.target.value); write(n) }}>{SORTS.map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select></label>
       </div>
       <div className="shop__body wrap">
-        <aside className="filters only-d" aria-label="Filters"><Filters /></aside>
+        <aside className="filters only-d" aria-label="Filters">{filters}</aside>
         <section className="grid" aria-live="polite">
           {list.map((p, i) => <ProductCard key={p.handle} p={p} eager={i < 4} />)}
           {!list.length && <p className="lede">Nothing matches those filters. <button className="link" onClick={clearAll}>Clear them</button> or <Link className="link" to="/custom">ask for a custom piece</Link>.</p>}
@@ -81,7 +82,7 @@ export function Collection() {
         <div className="fsheet__scrim" onClick={() => setOpen(false)} />
         <div className="fsheet__panel">
           <div className="fsheet__head"><b>Filter</b><button className="icon" aria-label="Close filters" onClick={() => setOpen(false)}><X size={22} /></button></div>
-          <Filters />
+          {filters}
           <button className="btn btn--full" onClick={() => setOpen(false)}>Show {list.length} {list.length === 1 ? 'piece' : 'pieces'}</button>
         </div>
       </div>

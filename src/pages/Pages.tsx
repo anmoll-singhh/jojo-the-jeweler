@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Minus, Plus, Phone } from '@phosphor-icons/react'
-import { useTitle } from '../App'
+import { useTitle } from '../lib/seo'
 import { ProductCard, Rail } from '../components/Product'
 import { Video } from '../components/Media'
 import { byHandle, money, search, bestSellers } from '../data/catalog'
@@ -29,7 +29,7 @@ export function Custom() {
       <section className="custom__hero">
         <div className="custom__media stage"><Video mp4={PIECES[1].mp4} webm={PIECES[1].webm} poster={PIECES[1].poster} label={PIECES[1].title} /></div>
         <div className="custom__txt wrap">
-          <h1 className="h1"><Lines lines={['Custom, done', 'the JoJo way']} /></h1>
+          <h1 className="h1"><Lines lines={['Custom, the', 'JoJo way']} /></h1>
           <p className="lede rv">Send a reference. Approve a sketch. Get a piece nobody else has, cast in solid gold and set by hand on 47th Street.</p>
           <a className="btn btn--lg rv" href="#inquiry">Start an inquiry</a>
         </div>
@@ -48,7 +48,7 @@ export function Custom() {
       </section>
       <section className="inquiry field" id="inquiry">
         <div className="wrap inquiry__in">
-          <div><h2 className="h2"><Lines lines={['Tell JoJo', 'what you want']} /></h2><p className="rv">Or skip the form: text <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a> with a picture of the reference.</p></div>
+          <div><h2 className="h2"><Lines lines={['Tell JoJo', 'the idea']} /></h2><p className="rv">Or skip the form: text <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a> with a picture of the reference.</p></div>
           {sent ? <p className="lede">Your message is drafted in your messaging app. Send it and JoJo gets back to you with a quote.</p> : (
             <form className="form rv-group" onSubmit={submit}>
               <label><span className="lab">Name</span><input required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" /></label>
@@ -73,7 +73,7 @@ export function About() {
       <section className="about__hero">
         <div className="about__media stage"><Video mp4={HERO_REEL.mp4} webm={HERO_REEL.webm} poster={HERO_REEL.poster} label="JoJo The Jeweler" /></div>
         <div className="about__txt wrap">
-          <h1 className="h1"><Lines lines={['The youngest', 'jeweler on 47th']} /></h1>
+          <h1 className="h1"><Lines lines={['Youngest', 'on 47th']} /></h1>
           <p className="lede rv">JoJo started in jewelry at 15. Today he works from 3 W 47th Street in the Diamond District, between New York and Miami, making custom pieces for artists and the people who follow them.</p>
         </div>
       </section>
@@ -163,6 +163,7 @@ export function SearchPage() {
   const res = search(q, 40)
   return (
     <main id="main" className="page results wrap">
+      <h1 className="h1"><Lines lines={['Search']} /></h1>
       <form className="search__bar" onSubmit={(e) => { e.preventDefault(); const v = (new FormData(e.currentTarget).get('q') as string).trim(); setSp(v ? { q: v } : {}) }}>
         <input name="q" defaultValue={q} placeholder="Search chains, pendants, rings" aria-label="Search" autoFocus />
         <button className="btn">Search</button>
