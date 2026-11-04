@@ -1,0 +1,126 @@
+/* /homepage-v2 — the main homepage's own layout (.home6), with two additions:
+   a full-bleed reel hero and a short story line under it. Reels replace the stock
+   images inside the existing band, styles, rooms and Instagram blocks. */
+
+/* Hero sits directly under the real header: no gap, whole screen. */
+.page.hv2{padding-top:var(--v2-top,100px)}
+.home6.hv2 .v2hero{position:relative;margin:0;height:calc(100svh - var(--v2-top,100px));min-height:480px;overflow:hidden;background:#000;color:#fff}
+.v2hero__bg{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--n,2),1fr)}
+.v2hero__bg>.reel{position:relative}
+.v2hero:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(0,0,0,.62),rgba(0,0,0,.12) 45%,transparent 70%)}
+.v2hero__cap{position:absolute;z-index:2;left:clamp(16px,2.4vw,36px);right:16px;bottom:clamp(28px,5vw,56px);display:grid;gap:18px;justify-items:start;text-shadow:0 1px 18px rgba(0,0,0,.35)}
+.v2hero .cap{font-size:clamp(1.625rem,3.4vw,3.125rem);letter-spacing:.14em;line-height:1.15;margin:0}
+.v2hero__links{display:flex;flex-wrap:wrap;gap:12px 28px}
+@media(max-width:899px){
+  .v2hero__bg{display:block}
+  /* stacked; .hv2 prefix so the generic .hv2 .reel{position:relative} further down can't win */
+  .hv2 .v2hero__bg>.reel{position:absolute;inset:0;opacity:0;z-index:0;transition:opacity .9s ease}
+  .hv2 .v2hero__bg>.reel.prev{opacity:1;z-index:1;transition:none}
+  .hv2 .v2hero__bg>.reel.on{opacity:1;z-index:2}
+  .v2hero .cap{font-size:clamp(1.5rem,7.4vw,2.125rem)}
+}
+
+/* Reels inside the existing blocks behave like the images they replace. */
+.hv2 .band video{width:100%;height:100%;object-fit:cover;display:block}
+.hv2 .rooms__tile video{width:100%;height:100%;object-fit:cover;display:block}
+.hv2 .igs__i video{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:900px){.hv2 .band video{object-position:50% 40%}}
+
+/* ── One section per screen, no gaps between them, free scrolling ─────────
+   Every section is exactly the height left under the header. Text sections centre
+   their content; media sections (hero, band, the three visit reels) fill it edge to edge. */
+html:has(.hv2){scroll-snap-type:none!important}
+.home6.hv2>section{
+  margin:0!important;box-sizing:border-box;scroll-snap-align:none;
+  min-height:calc(100svh - var(--v2-top,100px));
+  display:flex;flex-direction:column;justify-content:center;
+  padding-block:clamp(28px,6svh,72px);
+}
+.home6.hv2>section.v2hero,.home6.hv2>section.band,.home6.hv2>section.rooms{
+  height:calc(100svh - var(--v2-top,100px));min-height:0;max-height:none;padding:0;
+}
+.home6.hv2>section.band{display:block}
+.home6.hv2>section.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;align-items:stretch}
+.hv2 .rooms__tile{height:100%!important;aspect-ratio:auto!important}
+.hv2 .h6head{margin-bottom:clamp(16px,3svh,32px)}
+.hv2 .igs__i{max-height:calc(100svh - var(--v2-top,100px) - 220px)}
+.hv2 .styles__img{aspect-ratio:auto;height:min(calc((100svh - var(--v2-top,100px) - 230px)),26vw)}
+
+/* last screen: the visit block on top, the promise strip pinned to its foot */
+.home6.hv2>section.v2end{padding:0;justify-content:stretch}
+.hv2 .v2end .visitb{flex:1;margin:0}
+.hv2 .v2end .press{margin:0;border-top:0}
+.home6.hv2+footer{margin-top:0}
+
+@media(max-width:899px){
+  /* justify-content must be start: centring overflowing tracks pushes the first card off-screen */
+  .home6.hv2>section.rooms{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:82%;justify-content:start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);gap:8px;padding:16px var(--pad);scrollbar-width:none}
+  .home6.hv2>section.rooms::-webkit-scrollbar{display:none}
+  .hv2 .rooms__tile{scroll-snap-align:start}
+  .hv2 .styles__img{height:calc((100svh - var(--v2-top,100px) - 250px)/2)}
+  .hv2 .sig .h6head p{display:none}
+}
+.home6.hv2>section.sig{padding-block:clamp(16px,2.5svh,32px)}
+@media(max-width:899px){
+  .hv2 .styles__img{height:calc((100svh - var(--v2-top,100px) - 270px)/2)}
+  .hv2 .v2end .press div{padding:14px 8px}
+}
+
+/* Reel with first-frame placeholder (WebP, JPG fallback) until playback starts */
+.hv2 .reel{position:relative;display:block;width:100%;height:100%;overflow:hidden;background:#111}
+.hv2 .reel video,.hv2 .reel__ph,.hv2 .reel__ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hv2 .reel__ph{z-index:1;transition:opacity .7s ease}
+.hv2 .reel.ready .reel__ph{opacity:0}
+
+/* Reviews: small, quiet, all three visible at once. Only as tall as its content. */
+.home6.hv2>section.v2rev{min-height:0;display:block;padding-block:clamp(40px,6vw,72px)}
+.hv2 .v2rev .cap{font-size:clamp(1.125rem,1.8vw,1.5rem);margin:0 0 clamp(18px,2.4vw,28px)}
+.hv2 .v2rev__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,48px)}
+.hv2 .v2rev__list li{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:10px;align-content:start}
+.hv2 .v2rev blockquote{margin:0;font:400 clamp(1rem,1.25vw,1.125rem)/1.5 var(--fd);max-width:42ch}
+.hv2 .v2rev p{margin:0;font-size:0.8125rem}.hv2 .v2rev p span{color:var(--mute)}
+/* Phones: a short stacked list, every review fully visible, no sideways scrolling */
+@media(max-width:760px){
+  .home6.hv2>section.v2rev{padding-block:44px 36px}
+  .hv2 .v2rev .cap{margin-bottom:6px}
+  .hv2 .v2rev__list{grid-template-columns:1fr;gap:0}
+  .hv2 .v2rev__list li{padding:18px 0;gap:8px}
+  .hv2 .v2rev__list li:last-child{border-bottom:1px solid var(--line)}
+  .hv2 .v2rev blockquote{font-size:1.0625rem;line-height:1.45;max-width:none}
+}
+.hv2 .band__txt .ul{color:#fff;justify-self:start}
+
+/* "See it in person" band: never crop a vertical reel into a wide strip. */
+.hv2 .band__bd{display:none}
+@media(min-width:901px){
+  .home6.hv2>section.band{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;background:#0a0a0a;isolation:isolate}
+  .hv2 .band__bd{display:block;position:absolute;inset:-60px;z-index:0;background-size:cover;background-position:center;filter:blur(48px) brightness(.4) saturate(1.1)}
+  .hv2 .band>.clipbox{grid-column:2;position:relative;z-index:1;height:100%;width:auto;aspect-ratio:9/16;margin-right:var(--pad);background:transparent}
+  .hv2 .band>.clipbox video{object-fit:contain}
+  .hv2 .band:after{z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.45),rgba(0,0,0,0) 55%)}
+  .hv2 .band .band__txt{z-index:2;top:50%;bottom:auto;transform:translateY(-50%);max-width:min(520px,calc(100vw - 2*var(--pad) - 56vh))}
+}
+@media(max-width:899px){.hv2 .v2end .visitb{padding-block:22px}.hv2 .v2end .press div{padding:10px 8px}}
+.hv2 .clipbox{display:block;width:100%;height:100%}
+.hv2 .band>.clipbox .reel{background:transparent}
+
+/* Text and photo sections size to their content with equal space above and below. Forcing them
+   to a full screen padded short content with up to 280px of blank space (phones and tablets).
+   The video sections (hero, "See it in person", the three showroom reels) stay full-screen. */
+.hv2{--sec-pad:clamp(56px,7vw,104px)}
+.home6.hv2>section.sig,.home6.hv2>section.styles,.home6.hv2>section.igs,.home6.hv2>section.v2rev{min-height:0;justify-content:flex-start;padding-block:var(--sec-pad)}
+.home6.hv2>section.v2rev+section.igs{padding-top:0}
+.hv2 .igs__i{max-height:none}
+.hv2 .styles__img,.hv2 .styles__tile .styles__img{aspect-ratio:4/5;height:auto}
+@media(max-width:899px){.hv2 .styles__img,.hv2 .styles__tile .styles__img{aspect-ratio:1/1;height:auto}}
+.home6.hv2>section.wrap{margin-inline:auto!important}
+.v2hero:after{background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,.28) 42%,transparent 68%)}
+
+/* Reviews: each one on its own soft card so they stand out from the page */
+.hv2 .v2rev__list{gap:clamp(16px,2vw,28px)}
+.hv2 .v2rev__list li{border:0;background:var(--tile,#fff);padding:clamp(20px,2.2vw,32px);border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px -12px rgba(0,0,0,.18)}
+@media(max-width:760px){
+  .hv2 .v2rev__list{gap:14px}
+  .hv2 .v2rev__list li,.hv2 .v2rev__list li:last-child{padding:20px;border:0}
+}
+@media(max-width:760px){.hv2 .v2rev .cap{margin-bottom:18px}}

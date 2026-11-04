@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Media IS committed, deliberately.
+#
+# Everything under public/media/ (brand logos, payment marks, site photography and the
+# Instagram archive in public/media/ig/) is tracked on purpose.
+#
+# The whole point of this repository is that a deploy can be rolled back to an exact
+# earlier state. A commit without the media is not a restorable state — it is source code
+# that renders a site full of broken images.
+#
+# If the video library ever grows past ~100MB, move to Git LFS. Do NOT solve it by
+# ignoring the assets, or rollback silently stops working.
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.vercel
+
+# Cygwin/Git-Bash crash dumps
+*.stackdump
+
+# ── Environment ─────────────────────────────────────────────────────────────
+# Added 2026-09-21. This file previously had NO env coverage, so a .env created
+# here would have been committed to a public repository. Never remove these.
+.env
+.env.*
+!.env.example

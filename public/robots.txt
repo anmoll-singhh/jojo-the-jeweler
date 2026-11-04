@@ -1,0 +1,14 @@
+# Double M & Co — https://doublemco.vercel.app
+# Written by scripts/gen-sitemap.mjs on every build; edit that script, not this file.
+#
+# The Disallow lines are the per-visitor screens (bag, wish list, checkout) and the previous
+# homepage kept only for comparison. None of them should appear in search results.
+
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /wishlist
+Disallow: /homepage-v1
+Disallow: /homepage-v2
+
+Sitemap: https://doublemco.vercel.app/sitemap.xml

@@ -1,0 +1,64 @@
+# Archive @jojothejeweler_ Instagram content into the repo via Bright Data.
+#
+# Runs when content/instagram/REFETCH changes on any branch (edit the date in that file to
+# re-run), or by hand from the Actions tab. Results are committed back to the same branch,
+# so the site and any future agent read from git — Instagram is never fetched twice.
+#
+# COST: Bright Data bills per record returned; content/instagram/fetch-log.json records the
+# count for every run. Needs the BRIGHTDATA_API_KEY repository secret.
+
+name: Fetch Instagram content
+
+on:
+  push:
+    paths:
+      - content/instagram/REFETCH
+  workflow_dispatch:
+    inputs:
+      reels:
+        description: Recent reels to collect
+        default: '24'
+      posts:
+        description: Recent posts to collect
+        default: '36'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-instagram-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Collect and convert
+        env:
+          BRIGHTDATA_API_KEY: ${{ secrets.BRIGHTDATA_API_KEY }}
+          IG_NUM_REELS: ${{ inputs.reels || '24' }}
+          IG_NUM_POSTS: ${{ inputs.posts || '36' }}
+        run: node scripts/fetch-instagram.mjs
+
+      # Always commit — on failure the log alone says what went wrong.
+      - name: Commit results
+        if: always()
+        run: |
+          set -euo pipefail
+          git config user.name  "jojo-ig-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A content/instagram public/media
+          if git diff --cached --quiet; then echo "Nothing new."; exit 0; fi
+          git commit -m "Instagram archive: refresh @jojothejeweler_ content"
+          git pull --rebase --autostash
+          git push
