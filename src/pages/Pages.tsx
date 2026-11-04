@@ -103,7 +103,7 @@ export function About() {
       </section>
       <section className="watches wrap" id="watches">
         <div className="watches__txt">
-          <h2 className="h2"><Lines lines={['Watches, both', 'directions']} /></h2>
+          <h2 className="h2"><Lines lines={['Watches,', 'both ways']} /></h2>
           <p className="rv">JoJo sources luxury watches and buys them. Bring one in or ship it: it is inspected for authenticity and condition, paperwork included, and you get a one-time offer with prompt, secure payment. Part-exchange against a piece can be considered.</p>
           <div className="rv"><Link className="btn" to="/products/watch-sourcing">Source a watch · $50 deposit</Link> <Link className="link" to="/contact">Sell a watch</Link></div>
         </div>
