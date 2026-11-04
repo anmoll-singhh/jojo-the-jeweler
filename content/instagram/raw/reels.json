@@ -1,0 +1,482 @@
+[
+  {
+    "timestamp": "2026-11-04T13:59:07.034Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DcjWKDtp_r7/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 51457,
+      "views": 51457,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:07.499Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/Dcw2YdQp4OO/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 25425,
+      "views": 25425,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:18.714Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/Db7R7_hpzb6/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 180853,
+      "views": 180853,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:22.653Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DaB4-pEpt7a/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 2717,
+      "views": 2717,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:22.659Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdznAQNPu19/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 47738,
+      "views": 47738,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:23.568Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/Dd7vUTdpyWY/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 3312,
+      "views": 3312,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:24.001Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdIB11vJOCV/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 6663,
+      "views": 6663,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:24.032Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/Daoq7UPptX1/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 51562,
+      "views": 51562,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:24.135Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DagnS45pgAe/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 3203,
+      "views": 3203,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:24.976Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DeftqgpJakS/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 5269,
+      "views": 5269,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:25.303Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DZ8pqDppxsh/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 164909,
+      "views": 164909,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:25.543Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DaMPJDhp8IC/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 131859,
+      "views": 131859,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:25.640Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DeIyO5Jpi1M/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 21185,
+      "views": 21185,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:25.766Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdkgUogp3wf/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 5270,
+      "views": 5270,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:26.390Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DbUNyTupsSm/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 6180,
+      "views": 6180,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:26.568Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdXlA2PJJm4/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 6490,
+      "views": 6490,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:26.572Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DeVFs6dpFqb/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 34791,
+      "views": 34791,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:26.808Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/Dc4hhnPp0Sh/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 40724,
+      "views": 40724,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:29.889Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdKzkilpMaT/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 81359,
+      "views": 81359,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:34.833Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DesjahlpRMn/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 14316,
+      "views": 14316,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:35.220Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DbKAYUtJuut/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 156532,
+      "views": 156532,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:37.529Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DamI6IdJG4a/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 5958,
+      "views": 5958,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:37.567Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DdsYNI8Jpa6/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 6175,
+      "views": 6175,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  },
+  {
+    "timestamp": "2026-11-04T13:59:38.287Z",
+    "input": {
+      "url": "https://www.instagram.com/reel/DfDo94FJiEi/",
+      "posts_count": 289,
+      "followers": 109012,
+      "following": 1912,
+      "video_play_count": 43921,
+      "views": 43921,
+      "country_code": null
+    },
+    "error": "Crawler error: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON",
+    "error_code": "crawl_error",
+    "discovery_input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 24,
+      "start_date": "",
+      "end_date": ""
+    }
+  }
+]

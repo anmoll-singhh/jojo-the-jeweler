@@ -1,0 +1,45 @@
+{
+  "started": "2026-11-04T13:55:59.606Z",
+  "profile": "https://www.instagram.com/jojothejeweler_/",
+  "jobs": [
+    {
+      "name": "profile",
+      "dataset": "gd_l1vikfch901nx3by4",
+      "inputs": 1,
+      "status": "ok",
+      "snapshot_id": "sd_mw26jedc2ec255fsln",
+      "records": 1,
+      "errors": 0
+    },
+    {
+      "name": "reels",
+      "dataset": "gd_lyclm20il4r5helnj",
+      "inputs": 1,
+      "status": "ok",
+      "snapshot_id": "sd_mw26jedt2mkb0zrg6f",
+      "records": 24,
+      "errors": 24
+    },
+    {
+      "name": "posts",
+      "dataset": "gd_lk5ns7kz21pck8jpis",
+      "inputs": 1,
+      "status": "ok",
+      "snapshot_id": "sd_mw26jeff2q2ex3tt4r",
+      "records": 1,
+      "errors": 1
+    }
+  ],
+  "downloads": {
+    "ok": 6,
+    "failed": []
+  },
+  "records_billed": 26,
+  "finished": "2026-11-04T14:03:51.413Z",
+  "summary": {
+    "reels": 0,
+    "posts": 0,
+    "highlights": 5,
+    "hero_found": []
+  }
+}

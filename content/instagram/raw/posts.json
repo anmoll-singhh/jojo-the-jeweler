@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2026-11-04T14:03:49.989Z",
+    "input": {
+      "url": "https://www.instagram.com/jojothejeweler_/",
+      "num_of_posts": 36,
+      "start_date": "",
+      "end_date": "",
+      "post_type": ""
+    },
+    "error": "Crawler error: The page does not loaded properly.",
+    "error_code": "crawl_error"
+  }
+]
