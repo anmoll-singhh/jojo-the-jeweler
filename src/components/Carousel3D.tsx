@@ -54,7 +54,7 @@ export function Carousel3D({ items: src, label }: { items: C3DItem[]; label: str
             const isFront = i === front
             const away = Math.abs(rel) > 95
             return (
-              <Link key={it.k} to={it.href} className={'c3d__item stage' + (isFront ? ' is-front' : '')} draggable={false}
+              <Link key={it.k} to={it.href} className={'c3d__item stage' + (isFront ? ' is-front' : '') + (away ? ' is-away' : '')} draggable={false}
                 style={{ transform: `rotateY(${i * step}deg) translateZ(${radius}px)`, ['--f' as string]: Math.max(0, facing).toFixed(3) }}
                 aria-hidden={away} tabIndex={isFront ? 0 : -1}
                 onClick={(e) => { if (st.current.moved) { e.preventDefault(); return } if (!isFront) { e.preventDefault(); bring(i) } }}>

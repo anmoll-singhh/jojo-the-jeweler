@@ -5,7 +5,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 
-const ORIGIN = (process.env.SITE_ORIGIN || 'https://jojo-the-jeweler.vercel.app').replace(/\/$/, '')
+const ORIGIN = (process.env.SITE_ORIGIN || 'https://jojo-the-jeweler-two.vercel.app').replace(/\/$/, '')
 const cat = JSON.parse(readFileSync(new URL('../src/data/catalog.json', import.meta.url), 'utf8'))
 
 const pages = [

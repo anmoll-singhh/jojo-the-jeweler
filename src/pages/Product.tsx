@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Product } from '../data/types'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CaretDown, Heart, Ruler } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
+import { getLenis } from '../lib/motion'
 import { AddButton, OptionPicker, Qty, Rail, RecentlyViewed } from '../components/Product'
 import { byHandle, chosenMetal, collectionByHandle, defaultSelection, findVariant, metalFilter, money, related, rs } from '../data/catalog'
 import { SAMPLE_REVIEWS, rating, reviewsFor } from '../data/reviews'
 import { Stars } from '../components/Stars'
-import { BRAND, SAMPLE } from '../data/site'
-import { checkoutUrl } from '../data/shopify'
+import { BRAND, SAMPLE, SIZING } from '../data/site'
 import { recent, useCart, useWish, wish } from '../lib/store'
 import { NotFound } from './Pages'
 
@@ -51,9 +51,17 @@ function ProductView({ p }: { p: Product }) {
   const on = w.includes(p.handle)
   const col = collectionByHandle(p.collections[0])
   const madeToOrder = p.specs.some((s) => /lead time/i.test(s.label)) || p.tags.includes('custom')
+  const navigate = useNavigate()
+  const guide = useRef<HTMLDialogElement>(null)
+  const buyNow = () => { add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: images[0].src }, null, qty, true); navigate('/checkout') }
   const toBag = () => add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: images[0].src }, stage.current?.querySelector('img') ?? stage.current, qty)
   const label = v.availableForSale ? `Add to bag · ${money(v.price.amount * qty)}` : 'Sold out'
-  const show = (i: number) => { setImg(i); galleryRef.current?.scrollTo({ left: i * galleryRef.current.clientWidth, behavior: 'smooth' }) }
+  const show = (i: number) => {
+    setImg(i); const g = galleryRef.current; if (!g) return
+    // phone: the gallery is a sideways swipe; desktop: the photos stack, so move down the column
+    if (g.scrollWidth > g.clientWidth + 4) g.scrollTo({ left: i * g.clientWidth, behavior: 'smooth' })
+    else { const el = g.children[i] as HTMLElement | undefined; if (el) { const y = el.getBoundingClientRect().top + scrollY - 80; const l = getLenis(); if (l) l.scrollTo(y); else scrollTo({ top: y, behavior: 'smooth' }) } }
+  }
   return (
     <main id="main" className="page pdp">
       <div className="pdp__main">
@@ -74,10 +82,10 @@ function ProductView({ p }: { p: Product }) {
           <p className="buy__price"><span className="num">{money(v.price.amount)}</span>{v.compareAtPrice && v.compareAtPrice.amount > v.price.amount && <s className="muted num">{money(v.compareAtPrice.amount)}</s>}<span className="muted small">{madeToOrder ? 'Made to order' : 'Ready to ship'}</span></p>
           <p className="buy__desc">{p.description}</p>
           <div className="buy__opts"><OptionPicker p={p} sel={sel} setSel={setSel} /></div>
-          {p.options.some((o) => /size|length/i.test(o.name)) && <Link className="link small buy__guide" to="/about#sizing"><Ruler size={16} /> Size and length guide</Link>}
+          {p.options.some((o) => /size|length/i.test(o.name)) && <button type="button" className="link small buy__guide" onClick={() => guide.current?.showModal()}><Ruler size={16} /> Size and length guide</button>}
           <div className="buy__row"><Qty v={qty} set={setQty} /><AddButton lg className="buy__add" disabled={!v.availableForSale} label={label} onAdd={() => { if (!v.availableForSale) return false; toBag() }} /></div>
           <div className="buy__alt">
-            <a className="btn btn--ghost" href={checkoutUrl([{ variantId: v.id, qty }])} aria-disabled={!v.availableForSale}>Buy now</a>
+            <button className="btn btn--ghost" disabled={!v.availableForSale} onClick={buyNow}>Buy now</button>
             <button className={'btn btn--ghost' + (on ? ' on' : '')} aria-pressed={on} onClick={() => wish.toggle(p.handle)}><Heart size={18} weight={on ? 'fill' : 'regular'} /> {on ? 'Saved' : 'Save'}</button>
           </div>
           {madeToOrder && <p className="small muted">A 50% deposit starts production. JoJo confirms the timeline once the design is approved.</p>}
@@ -86,12 +94,20 @@ function ProductView({ p }: { p: Product }) {
             <Acc title="Shipping and returns"><p>{SAMPLE.shipping}</p><p>{SAMPLE.returns}</p><p>{SAMPLE.warranty}</p></Acc>
             <Acc title="Pay and pick up"><p>Cash, card and bank transfer in store; every card and wallet at checkout online. Custom deposits by wire, Zelle or Cash App.</p><p>Pick up at {BRAND.address.join(', ')}, {BRAND.hours.toLowerCase()}. Text <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a> first.</p></Acc>
           </div>
-          {p.sample && <p className="sample">Sample listing. Prices, specs and photography are placeholders for the client to confirm.</p>}
+          {p.sample && <p className="sample">Sample listing: the photo, price and details are examples until JoJo’s full catalog is connected.</p>}
         </div>
       </div>
       {SAMPLE_REVIEWS && <Reviews p={p} />}
       <Rail title="Goes with it" items={related(p, 4)} />
       <RecentlyViewed skip={p.handle} />
+      <dialog ref={guide} className="sheet-dlg" aria-labelledby="size-h" onClick={(e) => { if (e.target === e.currentTarget) guide.current?.close() }}>
+        <div className="sheet-dlg__in">
+          <h2 id="size-h" className="h3">Size and length</h2>
+          {SIZING.map((t) => <p key={t}>{t}</p>)}
+          <p className="small muted">Not sure? Text JoJo a photo of a piece that fits: <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a>.</p>
+          <button type="button" className="btn" onClick={() => guide.current?.close()} autoFocus>Done</button>
+        </div>
+      </dialog>
       <div className={'sticky' + (sticky ? ' show' : '')} aria-hidden={!sticky} inert={!sticky}>
         <img {...rs(images[0].src, '4rem')} style={{ filter: tint }} alt="" />
         <span><b>{p.title}</b><small className="muted">{Object.values(sel).join(' · ')}</small></span>

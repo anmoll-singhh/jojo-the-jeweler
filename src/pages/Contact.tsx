@@ -5,6 +5,7 @@ import { useTitle } from '../lib/seo'
 import { BRAND } from '../data/site'
 import { STORE_PHOTOS } from '../data/content'
 import { Lines } from './HomeV1'
+import { SendPanel, deliver, validPhone, type SendMode } from '../components/SendPanel'
 
 const TOPICS = [
   ['piece', 'A piece on the site'],
@@ -38,16 +39,15 @@ export function Contact() {
   const inHours = ny.h >= 9 && ny.h < 18
   const [f, setF] = useState({ topic: (TOPICS.find(([k]) => k === sp.get('topic'))?.[0] ?? 'piece') as string, name: '', phone: '', note: '', watch: '' })
   const [err, setErr] = useState('')
-  const [sent, setSent] = useState(false)
+  const [sent, setSent] = useState<SendMode | null>(null)
+  const topic = TOPICS.find(([k]) => k === f.topic)?.[1]
+  const message = [`${topic} — ${f.name}`, f.watch && `Watch: ${f.watch}`, f.note.trim(), `Text me back: ${f.phone}`].filter(Boolean).join('\n')
   const submit = (e: FormEvent) => {
     e.preventDefault()
     if (!f.name.trim()) return setErr('Add your name.')
-    if (!/^[+\d][\d\s().-]{6,}$/.test(f.phone.trim())) return setErr('Add a phone number JoJo can text back.')
+    if (!validPhone(f.phone)) return setErr('Add a phone number JoJo can text back, with area code.')
     if (f.note.trim().length < 5) return setErr('Write a short message.')
-    const topic = TOPICS.find(([k]) => k === f.topic)?.[1]
-    const body = encodeURIComponent([`${topic} — ${f.name}`, f.watch && `Watch: ${f.watch}`, f.note.trim(), `Text me back: ${f.phone}`].filter(Boolean).join('\n'))
-    location.href = BRAND.email ? `mailto:${BRAND.email}?subject=${encodeURIComponent(topic || 'Inquiry')}&body=${body}` : `${BRAND.smsHref}?&body=${body}`
-    setSent(true)
+    setSent(deliver(message, topic || 'Inquiry'))
   }
   return (
     <main id="main" className="page contact2">
@@ -68,7 +68,7 @@ export function Contact() {
       <section className="ct-main wrap">
         <div className="ct-form">
           <h2 className="h2"><Lines lines={['Send a message']} /></h2>
-          {sent ? <div className="cu-done"><h3 className="h3">Your message is ready in {BRAND.email ? 'your email' : 'Messages'}</h3><p>Send it and JoJo replies from the store. <button className="link" onClick={() => setSent(false)}>Write another</button></p></div> : (
+          {sent ? <SendPanel mode={sent} message={message} onBack={() => setSent(null)} onReset={() => { setSent(null); setF({ ...f, note: '', watch: '' }) }} /> : (
             <form onSubmit={submit} noValidate aria-label="Send a message">
               <fieldset className="cu-choice"><legend className="lab">What’s it about?</legend>
                 <div className="pills" role="radiogroup" aria-label="Topic">{TOPICS.map(([k, t]) => <button type="button" key={k} role="radio" aria-checked={f.topic === k} className={'pill' + (f.topic === k ? ' on' : '')} onClick={() => { setF({ ...f, topic: k }); setErr('') }}>{t}</button>)}</div>
@@ -81,7 +81,7 @@ export function Contact() {
               </div>
               <label className="cu-field"><span className="lab">Message</span><textarea rows={5} value={f.note} onChange={(e) => { setF({ ...f, note: e.target.value }); setErr('') }} /></label>
               {err && <p className="cu-err" role="alert">{err}</p>}
-              <button className="btn btn--lg">Send by {BRAND.email ? 'email' : 'text'}</button>
+              <button className="btn btn--lg">Send to JoJo</button>
             </form>)}
         </div>
         <div className="ct-visit">

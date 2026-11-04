@@ -80,9 +80,19 @@ test.describe('commerce', () => {
     await expect(page.locator('h1')).toContainText('empty')
   })
 
-  test('buy now links to Shopify cart permalink', async ({ page }) => {
-    await page.goto('/products/diamond-studs')
-    await expect(page.getByRole('link', { name: 'Buy now' })).toHaveAttribute('href', /myshopify\.com\/cart\/\d+:1/)
+  test('buy now goes to checkout, which validates and composes the order', async ({ page }) => {
+    await page.goto('/products/diamond-studs', { waitUntil: 'networkidle' })
+    await page.getByRole('button', { name: 'Buy now' }).click()
+    await expect(page).toHaveURL(/\/checkout$/)
+    await expect(page.locator('.co-sum li')).toHaveCount(1)
+    await page.getByRole('button', { name: /Send order to JoJo/ }).click()
+    await expect(page.locator('.cu-err')).toContainText('name')
+    await page.getByLabel('Name').fill('Test Buyer')
+    await page.getByLabel('Phone').fill('(212) 555-0100')
+    await page.getByRole('radio', { name: /Pick up/ }).click()
+    await page.getByRole('button', { name: /Send order to JoJo/ }).click()
+    await expect(page.locator('.send .cu-msg')).toContainText('Diamond')
+    await expect(page.locator('.send .cu-msg')).toContainText('Pick up')
   })
 
   test('quick add from a card', async ({ page }) => {
@@ -295,7 +305,7 @@ test.describe('round 2', () => {
     await page.goto('/contact?topic=watch', { waitUntil: 'networkidle' })
     await expect(page.getByRole('radio', { name: 'Selling a watch' })).toHaveAttribute('aria-checked', 'true')
     await expect(page.getByLabel(/The watch/)).toBeVisible()
-    await page.getByRole('button', { name: /Send by/ }).click()
+    await page.getByRole('button', { name: /Send to JoJo/ }).click()
     await expect(page.locator('.cu-err')).toContainText('name')
     await expect(page.locator('.ct-acts a')).toHaveCount(4)
     await expect(page.locator('.ct-acts a').first()).toHaveAttribute('href', /^sms:/)

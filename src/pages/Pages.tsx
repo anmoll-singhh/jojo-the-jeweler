@@ -5,7 +5,6 @@ import { ProductCard, Rail } from '../components/Product'
 import { byHandle, metalFilter, money, search, bestSellers, rs } from '../data/catalog'
 import type { Product } from '../data/types'
 import { SAMPLE } from '../data/site'
-import { checkoutUrl } from '../data/shopify'
 import { useCart, useWish, wish } from '../lib/store'
 import { Lines } from './HomeV1'
 
@@ -42,15 +41,14 @@ export function Cart() {
           <li key={l.key}>
             <Link to={'/products/' + l.handle} className="stage"><img {...rs(l.image, '7rem')} style={{ filter: metalFilter(byHandle(l.handle)?.photoMetal, l.options.Metal) }} alt="" /></Link>
             <div><Link to={'/products/' + l.handle}><b>{l.title}</b></Link><p className="small muted">{Object.values(l.options).join(' · ')}</p>
-              <div className="qty"><button aria-label="Decrease quantity" onClick={() => setQty(l.key, l.qty - 1)}><Minus size={14} /></button><span className="num">{l.qty}</span><button aria-label="Increase quantity" onClick={() => setQty(l.key, l.qty + 1)}><Plus size={14} /></button><button className="link small" onClick={() => setQty(l.key, 0)}>Remove</button></div></div>
+              <div className="qty"><button aria-label="Decrease quantity" disabled={l.qty <= 1} onClick={() => setQty(l.key, l.qty - 1)}><Minus size={14} /></button><span className="num">{l.qty}</span><button aria-label="Increase quantity" onClick={() => setQty(l.key, l.qty + 1)}><Plus size={14} /></button><button className="link small" onClick={() => setQty(l.key, 0)}>Remove</button></div></div>
             <b className="num">{money(l.price * l.qty)}</b>
           </li>))}
         </ul>
         <aside className="summary rv">
           <div className="row"><span>Subtotal</span><b className="num">{money(total)}</b></div>
-          <p className="small muted">{SAMPLE.shipping} Taxes and shipping are calculated at checkout.</p>
-          <a className="btn btn--full btn--lg" href={checkoutUrl(lines.map((l) => ({ variantId: l.variantId, qty: l.qty })))}>Checkout</a>
-          <p className="small muted">Checkout runs on Shopify. Until the store is connected, the link opens the existing JoJo store.</p>
+          <p className="small muted">{SAMPLE.shipping} JoJo confirms shipping and payment with you before anything is charged.</p>
+          <Link className="btn btn--full btn--lg" to="/checkout">Checkout</Link>
           <button className="link small" onClick={clear}>Empty the bag</button>
         </aside>
       </div>
@@ -74,5 +72,5 @@ export function Wishlist() {
 
 export function NotFound() {
   useTitle('Not found')
-  return <main id="main" className="page nf wrap"><h1 className="h1"><Lines lines={['That page', 'isn’t here']} /></h1><p className="lede rv">The piece may have sold, or the link is old.</p><div className="rv"><Link className="btn" to="/collections/all">Shop all pieces</Link> <Link className="link" to="/">Home</Link></div></main>
+  return <main id="main" className="page nf wrap"><h1 className="h1"><Lines lines={['That page', 'isn’t here']} /></h1><p className="lede rv">The piece may have sold, or the link is old.</p><div className="rv nf__acts"><Link className="btn" to="/collections/all">Shop all pieces</Link><Link className="link" to="/">Home</Link></div></main>
 }

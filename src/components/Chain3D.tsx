@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
@@ -14,9 +14,12 @@ export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { meta
   const host = useRef<HTMLDivElement>(null)
   const matRef = useRef<THREE.MeshStandardMaterial | null>(null)
   const groupRef = useRef<THREE.Group | null>(null)
+  const [failed, setFailed] = useState(false)
   useEffect(() => {
     const el = host.current!
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' })
+    // no WebGL (old device, blocked GPU, privacy mode): show the photograph instead
+    let renderer: THREE.WebGLRenderer
+    try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' }) } catch { setFailed(true); return }
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05
     el.appendChild(renderer.domElement)
@@ -67,6 +70,7 @@ export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { meta
   }, [])
   useEffect(() => { matRef.current?.color.setHex(COLORS[metal]) }, [metal])
   useEffect(() => { groupRef.current?.scale.setScalar(0.6 + (width - 8) * 0.04) }, [width])
+  if (failed) return <div className={'chain3d chain3d--still ' + className}><img src="/media/products/miami-cuban-link-chain-1-800.webp" alt="Miami Cuban link chain" /></div>
   return <div ref={host} className={'chain3d ' + className} role="img" aria-label="Miami Cuban link chain, drag to rotate" />
 }
 export default Chain3D

@@ -7,7 +7,7 @@
 .hero__media video { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
 .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, oklch(8% 0 0 / .72) 0%, oklch(8% 0 0 / .25) 45%, transparent 75%); }
 .hero__txt { position: relative; z-index: 1; width: 100%; display: grid; gap: 1.375rem; padding-bottom: clamp(3.5rem, 10vh, 7.5rem); padding-top: 50vh; }
-.hero__txt .display { max-width: 9ch; }
+.hero__txt .display .ln > span { white-space: nowrap; }
 .hero__txt .lede { max-width: 36ch; }
 .hero__cta { display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; }
 .hero__cap { position: absolute; right: var(--pad); bottom: 1.25rem; z-index: 1; font-size: .875rem; color: oklch(96% 0.01 85 / .75); }
@@ -23,7 +23,11 @@
 .c3d__stage.is-drag { cursor: grabbing; }
 .c3d__ring { position: absolute; left: 50%; top: 2.5rem; width: var(--w); height: calc(var(--w) * 1.33); margin-left: calc(var(--w) / -2); transform-style: preserve-3d; transition: transform .9s var(--ease-expo); }
 .c3d__stage.is-drag .c3d__ring { transition: none; }
-.c3d__item { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; filter: brightness(calc(.35 + var(--f) * .65)); transition: filter .4s; }
+.c3d__item { position: absolute; inset: 0; display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+/* dimming is an overlay, not filter: a filter on a preserve-3d child flattens it in Safari and shows the backs of the cards */
+.c3d__item::before { content: ''; position: absolute; inset: 0; z-index: 2; background: oklch(8% 0 0); opacity: calc((1 - var(--f)) * .65); transition: opacity .4s; pointer-events: none; }
+.c3d__item.is-away { visibility: hidden; transition: visibility 0s .5s; }
+.c3d__stage.is-drag .c3d__item.is-away { visibility: visible; }
 .c3d__item img { pointer-events: none; }
 .c3d__item::after { content: ''; position: absolute; inset: 55% 0 0; background: linear-gradient(to top, oklch(8% 0 0 / .65), transparent); }
 .c3d__t { position: absolute; left: 0.875rem; right: 0.875rem; bottom: 0.75rem; z-index: 1; display: grid; color: oklch(96% 0.01 85); font-family: var(--fd); font-weight: var(--fd-wght); font-variation-settings: 'wdth' var(--fd-wdth); letter-spacing: var(--fd-ls); text-transform: var(--fd-case); font-size: clamp(1.375rem, 2.4vw, 2rem); line-height: 1; }

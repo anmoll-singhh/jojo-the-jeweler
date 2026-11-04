@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Minus, Plus } from '@phosphor-icons/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTitle } from '../lib/seo'
-import { reduced } from '../lib/motion'
+import { getLenis, reduced } from '../lib/motion'
 import { Video } from '../components/Media'
 import { Shutter } from '../components/Shutter'
-import { BRAND, CLIENTS, FAQ, PROCESS, SAMPLE } from '../data/site'
+import { BRAND, CLIENTS, FAQ, PROCESS, SAMPLE, SIZING } from '../data/site'
 import { HERO_REEL, IG_PROFILE, LIFESTYLE, PIECES, STORE_PHOTOS } from '../data/content'
 import { Lines } from './HomeV1'
 gsap.registerPlugin(ScrollTrigger)
@@ -21,7 +21,18 @@ gsap.registerPlugin(ScrollTrigger)
 export function About() {
   useTitle('About JoJo')
   const root = useRef<HTMLElement>(null)
-  useEffect(() => { const id = location.hash.slice(1); if (id) setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 500) }, [])
+  const { hash } = useLocation()
+  // /about#shipping etc.: wait for the pinned sections to measure, then scroll past them to the target
+  useEffect(() => {
+    const id = hash.slice(1); if (!id) return
+    const t = setTimeout(() => {
+      const el = document.getElementById(id); if (!el) return
+      ScrollTrigger.refresh()
+      const y = el.getBoundingClientRect().top + scrollY - ((document.querySelector('.nav') as HTMLElement | null)?.offsetHeight ?? 64) - 24
+      const l = getLenis(); if (l) l.scrollTo(y, { duration: 1.1 }); else scrollTo({ top: y, behavior: reduced() ? 'auto' : 'smooth' })
+    }, 700)
+    return () => clearTimeout(t)
+  }, [hash])
   useEffect(() => {
     if (reduced()) return
     const ctx = gsap.context(() => {
@@ -105,9 +116,9 @@ export function About() {
           <div id="shipping"><h3>Shipping</h3><p>{SAMPLE.shipping}</p></div>
           <div id="returns"><h3>Returns</h3><p>{SAMPLE.returns}</p></div>
           <div id="warranty"><h3>Warranty</h3><p>{SAMPLE.warranty}</p></div>
-          <div id="sizing"><h3>Sizing</h3><p>Chains: 18" sits at the collarbone, 20" just below, 22" mid-chest, 24" and 26" for pendants. Bracelets: measure the wrist and add half an inch. Rings: US sizes; text a photo of a ring that fits and JoJo will size it.</p></div>
+          <div id="sizing"><h3>Sizing</h3><p>{SIZING.join(' ')}</p></div>
         </div>
-        <p className="sample">Shipping, returns and warranty wording is sample copy for the client to confirm.</p>
+        <p className="sample">Sample wording: JoJo confirms shipping, returns and warranty terms with every order.</p>
       </section>
 
       <section className="faq wrap" id="faq">

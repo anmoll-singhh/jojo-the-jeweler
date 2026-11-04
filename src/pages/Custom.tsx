@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
-import { ArrowLeft, ArrowRight, Check, Copy, ImageSquare, X } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, Check, ImageSquare, X } from '@phosphor-icons/react'
+import { SendPanel, deliver, validPhone, type SendMode } from '../components/SendPanel'
 import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { BRAND, PROCESS } from '../data/site'
@@ -29,8 +30,7 @@ export function Custom() {
   const [f, setF] = useState<F>(load)
   const [step, setStep] = useState(0)
   const [err, setErr] = useState('')
-  const [sent, setSent] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [sent, setSent] = useState<SendMode | null>(null)
   const set = (p: Partial<F>) => { const n = { ...f, ...p }; setF(n); setErr(''); try { const { refs: _r, ...rest } = n; void _r; localStorage.setItem(KEY, JSON.stringify(rest)) } catch { /* private mode */ } }
   const steps = ['The piece', 'The idea', 'You', 'Send']
   const check = (s: number) => {
@@ -39,7 +39,8 @@ export function Custom() {
     if (s === 1 && f.idea.trim().length < 10) return 'Tell JoJo a little more about the idea (a sentence is enough).'
     if (s === 1 && !f.budget) return 'Pick a budget range, or “I’d like a quote first”.'
     if (s === 2 && !f.name.trim()) return 'Add your name.'
-    if (s === 2 && !/^[+\d][\d\s().-]{6,}$/.test(f.phone.trim())) return 'Add a phone number JoJo can text.'
+    if (s === 1 && f.date && f.date < new Date().toISOString().slice(0, 10)) return 'Pick a date from today on, or leave it empty.'
+    if (s === 2 && !validPhone(f.phone)) return 'Add a phone number JoJo can text, with area code.'
     if (s === 2 && f.reach === 'Email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) return 'Add an email, or pick another way to reach you.'
     if (s === 2 && f.reach === 'Instagram DM' && !f.ig.trim()) return 'Add your Instagram handle, or pick another way to reach you.'
     return ''
@@ -57,12 +58,7 @@ export function Custom() {
     f.refs.length > 0 && `References: ${f.refs.length} photo${f.refs.length > 1 ? 's' : ''} (attaching next)`,
     `Reach me by ${f.reach.toLowerCase()}: ${f.phone}${f.email ? ` · ${f.email}` : ''}${f.ig ? ` · IG ${f.ig}` : ''}`,
   ].filter(Boolean).join('\n'), [f])
-  const send = () => {
-    const body = encodeURIComponent(message)
-    location.href = BRAND.email ? `mailto:${BRAND.email}?subject=${encodeURIComponent('Custom inquiry — ' + f.name)}&body=${body}` : `${BRAND.smsHref}?&body=${body}`
-    setSent(true)
-  }
-  const copy = async () => { try { await navigator.clipboard.writeText(message); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* no clipboard */ } }
+  const send = () => setSent(deliver(message, 'Custom inquiry — ' + f.name))
   const film = PIECES[1]
 
   return (
@@ -70,18 +66,12 @@ export function Custom() {
       <section className="cu-top wrap" id="inquiry">
         <div className="cu-intro">
           <h1 className="h1"><Lines lines={['Custom, the', 'JoJo way']} /></h1>
-          <p className="lede rv">Three short steps. The quote and consultation are free; JoJo replies with a price and a sketch before anything is made.</p>
+          <p className="lede rv">Three short steps, then check and send. The quote and consultation are free; JoJo replies with a price and a sketch before anything is made.</p>
         </div>
 
         <div className="cu-form">
           {sent ? (
-            <div className="cu-done">
-              <span className="cu-done__ic"><Check size={28} weight="bold" /></span>
-              <h2 className="h3">Your message is ready in {BRAND.email ? 'your email' : 'Messages'}</h2>
-              <p>Send it, then attach your reference photos in the same thread. JoJo replies with a quote and a sketch.</p>
-              <div className="cu-done__acts"><button className="btn btn--ghost" onClick={copy}><Copy size={18} /> {copied ? 'Copied' : 'Copy the message'}</button><a className="btn btn--ghost" href={`https://ig.me/m/${BRAND.handle.slice(1)}`} target="_blank" rel="noreferrer">Send on Instagram instead</a></div>
-              <button className="link small" onClick={() => { setSent(false); setStep(0); set(EMPTY) }}>Start another inquiry</button>
-            </div>
+            <SendPanel mode={sent} message={message} onBack={() => { setSent(null); setStep(3) }} onReset={() => { setSent(null); setStep(0); set(EMPTY) }} />
           ) : (
             <form onSubmit={next} noValidate aria-label="Custom inquiry">
               <ol className="cu-steps" aria-label="Steps">{steps.map((s, i) => <li key={s} className={(i === step ? 'on' : '') + (i < step ? ' done' : '')}><button type="button" disabled={i > step} onClick={() => i < step && setStep(i)} aria-current={i === step ? 'step' : undefined}><span className="num">{i < step ? <Check size={12} weight="bold" /> : i + 1}</span>{s}</button></li>)}</ol>
@@ -131,7 +121,7 @@ export function Custom() {
               <div className="cu-nav">
                 {step > 0 && <button type="button" className="btn btn--ghost" onClick={() => setStep(step - 1)}><ArrowLeft size={18} /> Back</button>}
                 {step < 3 ? <button className="btn btn--lg">{step === 2 ? 'Review' : 'Next'} <ArrowRight size={18} /></button>
-                  : <button type="button" className="btn btn--lg btn--accent" onClick={send}>Send to JoJo by {BRAND.email ? 'email' : 'text'}</button>}
+                  : <button type="button" className="btn btn--lg btn--accent" onClick={send}>Send to JoJo</button>}
               </div>
               <p className="small muted">Rather talk? Text a picture of the reference to <a className="link" href={BRAND.smsHref}>{BRAND.phone}</a>.</p>
             </form>

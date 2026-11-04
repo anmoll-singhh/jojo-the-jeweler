@@ -12,6 +12,7 @@ import { reduced } from '../lib/motion'
 import { useCart } from '../lib/store'
 import { Lines } from './HomeV1'
 import type { Metal } from '../components/Chain3D'
+import { Boundary } from '../components/Boundary'
 
 const Chain3D = lazy(() => import('../components/Chain3D'))
 gsap.registerPlugin(ScrollTrigger)
@@ -106,7 +107,7 @@ function Chain() {
   const v = findVariant(p, sel)
   return (
     <section className="v2-chain" ref={ref}>
-      <div className="v2-chain__stage">{ready && <Suspense fallback={null}><Chain3D metal={metal} width={parseInt(width)} /></Suspense>}</div>
+      <div className="v2-chain__stage">{ready && <Boundary fallback={<img className="chain3d--still" src="/media/products/miami-cuban-link-chain-1-800.webp" alt="Miami Cuban link chain" />}><Suspense fallback={null}><Chain3D metal={metal} width={parseInt(width)} /></Suspense></Boundary>}</div>
       <div className="v2-chain__ui wrap">
         <h2 className="h2"><Lines lines={['Turn it', 'over']} /></h2>
         <p className="rv">Drag the chain. Pick the gold. Built in the browser, so it is a model, not the piece; the real one is on 47th Street.</p>

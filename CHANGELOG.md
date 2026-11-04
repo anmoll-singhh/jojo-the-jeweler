@@ -13,6 +13,17 @@
 - Contact: rebuilt with the number as the headline, the current New York time against store hours, Text / Call / Instagram DM / Directions, a topic-based form (with a watch field for selling), a map, store facts, and the store's four-step sell-a-watch process.
 - Tests: Firefox and WebKit projects; new tests for the metal preview, reviews, phone menu, homepage order, custom and contact forms, About, and image retry.
 
+### Fixed after a blind QA pass (an agent given only the URL)
+- Checkout no longer dead-ends on the locked Shopify store: `/checkout` collects name, phone, delivery or pick-up and a payment preference and sends the order to JoJo as a text (or email). With the Storefront API connected it hands straight to Shopify checkout. "Buy now" adds the piece and goes there.
+- Forms (custom, contact, checkout) never claim a message was sent: the visitor's own app sends it, and the panel offers copy, Instagram DM and call as fallbacks; on a desktop it shows the text to send from a phone. Phone numbers and dates are validated.
+- Shop: price filter keys fixed (checkboxes and counts were wrong), zero-result message spans the grid, unknown collections show the 404.
+- Keyboard: bag drawer, phone menu and filter sheet keep focus inside, close on Escape and hand focus back; option pills and metal swatches move with the arrow keys. Escape during the add-to-bag animation stops the drawer opening; the animation is shorter.
+- Safari: the 3D carousel no longer shows card backs (dimming is an overlay, cards facing away are hidden). Firefox: hero headline holds two lines.
+- About anchors (/about#shipping …) land on the section after the pinned chapters measure. The PDP size guide opens in a dialog instead of leaving the page.
+- 320px: wordmark hides under 352px so the bag icon stays clear; contact number scales down.
+- The V2 3D chain falls back to a photograph without WebGL; a render error now shows a recovery page instead of a blank screen.
+- Copy: sample notes reworded for customers, not developers; newsletter no longer says "On the list" when nothing is sent; spec label "Material"; absolute og:image; plural on the bag label; minus disabled at quantity 1; sticky add bar no longer covers the footer on phones; nav keeps a soft scrim over bright footage.
+
 ## 2026-11-04 (review round 1)
 
 ### Changed
