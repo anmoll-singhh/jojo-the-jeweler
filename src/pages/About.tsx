@@ -29,8 +29,9 @@ export function About() {
       const el = document.getElementById(id); if (!el) return
       ScrollTrigger.refresh()
       const y = el.getBoundingClientRect().top + scrollY - ((document.querySelector('.nav') as HTMLElement | null)?.offsetHeight ?? 64) - 24
-      const l = getLenis(); if (l) l.scrollTo(y, { duration: 1.1 }); else scrollTo({ top: y, behavior: reduced() ? 'auto' : 'smooth' })
-    }, 700)
+      // jump (a smooth scroll from the top would be cut off by the pinned shutter re-measuring)
+      const l = getLenis(); if (l) l.scrollTo(y, { immediate: true, force: true }); else scrollTo({ top: y, behavior: 'instant' as ScrollBehavior })
+    }, 1000)
     return () => clearTimeout(t)
   }, [hash])
   useEffect(() => {
