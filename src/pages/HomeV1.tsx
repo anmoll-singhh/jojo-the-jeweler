@@ -5,7 +5,7 @@ import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, OptionPicker, ProductCard } from '../components/Product'
 import { Carousel3D } from '../components/Carousel3D'
-import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVariant, inCollection, money, newest, products } from '../data/catalog'
+import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVariant, inCollection, metalFilter, money, newest, products, rs } from '../data/catalog'
 import { BRAND } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
@@ -17,11 +17,11 @@ export default function HomeV1() {
   useTitle('')
   return (
     <main id="main" className="home">
-      {/* Order: what it is → browse by piece → the pieces → price one → have one made → who wears it → where to buy it */}
+      {/* Order: what it is → browse by piece → price the signature chain → the pieces → have one made → who wears it → where to buy it. Each section is sized to one screen. */}
       <Hero />
       <ShopByPiece />
-      <Picks />
       <CubanBuilder />
+      <Picks />
       <CustomWork />
       <Proof />
       <Showroom />
@@ -52,7 +52,7 @@ function ShopByPiece() {
     .filter((t) => t.c && t.p)
     .map(({ c, p }) => ({ key: c!.handle, href: '/collections/' + c!.handle, title: c!.title, sub: `${c!.products.length} ${c!.products.length === 1 ? 'piece' : 'pieces'}`, img: p!.images[0].src }))
   return (
-    <section className="sbp">
+    <section className="sbp screen">
       <div className="wrap sbp__head"><h2 className="h2"><Lines lines={['Shop by piece']} /></h2><p className="muted rv">Solid gold, stamped. Natural VS diamonds on anything iced. Drag to turn.</p></div>
       <Carousel3D items={items} label="Shop by piece" />
     </section>
@@ -69,7 +69,7 @@ function Picks() {
   ] as const, [])
   const [i, setI] = useState(0)
   return (
-    <section className="picks wrap">
+    <section className="picks screen wrap">
       <div className="rail__head"><h2 className="h2"><Lines lines={['The pieces']} /></h2>
         <div className="tabs rv" role="tablist" aria-label="Pick a set">{sets.map(([t], k) => <button key={t} role="tab" aria-selected={i === k} onClick={() => setI(k)}>{t}</button>)}</div>
       </div>
@@ -79,23 +79,22 @@ function Picks() {
   )
 }
 
-/* 5 · Custom work: the four real pieces as a pinned horizontal scroll on desktop, a stack on phone. */
+/* 5 · Custom work: intro pinned on the left while the four films slide past (desktop); a swipe rail on phone. */
 function CustomWork() {
   return (
-    <section className="look">
+    <section className="look screen">
       <div className="look__pin">
+        <div className="look__intro">
+          <h2 className="h2"><Lines lines={['Custom work']} /></h2>
+          <p className="lede rv">When the piece doesn’t exist yet, JoJo makes it: sketch, mold, then polish and inspection.</p>
+          <Link className="btn rv" to="/custom">Start yours</Link>
+        </div>
         <div className="look__track">
-          <div className="look__intro">
-            <h2 className="h2"><Lines lines={['Custom work']} /></h2>
-            <p className="lede rv">When the piece doesn’t exist yet, JoJo makes it: sketch, mold, then polish and inspection. Four from his bench.</p>
-            <Link className="btn rv" to="/custom">Start yours</Link>
-          </div>
           {PIECES.map((p) => (
             <figure key={p.id} className="look__item">
               <div className="stage"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
               <figcaption><b>{p.title}</b><span>{p.line}</span></figcaption>
             </figure>))}
-          <div className="look__end"><Link className="btn btn--ghost" to="/custom">See the process <ArrowRight size={16} /></Link></div>
         </div>
       </div>
     </section>
@@ -114,9 +113,9 @@ function CubanBuilder() {
   // Sample weight model: 48 g at 8mm × 18", scaling with the square of width and with length.
   const grams = Math.round(48 * (width / 8) ** 2 * (len / 18))
   return (
-    <section className="field builder">
+    <section className="field builder screen">
       <div className="wrap builder__in">
-        <div className="builder__img stage clip"><img src={p.images[0].src} alt={p.title} loading="lazy" /></div>
+        <div className="builder__img stage clip"><img {...rs(p.images[0].src, '(min-width: 56.25em) 40vw, 100vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt={`${p.title} in ${sel.Metal?.toLowerCase()}`} loading="lazy" /></div>
         <div className="builder__ui" ref={stage}>
           <h2 className="h2"><Lines lines={['Price your', 'Cuban']} /></h2>
           <p className="rv">Pick the metal, karat, width and length. The price and the weight change as you go.</p>
@@ -144,7 +143,7 @@ function Proof() {
         <h2 className="h2"><Lines lines={['Who wears it']} /></h2>
         <p className="lede rv">Recent custom work and the people wearing it, from JoJo’s Instagram, with his captions.</p>
       </div>
-      <div className="proof__grid">
+      <div className="proof__grid rail-m">
         {PROOF_POSTS.slice(0, 5).map((x, i) => (
           <a key={x.code} href={x.post.url} target="_blank" rel="noreferrer" className={'proof__item' + (i === 0 ? ' proof__item--big' : '')}>
             <span className="stage"><img src={x.post.images[0].src} alt={x.title} loading="lazy" /></span>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { rs } from '../data/catalog'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 
@@ -57,7 +58,7 @@ export function Carousel3D({ items: src, label }: { items: C3DItem[]; label: str
                 style={{ transform: `rotateY(${i * step}deg) translateZ(${radius}px)`, ['--f' as string]: Math.max(0, facing).toFixed(3) }}
                 aria-hidden={away} tabIndex={isFront ? 0 : -1}
                 onClick={(e) => { if (st.current.moved) { e.preventDefault(); return } if (!isFront) { e.preventDefault(); bring(i) } }}>
-                <img src={it.img} alt="" draggable={false} loading={Math.abs(rel) < 100 ? 'eager' : 'lazy'} />
+                <img {...rs(it.img, '(min-width: 56.25em) 22rem, 56vw')} alt="" draggable={false} loading={Math.abs(rel) < 100 ? 'eager' : 'lazy'} />
                 <span className="c3d__t">{it.title}<small className="num">{it.sub}</small></span>
               </Link>)
           })}

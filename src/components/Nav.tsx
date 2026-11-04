@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Handbag, Heart, List, MagnifyingGlass, X, ArrowUpRight, CaretDown } from '@phosphor-icons/react'
+import { Handbag, Heart, List, MagnifyingGlass, X, ArrowUpRight, CaretDown, Plus } from '@phosphor-icons/react'
 import { useCart, useWish } from '../lib/store'
 import { getLenis } from '../lib/motion'
 import { BRAND, NAV } from '../data/site'
-import { collections, inCollection } from '../data/catalog'
+import { collections, inCollection, rs } from '../data/catalog'
 import { Logo } from './Logo'
 import { SearchOverlay } from './SearchOverlay'
 import { CartDrawer } from './CartDrawer'
@@ -23,6 +23,7 @@ export function Nav({ over = false }: { over?: boolean }) {
   const [search, setSearch] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [shop, setShop] = useState(false)
+  const [shopOpen, setShopOpen] = useState(true)
   const shut = useRef<number | undefined>(undefined)
   const closeBtn = useRef<HTMLButtonElement>(null)
   const openShop = () => { clearTimeout(shut.current); setShop(true) }
@@ -53,7 +54,7 @@ export function Nav({ over = false }: { over?: boolean }) {
                     {NAV.shop.map(([t, h]) => { const c = collections.find((x) => x.handle === h.split('/').pop()); return <li key={h}><Link to={h} onClick={() => setShop(false)}>{t}{c && <span className="num">{c.products.length}</span>}</Link></li> })}
                   </ul>
                   <div className="mega__feat">
-                    {feature.filter((f) => f.p).slice(0, 3).map((f) => <Link key={f.h} to={f.h} className="stage" onClick={() => setShop(false)}><img src={f.p!.images[0].src} alt="" loading="lazy" /><span>{f.t}</span></Link>)}
+                    {feature.filter((f) => f.p).slice(0, 3).map((f) => <Link key={f.h} to={f.h} className="stage" onClick={() => setShop(false)}><img {...rs(f.p!.images[0].src, '20vw')} alt="" loading="lazy" /><span>{f.t}</span></Link>)}
                   </div>
                 </div>
               </div>
@@ -73,17 +74,24 @@ export function Nav({ over = false }: { over?: boolean }) {
       <div className={'menu' + (menu ? ' open' : '')} role="dialog" aria-modal="true" aria-label="Menu" aria-hidden={!menu} inert={!menu} data-lenis-prevent>
         <div className="menu__top"><Logo /><button ref={closeBtn} className="icon" aria-label="Close menu" onClick={() => setMenu(false)}><X size={26} /></button></div>
         <div className="menu__body">
-          <nav className="menu__main" aria-label="Shop">
-            {NAV.shop.map(([t, h], i) => <Link key={h} to={h} style={{ ['--i' as string]: i }}>{t}<span className="num">{collections.find((c) => c.handle === h.split('/').pop())?.products.length ?? ''}</span></Link>)}
+          <nav className="menu__main" aria-label="Menu">
+            <button className="menu__a menu__acc" aria-expanded={shopOpen} aria-controls="menu-shop" onClick={() => setShopOpen(!shopOpen)} style={{ ['--i' as string]: 0 }}>Shop <Plus size={22} className={shopOpen ? 'rot' : ''} /></button>
+            <div id="menu-shop" className={'menu__sub' + (shopOpen ? ' open' : '')} inert={!shopOpen}>
+              <div>
+                {NAV.shop.map(([t, h]) => <Link key={h} to={h}>{t}<span className="num">{collections.find((c) => c.handle === h.split('/').pop())?.products.length ?? ''}</span></Link>)}
+                <div className="menu__feat">
+                  {feature.filter((f) => f.p).slice(0, 2).map((f) => <Link key={f.h} to={f.h} className="stage"><img {...rs(f.p!.images[0].src, '20vw')} alt="" loading="lazy" /><span>{f.t}</span></Link>)}
+                </div>
+              </div>
+            </div>
+            {[['Custom', '/custom'], ['About', '/about'], ['Contact', '/contact']].map(([t, h], i) => <Link key={h} to={h} className="menu__a" style={{ ['--i' as string]: i + 1 }}>{t}</Link>)}
           </nav>
           <nav className="menu__more" aria-label="More">
-            {NAV.more.map(([t, h], i) => <Link key={h} to={h} style={{ ['--i' as string]: i + 6 }}>{t}</Link>)}
-            <Link to="/wishlist" style={{ ['--i' as string]: 9 }}>Wishlist{wl.length > 0 && <span className="num"> {wl.length}</span>}</Link>
-            <a href={BRAND.instagram} target="_blank" rel="noreferrer" style={{ ['--i' as string]: 10 }}>Instagram <ArrowUpRight size={16} /></a>
+            <Link to="/wishlist" style={{ ['--i' as string]: 5 }}>Wishlist{wl.length > 0 && <span className="num"> {wl.length}</span>}</Link>
+            <Link to="/search" style={{ ['--i' as string]: 6 }}>Search</Link>
+            <a href={BRAND.instagram} target="_blank" rel="noreferrer" style={{ ['--i' as string]: 7 }}>Instagram <ArrowUpRight size={16} /></a>
+            <a href={BRAND.smsHref} style={{ ['--i' as string]: 8 }}>Text {BRAND.phone}</a>
           </nav>
-          <div className="menu__feat">
-            {feature.filter((f) => f.p).map((f, i) => <Link key={f.h} to={f.h} className="stage" style={{ ['--i' as string]: i + 2 }}><img src={f.p!.images[0].src} alt="" loading="lazy" /><span>{f.t}</span></Link>)}
-          </div>
         </div>
       </div>
       {search && <SearchOverlay close={() => setSearch(false)} />}

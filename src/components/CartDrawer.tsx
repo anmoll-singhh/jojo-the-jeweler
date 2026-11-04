@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Minus, Plus, X } from '@phosphor-icons/react'
 import { useCart } from '../lib/store'
-import { money } from '../data/catalog'
+import { byHandle, metalFilter, money, rs } from '../data/catalog'
 import { checkoutUrl } from '../data/shopify'
 import { SAMPLE } from '../data/site'
 
@@ -24,7 +24,7 @@ export function CartDrawer() {
           <>
             <ul className="lines">{lines.map((l) => (
               <li key={l.key}>
-                <Link to={'/products/' + l.handle} onClick={() => setOpen(false)} className="stage"><img src={l.image} alt="" /></Link>
+                <Link to={'/products/' + l.handle} onClick={() => setOpen(false)} className="stage"><img {...rs(l.image, '6rem')} style={{ filter: metalFilter(byHandle(l.handle)?.photoMetal, l.options.Metal) }} alt="" /></Link>
                 <div>
                   <Link to={'/products/' + l.handle} onClick={() => setOpen(false)}><b>{l.title}</b></Link>
                   <p className="small muted">{Object.values(l.options).join(' · ')}</p>

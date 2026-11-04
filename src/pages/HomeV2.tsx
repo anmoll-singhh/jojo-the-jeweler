@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTitle } from '../lib/seo'
 import { Video } from '../components/Media'
 import { AddButton, ProductCard } from '../components/Product'
-import { bestSellers, byHandle, findVariant, money } from '../data/catalog'
+import { bestSellers, byHandle, findVariant, money, rs } from '../data/catalog'
 import { BRAND, CLIENTS } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { reduced } from '../lib/motion'
@@ -79,7 +79,7 @@ function WidthWall() {
             const grams = Math.round(48 * (parseInt(w) / 8) ** 2 * (22 / 18))
             return (
               <article key={w} className="v2-stop" style={{ ['--s' as string]: 0.62 + i * 0.13 }}>
-                <div className="v2-stop__img"><img src={p.images[0].src} alt="" loading="lazy" /></div>
+                <div className="v2-stop__img"><img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} alt="" loading="lazy" /></div>
                 <div className="v2-stop__num" aria-hidden="true">{w}</div>
                 <div className="v2-stop__meta"><b className="num">{money(v.price.amount)}</b><span className="num">≈ {grams} g</span><Link className="link" to={`/products/${p.handle}`}>{w} Cuban</Link></div>
               </article>)

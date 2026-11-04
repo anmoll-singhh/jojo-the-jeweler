@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MagnifyingGlass, X } from '@phosphor-icons/react'
-import { search, fromPrice, collections } from '../data/catalog'
+import { search, fromPrice, collections, rs } from '../data/catalog'
 
 export function SearchOverlay({ close }: { close: () => void }) {
   const [q, setQ] = useState('')
@@ -25,7 +25,7 @@ export function SearchOverlay({ close }: { close: () => void }) {
         <div className="search__res">
           {!q && <div className="search__hints">{collections.filter((c) => c.handle !== 'all').map((c) => <Link key={c.handle} to={'/collections/' + c.handle} className="btn btn--ghost">{c.title}</Link>)}</div>}
           {q && !res.length && <p className="lede">Nothing matches “{q}”. <Link className="link" to="/contact">Ask for a custom piece.</Link></p>}
-          {res.map((p) => <Link key={p.handle} to={'/products/' + p.handle} className="sres"><span className="stage"><img src={p.images[0].src} alt="" loading="lazy" /></span><span>{p.title}</span><span className="muted num">{fromPrice(p)}</span></Link>)}
+          {res.map((p) => <Link key={p.handle} to={'/products/' + p.handle} className="sres"><span className="stage"><img {...rs(p.images[0].src, '5rem')} alt="" loading="lazy" /></span><span>{p.title}</span><span className="muted num">{fromPrice(p)}</span></Link>)}
           {q && res.length > 0 && <button className="link" onClick={go}>All results for “{q}”</button>}
         </div>
       </div>

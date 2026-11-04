@@ -4,7 +4,9 @@ import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, CaretDown, Heart, Ruler } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
 import { AddButton, OptionPicker, Qty, Rail, RecentlyViewed } from '../components/Product'
-import { byHandle, collectionByHandle, defaultSelection, findVariant, money, related } from '../data/catalog'
+import { byHandle, chosenMetal, collectionByHandle, defaultSelection, findVariant, metalFilter, money, related, rs } from '../data/catalog'
+import { SAMPLE_REVIEWS, rating, reviewsFor } from '../data/reviews'
+import { Stars } from '../components/Stars'
 import { BRAND, SAMPLE } from '../data/site'
 import { checkoutUrl } from '../data/shopify'
 import { recent, useCart, useWish, wish } from '../lib/store'
@@ -42,11 +44,14 @@ function ProductView({ p }: { p: Product }) {
     g.addEventListener('scroll', f, { passive: true }); return () => g.removeEventListener('scroll', f)
   }, [p.handle])
   const v = findVariant(p, sel)
+  const metal = chosenMetal(p, sel)
+  const tint = metalFilter(p.photoMetal, metal)
+  const previewing = tint !== 'none'
   const images = v.image ? [v.image, ...p.images.filter((i) => i.src !== v.image!.src)] : p.images
   const on = w.includes(p.handle)
   const col = collectionByHandle(p.collections[0])
   const madeToOrder = p.specs.some((s) => /lead time/i.test(s.label)) || p.tags.includes('custom')
-  const toBag = () => add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: images[0].src }, stage.current, qty)
+  const toBag = () => add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: images[0].src }, stage.current?.querySelector('img') ?? stage.current, qty)
   const label = v.availableForSale ? `Add to bag · ${money(v.price.amount * qty)}` : 'Sold out'
   const show = (i: number) => { setImg(i); galleryRef.current?.scrollTo({ left: i * galleryRef.current.clientWidth, behavior: 'smooth' }) }
   return (
@@ -54,8 +59,9 @@ function ProductView({ p }: { p: Product }) {
       <div className="pdp__main">
         <div className="gallery">
           <div className="gallery__track" ref={galleryRef} tabIndex={0} aria-label="Product images">
-            {images.map((im, i) => <div key={im.src} className="stage gallery__slide" ref={i === 0 ? stage : undefined} style={i === 0 ? { viewTransitionName: 'pimg' } : undefined}><img src={im.src} alt={im.alt || p.title} loading={i ? 'lazy' : 'eager'} fetchPriority={i ? 'auto' : 'high'} /></div>)}
+            {images.map((im, i) => <div key={im.src} className="stage gallery__slide" ref={i === 0 ? stage : undefined} style={i === 0 ? { viewTransitionName: 'pimg' } : undefined}><img {...rs(im.src, '(min-width: 56.25em) 58vw, 100vw')} style={{ filter: tint }} alt={im.alt || p.title} loading={i ? 'lazy' : 'eager'} fetchPriority={i ? 'auto' : 'high'} /></div>)}
           </div>
+          {previewing && <p className="gallery__note small">Colour preview of {metal?.toLowerCase()}. Photographed in {p.photoMetal?.toLowerCase()}.</p>}
           {images.length > 1 && <>
             <div className="gallery__dots only-m" aria-hidden="true">{images.map((_, i) => <i key={i} className={i === img ? 'on' : ''} />)}</div>
             <div className="gallery__ui only-d"><button className="icon" aria-label="Previous image" onClick={() => show((img - 1 + images.length) % images.length)}><ArrowLeft size={20} /></button><span className="num">{img + 1} / {images.length}</span><button className="icon" aria-label="Next image" onClick={() => show((img + 1) % images.length)}><ArrowRight size={20} /></button></div>
@@ -64,6 +70,7 @@ function ProductView({ p }: { p: Product }) {
         <div className="buy">
           <nav className="crumbs" aria-label="Breadcrumb"><Link to="/collections/all">Shop</Link>{col && <><span>/</span><Link to={'/collections/' + col.handle}>{col.title}</Link></>}</nav>
           <h1 className="h2">{p.title}</h1>
+          {SAMPLE_REVIEWS && <a className="buy__stars" href="#reviews"><Stars value={rating(p).stars} /><span className="num">{rating(p).stars.toFixed(1)}</span><span className="muted">{rating(p).count} reviews · sample</span></a>}
           <p className="buy__price"><span className="num">{money(v.price.amount)}</span>{v.compareAtPrice && v.compareAtPrice.amount > v.price.amount && <s className="muted num">{money(v.compareAtPrice.amount)}</s>}<span className="muted small">{madeToOrder ? 'Made to order' : 'Ready to ship'}</span></p>
           <p className="buy__desc">{p.description}</p>
           <div className="buy__opts"><OptionPicker p={p} sel={sel} setSel={setSel} /></div>
@@ -82,10 +89,11 @@ function ProductView({ p }: { p: Product }) {
           {p.sample && <p className="sample">Sample listing. Prices, specs and photography are placeholders for the client to confirm.</p>}
         </div>
       </div>
+      {SAMPLE_REVIEWS && <Reviews p={p} />}
       <Rail title="Goes with it" items={related(p, 4)} />
       <RecentlyViewed skip={p.handle} />
       <div className={'sticky' + (sticky ? ' show' : '')} aria-hidden={!sticky} inert={!sticky}>
-        <img src={images[0].src} alt="" />
+        <img {...rs(images[0].src, '4rem')} style={{ filter: tint }} alt="" />
         <span><b>{p.title}</b><small className="muted">{Object.values(sel).join(' · ')}</small></span>
         <AddButton label={`Add · ${money(v.price.amount * qty)}`} disabled={!v.availableForSale} onAdd={() => { if (!v.availableForSale) return false; toBag() }} />
       </div>
@@ -95,4 +103,22 @@ function ProductView({ p }: { p: Product }) {
 
 function Acc({ title, children, open = false }: { title: string; children: React.ReactNode; open?: boolean }) {
   return <details className="acc" open={open}><summary>{title}<CaretDown size={16} /></summary><div className="acc__body">{children}</div></details>
+}
+
+/** Sample reviews, labelled as such (see src/data/reviews.ts). */
+function Reviews({ p }: { p: Product }) {
+  const r = rating(p)
+  const list = reviewsFor(p)
+  return (
+    <section className="reviews wrap" id="reviews" aria-labelledby="reviews-h">
+      <div className="reviews__head">
+        <h2 className="h2" id="reviews-h">Reviews</h2>
+        <p className="reviews__score"><span className="num">{r.stars.toFixed(1)}</span><Stars value={r.stars} size={20} /><span className="muted">{r.count} reviews</span></p>
+        <p className="sample">Sample reviews for layout only. Real reviews appear here once a Shopify reviews app is connected.</p>
+      </div>
+      <ul className="reviews__list rv-group">
+        {list.map((x) => <li key={x.title}><Stars value={x.stars} size={14} /><b>{x.title}</b><p>{x.body}</p><small className="muted">{x.name} · {x.when}</small></li>)}
+      </ul>
+    </section>
+  )
 }

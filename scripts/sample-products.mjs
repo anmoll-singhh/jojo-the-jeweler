@@ -149,5 +149,8 @@ const collections = [
   ['best-sellers', 'Best sellers', 'The pieces that leave 47th Street most often.'],
 ].map(([handle, title, description]) => ({ id: 'col-' + handle, handle, title, description, image: null, products: [] }))
 
+// The metal each sample photo was generated in (see the prompts in CHANGELOG): drives the colour preview.
+const PHOTO_METAL = { 'iced-cuban-link-chain': 'Rose gold', 'baguette-letter-pendant': 'Rose gold', 'money-bag-pendant': 'Rose gold', 'iced-letter-ring': 'Rose gold', 'gem-monogram-pendant': 'White gold', 'tennis-bracelet': 'White gold', 'diamond-studs': 'White gold', 'iced-watch-bust-down': 'White gold' }
+for (const p of products) p.photoMetal = PHOTO_METAL[p.handle] ?? 'Yellow gold'
 writeFileSync('content/catalog.sample.json', JSON.stringify({ products, collections }, null, 1) + '\n')
 console.log(`sample: ${products.length} products, ${products.reduce((s, p) => s + p.variants.length, 0)} variants`)

@@ -58,7 +58,8 @@ export function useRouteMotion() {
           gsap.fromTo(el, { yPercent: -4 }, { yPercent: 4, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } }))
         const track = document.querySelector<HTMLElement>('main .look__track')
         if (track && matchMedia('(min-width: 900px)').matches) {
-          const dist = () => track.scrollWidth - innerWidth
+          // distance = how far the track's content overflows its own box (the box may sit beside a pinned intro)
+          const dist = () => Math.max(0, track.scrollWidth - track.clientWidth)
           gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.look__pin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.5, invalidateOnRefresh: true, anticipatePin: 1 } })
         }
       })
@@ -87,14 +88,28 @@ export function useMagnetic() {
   }, [])
 }
 
-/** Image stages shimmer until their <img> has decoded. */
+/**
+ * Image stages shimmer until their <img> has decoded. A failed load (a dropped request on a mobile
+ * connection) is retried once after a short wait, without the srcset so the browser takes the plain
+ * file; a second failure hides the broken-image icon and leaves the dark stage in place.
+ */
 export function useImageSkeletons() {
   useEffect(() => {
     const mark = (img: HTMLImageElement) => img.classList.add('ld')
     const onLoad = (e: Event) => { const t = e.target as HTMLElement; if (t.tagName === 'IMG') mark(t as HTMLImageElement) }
+    const onError = (e: Event) => {
+      const img = e.target as HTMLImageElement
+      if (img.tagName !== 'IMG') return
+      if (!img.dataset.retried) {
+        img.dataset.retried = '1'
+        const base = img.getAttribute('src') || ''
+        setTimeout(() => { img.removeAttribute('srcset'); img.src = base + (base.includes('?') ? '&' : '?') + 'r=' + Date.now() }, 600)
+      } else { img.classList.add('img-failed'); img.closest('.stage')?.classList.add('ready') }
+    }
     document.addEventListener('load', onLoad, true)
+    document.addEventListener('error', onError, true)
     const mo = new MutationObserver(() => document.querySelectorAll<HTMLImageElement>('img:not(.ld)').forEach((i) => i.complete && i.naturalWidth && mark(i)))
     mo.observe(document.body, { childList: true, subtree: true })
-    return () => { document.removeEventListener('load', onLoad, true); mo.disconnect() }
+    return () => { document.removeEventListener('load', onLoad, true); document.removeEventListener('error', onError, true); mo.disconnect() }
   }, [])
 }

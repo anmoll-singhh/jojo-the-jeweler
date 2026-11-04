@@ -9,14 +9,17 @@ import { DesignController } from './components/DesignController'
 import HomeV1 from './pages/HomeV1'
 import { Collection } from './pages/Collection'
 import { ProductPage } from './pages/Product'
-import { About, Contact, Custom, SearchPage, Cart, Wishlist, NotFound } from './pages/Pages'
+import { SearchPage, Cart, Wishlist, NotFound } from './pages/Pages'
+import { About } from './pages/About'
+import { Custom } from './pages/Custom'
+import { Contact } from './pages/Contact'
 
 const HomeV2 = lazy(() => import('./pages/HomeV2'))
 
 function Shell() {
   const { pathname } = useLocation()
   useSmoothScroll(); useRouteMotion(); useMagnetic(); useImageSkeletons()
-  const over = pathname === '/' || pathname === '/v2'
+  const over = pathname === '/' || pathname === '/v2' || pathname === '/about'
   return (
     <>
       <Nav key={pathname} over={over} />
