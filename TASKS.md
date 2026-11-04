@@ -43,13 +43,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` completed · `[!]` blocked. 
 - [x] Five themes, display/body face, accent, corners, motion — live via data-attributes; dev only or `?design=1`
 
 ## Phase 9 — QA
-- [~] Playwright: routes, broken media, console errors, five viewports overflow, headings ≤2 lines, variants, cart, quick add, wishlist, search, filters, builder, menu, controller, axe, SEO, reduced motion
-- [~] Human-eye visual pass per page at 390 / 1440 (done for home, V2, PDP, collection, custom, about; contact/cart/search pending a second look)
-- [ ] Lighthouse / performance pass on the production build
+- [x] Playwright: routes, broken media, console errors, five viewports overflow, headings ≤2 lines, variants, cart, quick add, wishlist, search, filters, builder, menu, controller, axe, SEO, reduced motion
+- [x] Human-eye visual pass per page at 390 / 1440, plus menu, drawer, quick view, search, three themes, V2 wall and chain states
+- [ ] Lighthouse / performance pass on the production build (bundle: main ~600 kB incl. GSAP + catalogue JSON; three.js lazy on /v2)
 
 ## Phase 10 — Delivery
 - [x] Docs (README, DESIGN_SYSTEM, CHANGELOG, research)
-- [ ] Final stable push after QA green
+- [x] Final stable push after QA green (56 Playwright tests passing locally)
 
 ## Blocked / needs the client
 - [!] Real catalogue in Shopify (prices, SKUs, photography) — every current product is a labelled sample

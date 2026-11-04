@@ -1,0 +1,15 @@
+import { chromium } from '@playwright/test'
+const b = await chromium.launch()
+const shot = async (name, w, h, fn) => { const p = await b.newPage({ viewport: { width: w, height: h } }); await fn(p); await p.waitForTimeout(700); await p.screenshot({ path: `/tmp/gen/st-${name}.png` }); await p.close() }
+const go = (p, u) => p.goto('http://localhost:4173' + u, { waitUntil: 'load' })
+await shot('menu-d', 1440, 900, async (p) => { await go(p, '/'); await p.setViewportSize({ width: 880, height: 900 }); await p.getByRole('button', { name: 'Open menu' }).click() })
+await shot('menu-m', 390, 844, async (p) => { await go(p, '/'); await p.getByRole('button', { name: 'Open menu' }).click() })
+await shot('drawer', 1440, 900, async (p) => { await go(p, '/products/money-bag-pendant'); await p.locator('.buy__add').click(); await p.waitForTimeout(1500) })
+await shot('qv-m', 390, 844, async (p) => { await go(p, '/collections/pendants'); await p.locator('.card__quick').first().click() })
+await shot('search', 1440, 900, async (p) => { await go(p, '/'); await p.getByRole('button', { name: 'Search' }).click(); await p.getByRole('textbox', { name: 'Search' }).fill('cuban') })
+await shot('theme-street', 1440, 900, async (p) => { await go(p, '/?design=1'); await p.getByRole('button', { name: 'Design' }).click(); await p.getByRole('button', { name: /Streetwear/ }).click(); await p.evaluate(() => scrollTo(0, 1100)); await p.waitForTimeout(900) })
+await shot('theme-minimal', 1440, 900, async (p) => { await go(p, '/?design=1'); await p.getByRole('button', { name: 'Design' }).click(); await p.getByRole('button', { name: /Modern minimal/ }).click(); await p.evaluate(() => scrollTo(0, 2300)); await p.waitForTimeout(900) })
+await shot('theme-luxury', 1440, 900, async (p) => { await go(p, '/products/iced-cross-pendant?design=1'); await p.getByRole('button', { name: 'Design' }).click(); await p.getByRole('button', { name: /Dark luxury/ }).click() })
+await shot('v2-wall', 1440, 900, async (p) => { await go(p, '/v2'); await p.evaluate(() => scrollTo(0, 2500)); await p.waitForTimeout(1200) })
+await shot('v2-chain', 1440, 900, async (p) => { await go(p, '/v2'); const el = p.locator('.v2-chain'); await el.scrollIntoViewIfNeeded(); await p.waitForTimeout(2500) })
+await b.close()
