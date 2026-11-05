@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useTitle } from '../lib/seo'
-import { bestSellers, byHandle, findVariant, defaultSelection, money, rs } from '../data/catalog'
+import { bestSellers, byHandle, findVariant, defaultSelection, metalFilter, money, rs } from '../data/catalog'
 import { PIECES, HERO_REEL } from '../data/content'
 import { BRAND } from '../data/site'
 import { Video } from '../components/Media'
@@ -29,20 +29,20 @@ export function Lab() {
         <p>Three directions, four homepage moments and three takes on “Price your Cuban”. Each one works: move the cursor, drag, tap. Use the tabs to switch.</p>
         <nav className="lab__jump"><a href="#dir">1 · Directions</a><a href="#hero">2 · Hero moment</a><a href="#cuban">3 · Price your Cuban</a></nav>
       </header>
-      <Group id="dir" n="1" title="Overall direction" tabs={[['A', 'Ice is light', <DirA key="a" />], ['B', '3 W 47th Street', <DirB key="b" />], ['C', 'Liner notes', <DirC key="c" />]]} />
-      <Group id="hero" n="2" title="Homepage wow moment" tabs={[['1', 'The drop', <HeroDrop key="1" />], ['2', 'The loupe', <HeroLoupe key="2" />], ['3', 'Buzz in', <HeroBuzz key="3" />], ['4', 'Pavé wordmark', <HeroPave key="4" />]]} />
-      <Group id="cuban" n="3" title="Replacing “Price your Cuban”" tabs={[['1', 'Live 3D configurator', <Cuban3D key="1" />], ['2', 'True to size', <CubanTrue key="2" />], ['3', 'Work ticket', <CubanTicket key="3" />]]} />
+      <Group id="dir" n="1" title="Overall direction" chosen="A · Ice is light" tabs={[['A', 'Ice is light', <DirA key="a" />], ['B', '3 W 47th Street', <DirB key="b" />], ['C', 'Liner notes', <DirC key="c" />]]} />
+      <Group id="hero" n="2" title="Homepage wow moment" chosen="Buzz in" start={2} tabs={[['1', 'The drop', <HeroDrop key="1" />], ['2', 'The loupe', <HeroLoupe key="2" />], ['3', 'Buzz in', <HeroBuzz key="3" />], ['4', 'Pavé wordmark', <HeroPave key="4" />]]} />
+      <Group id="cuban" n="3" title="Replacing “Price your Cuban” · round 2" tabs={[['4', 'The caliper', <CubanCaliper key="4" />], ['5', 'Scroll to size', <CubanScroll key="5" />], ['6', 'Weigh it', <CubanScale key="6" />]]} />
       <footer className="lab__foot"><p>Tell me the letter and numbers you like (for example “A, 1, 1”), or mix them.</p><Link to="/">Back to the site</Link></footer>
     </main>
   )
 }
 
-function Group({ id, n, title, tabs }: { id: string; n: string; title: string; tabs: [string, string, ReactNode][] }) {
-  const [i, setI] = useState(0)
+function Group({ id, n, title, tabs, chosen, start = 0 }: { id: string; n: string; title: string; tabs: [string, string, ReactNode][]; chosen?: string; start?: number }) {
+  const [i, setI] = useState(start)
   return (
     <section className="lab__group" id={id}>
       <div className="lab__bar">
-        <h2><span>{n}</span>{title}</h2>
+        <h2><span>{n}</span>{title}{chosen && <em className="lab__chosen">Chosen: {chosen}</em>}</h2>
         <div className="lab__tabs" role="tablist">{tabs.map(([k, t], j) => <button key={k} role="tab" aria-selected={i === j} className={i === j ? 'on' : ''} onClick={() => setI(j)}><b>{k}</b> {t}</button>)}</div>
       </div>
       <div className="lab__stage" role="tabpanel">{tabs[i][2]}</div>
@@ -208,80 +208,88 @@ function Pills<T extends string | number>({ label, opts, v, set, show = String }
   return <div className="cz__opt"><span>{label}</span><div>{opts.map((o) => <button key={String(o)} className={o === v ? 'on' : ''} onClick={() => set(o)}>{show(o)}</button>)}</div></div>
 }
 
-function Cuban3D() {
-  const [metal, setMetal] = useState<Metal>('rose'), [karat, setKarat] = useState('14K'), [width, setWidth] = useState(12), [len, setLen] = useState(20)
-  const { price, grams } = useCubanPrice(METALS.find((m) => m[0] === metal)![1], karat, width, len)
+const WMAP = (w: number) => WIDTHS.reduce((a, b) => (Math.abs(b - w) < Math.abs(a - w) ? b : a))
+const CHAIN_IMG = '/media/products/miami-cuban-link-chain-1.webp'
+const tint = (m: Metal) => metalFilter('Yellow gold', METALS.find((x) => x[0] === m)![1])
+function MetalDots({ v, set }: { v: Metal; set: (m: Metal) => void }) {
+  return <div className="mdots" role="radiogroup" aria-label="Metal">{METALS.map(([m, t]) => <button key={m} role="radio" aria-checked={v === m} className={'mdot mdot--' + m + (v === m ? ' on' : '')} onClick={() => set(m)}><i />{t}</button>)}</div>
+}
+
+/* 1 · The caliper: drag the jaw of a jeweler's digital caliper open; the gap is the chain width */
+function CubanCaliper() {
+  const [mm, setMm] = useState(10), [metal, setMetal] = useState<Metal>('yellow'), [len, setLen] = useState(20), [drag, setDrag] = useState(false)
+  const beam = useRef<HTMLDivElement>(null)
+  const w = WMAP(mm), { price, grams } = useCubanPrice(METALS.find((x) => x[0] === metal)![1], '14K', w, len)
+  const MIN = 6, MAX = 17
+  const at = (x: number) => { const r = beam.current!.getBoundingClientRect(); const k = Math.max(0, Math.min(1, (x - r.left - r.width * 0.18) / (r.width * 0.7))); setMm(MIN + k * (MAX - MIN)) }
+  const pos = 18 + ((mm - MIN) / (MAX - MIN)) * 70
   return (
-    <div className="c3">
-      <div className="c3__view">
-        <svg className="c3__neck" viewBox="0 0 300 300" aria-hidden="true"><path d="M95 0 C 98 60, 70 95, 20 120 M205 0 C 202 60, 230 95, 280 120" />{LENGTHS.map((l, i) => <g key={l} className={l === len ? 'on' : ''}><path d={`M ${70 - i * 8} ${108 + i * 4} Q 150 ${150 + i * 34} ${230 + i * 8} ${108 + i * 4}`} /><text x="150" y={146 + i * 34}>{l}"</text></g>)}</svg>
-        <div className="c3__chain"><Chain metal={metal} width={width} /></div>
-        <p className="c3__drag">Drag to turn</p>
+    <div className="cc">
+      <div className="cc__head"><h3>Measure your Cuban</h3><p>Drag the caliper open. The jaws show the width; it settles on the nearest size JoJo makes.</p></div>
+      <div className={'cc__tool' + (drag ? ' is-drag' : '')} ref={beam}
+        onPointerDown={(e) => { setDrag(true); (e.target as HTMLElement).setPointerCapture?.(e.pointerId); at(e.clientX) }}
+        onPointerMove={(e) => drag && at(e.clientX)} onPointerUp={() => { setDrag(false); setMm(w) }} onPointerCancel={() => { setDrag(false); setMm(w) }}>
+        <div className="cc__beam">{Array.from({ length: 23 }, (_, i) => <i key={i} style={{ left: `${18 + i * (70 / 22)}%` }} className={i % 2 ? '' : 'big'}>{i % 2 ? '' : MIN + i / 2}</i>)}</div>
+        <div className="cc__jaw cc__jaw--fixed" />
+        <div className="cc__slider" style={{ left: `${pos}%` }}><div className="cc__lcd"><span>{mm.toFixed(1)}</span><small>mm</small></div><div className="cc__jaw cc__jaw--move" /></div>
+        <div className="cc__link" style={{ left: '17.4%', width: `${pos - 17.4}%` }}>
+          <svg viewBox="0 0 100 150" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id={'ccg' + metal} x1="0" y1="0" x2="1" y2="1">{({ yellow: ['#fff0bf', '#d6a743', '#7a5520'], white: ['#ffffff', '#c6cbd2', '#6f757d'], rose: ['#ffe3d6', '#d58f70', '#7d4636'] } as const)[metal].map((c, i) => <stop key={i} offset={i / 2} stopColor={c} />)}</linearGradient></defs>
+            {[0, 1, 2, 3, 4].map((i) => <g key={i} transform={`translate(50 ${18 + i * 28}) skewY(${i % 2 ? 12 : -12})`}><rect x="-48" y="-17" width="96" height="34" rx="16" fill={`url(#ccg${metal})`} stroke="#0008" strokeWidth=".8" /><rect x="-26" y="-6" width="52" height="12" rx="6" fill="#070707" /><rect x="-40" y="-14" width="56" height="4" rx="2" fill="#fff" opacity=".45" /></g>)}
+          </svg>
+        </div>
       </div>
-      <div className="c3__ui">
-        <h3>Build your Cuban</h3>
-        <Pills label="Metal" opts={METALS.map((m) => m[0])} v={metal} set={setMetal} show={(m) => METALS.find((x) => x[0] === m)![1]} />
-        <Pills label="Karat" opts={['10K', '14K']} v={karat} set={setKarat} />
-        <Pills label="Width" opts={WIDTHS} v={width} set={setWidth} show={(w) => w + 'mm'} />
+      <div className="cc__opts">
+        <MetalDots v={metal} set={setMetal} />
         <Pills label="Length" opts={LENGTHS} v={len} set={setLen} show={(l) => l + '"'} />
-        <div className="c3__out"><div><small>Price</small><b><Count v={price} fmt={(n) => money(Math.round(n))} /></b></div><div><small>Weight</small><b><Count v={grams} fmt={(n) => '≈ ' + Math.round(n) + ' g'} /></b></div></div>
-        <Note>The chain itself changes metal and thickness; the neck diagram shows where each length sits. Price and grams roll like a scale.</Note>
+      </div>
+      <div className="cc__read"><span><small>{w}mm · {len}" · 14K</small><b><Count v={price} fmt={(n) => money(Math.round(n))} /></b></span><span><small>Approx. weight</small><b><Count v={grams} fmt={(n) => Math.round(n) + ' g'} /></b></span><span className="lab__btn">Add to bag</span></div>
+      <Note>Jewelers size chains with a caliper; here the visitor does too. Tactile on phones (drag with a thumb), and nobody else sells chains this way.</Note>
+    </div>
+  )
+}
+
+/* 2 · Scroll to size: the section pins, and scrolling grows the link from 8 to 15mm under the light */
+function CubanScroll() {
+  const box = useRef<HTMLDivElement>(null), [k, setK] = useState(0), [metal, setMetal] = useState<Metal>('yellow')
+  useEffect(() => {
+    const f = () => { const el = box.current; if (!el) return; const r = el.getBoundingClientRect(); setK(Math.max(0, Math.min(1, -r.top / (r.height - innerHeight)))) }
+    f(); addEventListener('scroll', f, { passive: true }); return () => removeEventListener('scroll', f)
+  }, [])
+  const mm = 8 + k * 7, w = WMAP(mm), { price, grams } = useCubanPrice(METALS.find((x) => x[0] === metal)![1], '14K', w, 20)
+  return (
+    <div className="cs" ref={box}>
+      <div className="cs__pin">
+        <div className="cs__img" style={{ transform: `scale(${0.75 + k * 0.9})` }}><img src={CHAIN_IMG} alt="" style={{ filter: tint(metal) }} /></div>
+        <div className="cs__mm"><b>{mm.toFixed(1)}</b><span>mm</span></div>
+        <ol className="cs__marks">{WIDTHS.map((x) => <li key={x} className={x === w ? 'on' : ''}>{x}mm</li>)}</ol>
+        <div className="cs__ui"><MetalDots v={metal} set={setMetal} /><p><small>{w}mm · 20" · 14K</small><b>{money(price)}</b><small>≈ {grams} g</small></p></div>
+        <p className="cs__hint">{k < 0.05 ? 'Scroll to size it ↓' : k > 0.95 ? 'Stop anywhere. That’s your chain.' : 'Keep scrolling'}</p>
       </div>
     </div>
   )
 }
 
-function CubanTrue() {
-  const [pxmm, setPxmm] = useState(3.78), [cal, setCal] = useState(false), [width, setWidth] = useState(12), [metal, setMetal] = useState<Metal>('yellow')
-  const col = { yellow: ['#f3d68a', '#b88a2e'], white: ['#f4f5f7', '#9aa0a8'], rose: ['#f1c2ad', '#b0705a'] }[metal]
-  const linkW = width * 1.6, n = Math.ceil(1800 / (linkW * pxmm * 0.55)) + 2
+/* 3 · On the scale: pick a size and the chain drops onto a jeweler's gold scale; grams and price read out */
+function CubanScale() {
+  const [w, setW] = useState(10), [len, setLen] = useState(20), [metal, setMetal] = useState<Metal>('yellow'), [drop, setDrop] = useState(0)
+  const { price, grams } = useCubanPrice(METALS.find((x) => x[0] === metal)![1], '14K', w, len)
+  useEffect(() => setDrop((d) => d + 1), [w, len, metal])
   return (
-    <div className="ct">
-      <div className="ct__bar">
-        <Pills label="Width" opts={WIDTHS} v={width} set={setWidth} show={(w) => w + 'mm'} />
-        <Pills label="Metal" opts={METALS.map((m) => m[0])} v={metal} set={setMetal} show={(m) => METALS.find((x) => x[0] === m)![1].split(' ')[0]} />
-        <button className="lab__btn" onClick={() => setCal(!cal)}>{cal ? 'Done' : 'Calibrate screen'}</button>
+    <div className="cw">
+      <div className="cw__stage">
+        <div className="cw__chain" key={drop} style={{ '--s': 0.7 + (w - 8) * 0.07 } as CSSProperties}><img src={CHAIN_IMG} alt="" style={{ filter: tint(metal) }} /></div>
+        <div className="cw__scale"><div className="cw__pan" key={'p' + drop} /><div className="cw__body"><div className="cw__lcd"><Count v={grams} fmt={(n) => n.toFixed(1)} /><small>g</small></div><span>JoJo · 47th St.</span></div></div>
       </div>
-      {cal && <div className="ct__cal"><p>Hold a bank card to the screen and drag until the outline matches it.</p><div className="ct__card" style={{ width: 85.6 * pxmm, height: 53.98 * pxmm }} /><input type="range" min="2.5" max="7" step="0.01" value={pxmm} onChange={(e) => setPxmm(+e.target.value)} aria-label="Card size" /></div>}
-      <div className="ct__track">
-        <svg width="100%" height={width * pxmm + 20} aria-label={`${width}mm Cuban at real size`}>
-          <defs><linearGradient id="ctg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={col[0]} /><stop offset="1" stopColor={col[1]} /></linearGradient></defs>
-          {Array.from({ length: n }, (_, i) => { const H = width * pxmm, W = linkW * pxmm, x = i * W * 0.55, y = 10, cx = x + W / 2, cy = y + H / 2
-            return <g key={i} transform={`translate(${cx} ${cy}) skewX(${i % 2 ? 22 : -22}) translate(${-cx} ${-cy})`}>
-              <rect x={x} y={y} width={W} height={H} rx={H * 0.48} fill="url(#ctg)" stroke="#0007" strokeWidth="1" />
-              <rect x={x + W * 0.24} y={y + H * 0.32} width={W * 0.52} height={H * 0.36} rx={H * 0.18} fill="#0e0d0c" />
-              <rect x={x + W * 0.12} y={y + H * 0.1} width={W * 0.6} height={H * 0.12} rx={H * 0.06} fill="#fff" opacity=".35" />
-            </g> })}
-        </svg>
-        <div className="ct__rule" style={{ width: 50 * pxmm }}><span>50 mm</span></div>
+      <div className="cw__ui">
+        <h3>Weigh it</h3>
+        <p>Gold is sold by weight on 47th Street. Pick a size and put it on the scale.</p>
+        <MetalDots v={metal} set={setMetal} />
+        <Pills label="Width" opts={WIDTHS} v={w} set={setW} show={(x) => x + 'mm'} />
+        <Pills label="Length" opts={LENGTHS} v={len} set={setLen} show={(l) => l + '"'} />
+        <div className="cw__price"><small>14K · {w}mm · {len}"</small><b><Count v={price} fmt={(n) => money(Math.round(n))} /></b></div>
       </div>
-      <Note>After a one-time calibration this is the chain at its real width on your screen, so 12mm looks like 12mm next to 8mm. Drawn chain here is a sketch; the build would use the real link shape.</Note>
     </div>
   )
 }
-
-function CubanTicket() {
-  const [metal, setMetal] = useState('Yellow gold'), [karat, setKarat] = useState('14K'), [width, setWidth] = useState(10), [len, setLen] = useState(20), [name, setName] = useState('')
-  const { price, grams } = useCubanPrice(metal, karat, width, len)
-  return (
-    <div className="tk">
-      <div className="tk__slip">
-        <div className="tk__head"><b>JoJo The Jeweler</b><span>Work ticket · No. {String(1000 + width * 10 + len).slice(-4)}</span></div>
-        <div className="tk__row"><span>Customer</span><input value={name} onChange={(e) => setName(e.target.value)} placeholder="your name" /></div>
-        <div className="tk__row"><span>Piece</span><em>Miami Cuban link chain</em></div>
-        <div className="tk__row"><span>Metal</span><Choose v={metal} set={setMetal} opts={['Yellow gold', 'White gold', 'Rose gold']} /></div>
-        <div className="tk__row"><span>Karat</span><Choose v={karat} set={setKarat} opts={['10K', '14K']} /></div>
-        <div className="tk__row"><span>Width</span><Choose v={width + 'mm'} set={(x) => setWidth(parseInt(x))} opts={WIDTHS.map((w) => w + 'mm')} /></div>
-        <div className="tk__row"><span>Length</span><Choose v={len + '"'} set={(x) => setLen(parseInt(x))} opts={LENGTHS.map((l) => l + '"')} /></div>
-        <div className="tk__row tk__tot"><span>Approx. weight</span><em>{grams} g</em></div>
-        <div className="tk__row tk__tot"><span>Price</span><em>{money(price)}</em></div>
-        <div className="tk__stamp">Quote<br />{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
-        <a className="lab__btn" href={`${BRAND.smsHref}?&body=${encodeURIComponent(`Work ticket: Miami Cuban, ${metal} ${karat}, ${width}mm, ${len}" — ${money(price)}${name ? ' — ' + name : ''}`)}`}>Text this ticket to JoJo</a>
-      </div>
-      <Note>The configurator is the jeweler’s order slip: choices are handwritten onto it, the stamp lands when it’s complete, and the ticket is what gets texted to the store.</Note>
-    </div>
-  )
-}
-const Choose = ({ v, set, opts }: { v: string; set: (x: string) => void; opts: string[] }) => <span className="tk__ch">{opts.map((o) => <button key={o} className={o === v ? 'on' : ''} onClick={() => set(o)}>{o}</button>)}</span>
 
 const Note = ({ children }: { children: ReactNode }) => <p className="lab__note">{children}</p>
