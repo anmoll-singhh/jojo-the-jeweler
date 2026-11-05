@@ -9,6 +9,7 @@ import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVarian
 import { BRAND } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
+import { Monogram } from '../components/Logo'
 import { getLenis, reduced } from '../lib/motion'
 import gsap from 'gsap'
 
@@ -31,33 +32,43 @@ export default function HomeV1() {
   )
 }
 
-/* 1 · Hero: the doors of 3 W 47th Street. Press the buzzer (or scroll) and they slide open onto the
-   piece, the only light on the page. Once per session; skipped for reduced motion and automated browsers. */
+/* 1 · Hero: the street door of the store. The page waits at a Diamond District security entrance:
+   granite, brass number, steel-framed glass with the store lit behind it, and an intercom. Only the
+   buzzer lets you in: the lock clicks, the doors swing open onto the piece, the headline rises.
+   Once per session; skipped for reduced motion and automated browsers. */
 const BUZZED = 'jojo-buzzed'
+const WINDOW = [['iced-cross-pendant', 'miami-cuban-link-chain', 'money-bag-pendant'], ['iced-watch-bust-down', 'iced-cuban-link-chain', 'baguette-letter-pendant']]
 function Hero() {
   const p = PIECES[0]
   const skip = typeof window === 'undefined' || reduced() || navigator.webdriver || (() => { try { return sessionStorage.getItem(BUZZED) === '1' } catch { return false } })()
-  const [doors, setDoors] = useState<'closed' | 'opening' | 'gone'>(skip ? 'gone' : 'closed')
+  const [gate, setGate] = useState<'shut' | 'buzz' | 'open' | 'gone'>(skip ? 'gone' : 'shut')
   const open = () => {
-    if (doors !== 'closed') return
+    if (gate !== 'shut') return
     try { sessionStorage.setItem(BUZZED, '1') } catch { /* private mode */ }
-    navigator.vibrate?.(30)
-    setDoors('opening'); setTimeout(() => setDoors('gone'), 1700)
-    // the headline rises as the doors part
-    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 0.75 })
-    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.05 })
+    navigator.vibrate?.([20, 60, 20])
+    setGate('buzz')                                   // LED turns green, the lock clicks
+    setTimeout(() => setGate('open'), 650)            // doors swing in
+    setTimeout(() => setGate('gone'), 650 + 1900)
+    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 1.45 })
+    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.75 })
   }
   useEffect(() => {
-    if (doors !== 'closed') return
-    // while the doors are shut the page holds still; any scroll, swipe or key opens them
-    const l = getLenis(); l?.stop(); document.documentElement.classList.add('doors-shut')
-    const intent = (e: Event) => { if (e.type === 'keydown' && !['ArrowDown', 'PageDown', ' ', 'Enter'].includes((e as KeyboardEvent).key)) return; open() }
-    const evs = ['wheel', 'touchmove', 'keydown'] as const
-    evs.forEach((t) => addEventListener(t, intent, { passive: true }))
-    return () => { evs.forEach((t) => removeEventListener(t, intent)); document.documentElement.classList.remove('doors-shut'); getLenis()?.start() }
-  }) // eslint-disable-line react-hooks/exhaustive-deps
+    if (gate !== 'shut') return
+    // the page holds still until someone buzzes; there is no other way in
+    document.documentElement.classList.add('doors-shut')
+    const hold = () => getLenis()?.stop()
+    hold(); const t = setTimeout(hold, 50), t2 = setTimeout(hold, 400) // smooth scroll may start after this
+    const block = (e: Event) => e.preventDefault()
+    const keys = (e: KeyboardEvent) => { if ((e.target as HTMLElement).closest?.('button, a, input')) return; if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key)) e.preventDefault() }
+    addEventListener('wheel', block, { passive: false }); addEventListener('touchmove', block, { passive: false }); addEventListener('keydown', keys)
+    return () => {
+      clearTimeout(t); clearTimeout(t2)
+      removeEventListener('wheel', block); removeEventListener('touchmove', block); removeEventListener('keydown', keys)
+      document.documentElement.classList.remove('doors-shut'); getLenis()?.start(); scrollTo(0, 0)
+    }
+  }, [gate])
   return (
-    <section className={'hero hero--' + doors}>
+    <section className={'hero hero--' + gate}>
       <div className="hero__media"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
       <div className="hero__txt wrap">
         <h1 className="display"><Lines lines={['Done the', 'JoJo way']} /></h1>
@@ -65,13 +76,31 @@ function Hero() {
         <div className="hero__cta rv" data-d="0.4"><Link className="btn btn--lg" to="/collections/chains">Shop chains</Link><Link className="link" to="/custom">Start a custom piece</Link></div>
       </div>
       <p className="hero__cap rv" data-d="0.6">Custom R money-bag pendant, iced rose gold</p>
-      {doors !== 'gone' && (
-        <div className="doors" aria-hidden={doors === 'opening'}>
-          <div className="doors__leaf doors__leaf--l"><span>3 W</span></div>
-          <div className="doors__leaf doors__leaf--r"><span>47th</span></div>
-          <i className="doors__seam" />
-          <p className="doors__top"><span>JoJo The Jeweler · New York Diamond District</span></p>
-          <button className="doors__buzz" onClick={open}><i /><span>Press to buzz in</span><small>or scroll</small></button>
+      {gate !== 'gone' && (
+        <div className="gate" aria-hidden={gate !== 'shut'}>
+          <div className="gate__wall" />
+          <div className="gate__fascia"><Monogram size={30} /><span>JoJo The Jeweler</span><i className="gate__no">3</i></div>
+          {(['l', 'r'] as const).map((side, k) => (
+            <div key={side} className={'gate__win gate__win--' + side}>
+              <div className="gate__case">{WINDOW[k].map((h) => { const q = byHandle(h); return q && <img key={h} {...rs(q.images[0].src, '10vw')} alt="" /> })}</div>
+              <span className="gate__shelf" />
+            </div>
+          ))}
+          <div className="gate__entry">
+            <div className="gate__frame">
+              <div className="gate__door gate__door--l"><div className="gate__glass"><span className="gate__decal"><Monogram size={54} /><b>JoJo</b><small>The Jeweler</small></span></div><i className="gate__bar" /></div>
+              <div className="gate__door gate__door--r"><div className="gate__glass"><span className="gate__hours">Mon – Sat<br />9 a.m. – 6 p.m.<br /><em>Ring for entry</em></span></div><i className="gate__bar" /></div>
+            </div>
+            <div className="gate__step" />
+          </div>
+          <div className="gate__intercom">
+            <i className="gate__cam" />
+            <div className="gate__grille" />
+            <span className="gate__led" />
+            <button className="gate__btn" onClick={open} aria-label="Press the buzzer to enter the store"><i /></button>
+            <small>Press for<br />entry</small>
+          </div>
+          <p className="gate__hint">{gate === 'shut' ? 'Press the buzzer to come in' : 'Come in'}</p>
         </div>
       )}
     </section>
