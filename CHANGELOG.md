@@ -2,6 +2,11 @@
 
 ## 2026-11-05 (direction A, "Ice is light")
 
+### Performance and compatibility
+- Homepage video on load cut from about 44 MB to 2.7 MB: the four films re-encoded for background playback (6–12 MB down to 2.6–3.7 MB each, no visible loss), and every video except the one at the top of a page now downloads nothing until it is about a screen away.
+- Every WebP image has a JPG (or PNG with transparency) copy; browsers without WebP (Safari 13 and older) are detected once and get those instead. Videos ship WebM with an MP4 fallback.
+- Gate: sized from the screen height at every width (320 to 2560), details scale with it; the opening no longer zooms the whole storefront or blurs live video, so it holds frame rate on phones.
+
 ### Changed
 - Direction A chosen in /lab: the page is true black and the jewellery is the only light. Light, wide display type; champagne only on the action; the custom-process field is dark now, so the site is one black world. A soft light follows the cursor, and product cards stay dim until pointed at (both switchable).
 - Homepage hero: the street entrance of the store. Granite front, backlit "JoJo The Jeweler" fascia with the brass 3, steel-framed glass doors with gold-leaf lettering and the hours, lit display windows either side with real pieces, and an intercom (camera, speaker, red LED, brass buzzer). The page doesn't scroll until the buzzer is pressed: the LED turns green, the lock rattles, the doors swing in and you walk through onto the hero film as the headline rises. Once per session; skipped for reduced motion.

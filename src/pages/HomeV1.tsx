@@ -46,11 +46,12 @@ function Hero() {
     if (gate !== 'shut') return
     try { sessionStorage.setItem(BUZZED, '1') } catch { /* private mode */ }
     navigator.vibrate?.([20, 60, 20])
+    document.documentElement.classList.add('gate-anim')
     setGate('buzz')                                   // LED turns green, the lock clicks
-    setTimeout(() => setGate('open'), 650)            // doors swing in
-    setTimeout(() => setGate('gone'), 650 + 1900)
-    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 1.45 })
-    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.75 })
+    setTimeout(() => setGate('open'), 520)            // doors swing in
+    setTimeout(() => { setGate('gone'); document.documentElement.classList.remove('gate-anim') }, 520 + 1750)
+    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 1.3 })
+    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.6 })
   }
   useEffect(() => {
     if (gate !== 'shut') return
@@ -69,7 +70,7 @@ function Hero() {
   }, [gate])
   return (
     <section className={'hero hero--' + gate}>
-      <div className="hero__media"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+      <div className="hero__media"><Video priority mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
       <div className="hero__txt wrap">
         <h1 className="display"><Lines lines={['Done the', 'JoJo way']} /></h1>
         <p className="lede rv" data-d="0.3">Custom pieces, Miami Cuban chains and watches from 3 W 47th Street, New York. Shipped worldwide.</p>
