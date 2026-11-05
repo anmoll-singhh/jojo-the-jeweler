@@ -134,32 +134,58 @@ function CustomWork() {
   )
 }
 
-/* 4 · The live thing: price a Cuban (after browsing, before custom). */
+/* 4 · Weigh it: gold is sold by weight on 47th Street. Pick the chain and it drops onto the scale;
+   the display counts the grams and the price rolls up. */
+const SCALE_METALS: [string, string][] = [['Yellow gold', 'yellow'], ['White gold', 'white'], ['Rose gold', 'rose']]
+function Roll({ v, fmt }: { v: number; fmt: (n: number) => string }) {
+  const [n, setN] = useState(v); const from = useRef(v)
+  useEffect(() => {
+    if (reduced()) { setN(v); from.current = v; return }
+    const a = from.current, t0 = performance.now(); let r = 0
+    const step = (t: number) => { const k = Math.min(1, (t - t0) / 650), e = 1 - (1 - k) ** 3; setN(a + (v - a) * e); if (k < 1) r = requestAnimationFrame(step); else from.current = v }
+    r = requestAnimationFrame(step); return () => cancelAnimationFrame(r)
+  }, [v])
+  return <>{fmt(n)}</>
+}
 function CubanBuilder() {
   const p = byHandle('miami-cuban-link-chain')
   const { add } = useCart()
-  const stage = useRef<HTMLDivElement>(null)
   const [sel, setSel] = useState(() => (p ? defaultSelection(p) : {}))
+  const [drop, setDrop] = useState(0)
+  const first = useRef(true)
+  useEffect(() => { if (first.current) { first.current = false; return } setDrop((d) => d + 1) }, [sel])
   if (!p) return null
   const v = findVariant(p, sel)
   const width = parseInt(sel.Width || '8'), len = parseInt(sel.Length || '18')
   // Sample weight model: 48 g at 8mm × 18", scaling with the square of width and with length.
   const grams = Math.round(48 * (width / 8) ** 2 * (len / 18))
+  const opt = (name: string) => p.options.find((o) => o.name === name)?.values ?? []
+  const pick = (name: string, val: string) => setSel({ ...sel, [name]: val })
+  const Row = ({ name }: { name: string }) => (
+    <div className="weigh__opt" role="radiogroup" aria-label={name}><span>{name}</span><div>{opt(name).map((x) => <button key={x} role="radio" aria-checked={sel[name] === x} className={sel[name] === x ? 'on' : ''} onClick={() => pick(name, x)}>{x}</button>)}</div></div>
+  )
   return (
-    <section className="field builder screen">
-      <div className="wrap builder__in">
-        <div className="builder__img stage clip"><img {...rs(p.images[0].src, '(min-width: 56.25em) 40vw, 100vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt={`${p.title} in ${sel.Metal?.toLowerCase()}`} loading="lazy" /></div>
-        <div className="builder__ui" ref={stage}>
-          <h2 className="h2"><Lines lines={['Price your', 'Cuban']} /></h2>
-          <p className="rv">Pick the metal, karat, width and length. The price and the weight change as you go.</p>
-          <div className="rv-group"><OptionPicker p={p} sel={sel} setSel={setSel} /></div>
-          <dl className="builder__out rv">
-            <div><dt>Price</dt><dd className="num">{money(v.price.amount)}</dd></div>
-            <div><dt>Weight</dt><dd className="num">≈ {grams} g</dd></div>
-            <div><dt>Links</dt><dd>{sel.Width} Miami Cuban</dd></div>
-          </dl>
-          <div className="builder__cta rv">
-            <AddButton lg label={`Add to bag · ${money(v.price.amount)}`} onAdd={() => add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: p.images[0].src }, document.querySelector('.builder__img'))} />
+    <section className="weigh screen">
+      <div className="weigh__stage" aria-hidden="true">
+        <div className="weigh__chain" key={drop} style={{ '--s': 0.72 + (width - 8) * 0.06 } as React.CSSProperties}>
+          <img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt="" />
+        </div>
+        <div className="weigh__scale">
+          <div className="weigh__pan" key={'p' + drop} />
+          <div className="weigh__body"><div className="weigh__lcd"><Roll v={grams} fmt={(n) => n.toFixed(1)} /><small>g</small></div><span>JoJo · 47th St.</span></div>
+        </div>
+      </div>
+      <div className="weigh__ui">
+        <h2 className="h2"><Lines lines={['Weigh it']} /></h2>
+        <p className="rv">Gold is sold by weight on 47th Street. Build your Miami Cuban and put it on the scale.</p>
+        <div className="weigh__metals" role="radiogroup" aria-label="Metal">{SCALE_METALS.map(([name, k]) => <button key={k} role="radio" aria-checked={sel.Metal === name} className={'weigh__metal weigh__metal--' + k + (sel.Metal === name ? ' on' : '')} onClick={() => pick('Metal', name)}><i />{name}</button>)}</div>
+        <Row name="Karat" />
+        <Row name="Width" />
+        <Row name="Length" />
+        <div className="weigh__out">
+          <div><small>{sel.Karat} · {sel.Width} · {sel.Length}</small><b className="num"><Roll v={v.price.amount} fmt={(n) => money(Math.round(n))} /></b><small>≈ {grams} g, sample weight</small></div>
+          <div className="weigh__cta">
+            <AddButton lg label="Add to bag" onAdd={() => add({ handle: p.handle, variantId: v.id, title: p.title, options: sel, price: v.price.amount, image: p.images[0].src }, document.querySelector('.weigh__chain img') as HTMLElement)} />
             <Link className="link" to={'/products/' + p.handle}>Full details</Link>
           </div>
         </div>
