@@ -190,15 +190,22 @@ test.describe('navigation and controller', () => {
     await expect(page).toHaveURL(/\/collections\/pendants/)
   })
 
-  test('design controller switches theme live', async ({ page }) => {
-    await page.goto('/?design=1')
+  test('design controller switches theme, fonts and sizes live', async ({ page }) => {
+    await page.goto('/?design=1', { waitUntil: 'networkidle' })
     await page.getByRole('button', { name: 'Design' }).click()
     const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor)
-    await page.getByRole('button', { name: /Modern minimal/ }).click()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'minimal')
+    await page.getByRole('button', { name: /Daylight/ }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'daylight')
     expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).not.toBe(bg)
-    await page.getByRole('button', { name: 'Fraunces', exact: true }).first().click()
-    await expect(page.locator('html')).toHaveAttribute('data-fd', 'fraunces')
+    await page.getByRole('tab', { name: 'Type' }).click()
+    await page.getByRole('button', { name: /Fraunces Light/ }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-pair', 'serif')
+    const h = await page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('h2.h2')!).fontSize))
+    await page.locator('.dc__sl input').first().fill('1.3')
+    await expect.poll(() => page.evaluate(() => parseFloat(getComputedStyle(document.querySelector('h2.h2')!).fontSize))).toBeGreaterThan(h * 1.2)
+    await page.getByRole('tab', { name: 'Effects' }).click()
+    await page.getByRole('button', { name: 'Mono' }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-img', 'mono')
   })
 
   test('404 route', async ({ page }) => {

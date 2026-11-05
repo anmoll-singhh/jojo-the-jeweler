@@ -17,12 +17,12 @@
   --fd-lh: 0.92;
   --fd-case: none;
 
-  --pad: clamp(1rem, 2.5vw, 2rem);  /* the one pair of outer margins */
+  --pad: calc(clamp(1rem, 2.5vw, 2rem) * var(--margin, 1));  /* the one pair of outer margins */
   --anchor: 42%;                    /* off-centre line text hangs from in editorial sections */
   --r: 0px;                         /* square corners, decided once */
   --r-pill: 62.4375rem;
   --nav-h: 4rem;
-  --section: clamp(4.5rem, 10vw, 12.5rem);
+  --section: calc(clamp(4.5rem, 10vw, 12.5rem) * var(--space, 1));
   --max: 110rem;
 
   --ease-out: cubic-bezier(.22, 1, .36, 1);
@@ -32,89 +32,93 @@
   --ease: var(--ease-expo);
 }
 
-/* ── 1 · Original brand: black velvet, bone ink, flat gold on the action ── */
-:root, [data-theme='brand'] {
+/* Direction A, "Ice is light": the page is black and the jewellery is the only light.
+   Five themes in that family; each ships with a font pair the controller can override. */
+
+/* ── 1 · Ice: true black, bone ink, champagne used only on the action ── */
+:root, [data-theme='ice'] {
   color-scheme: dark;
-  --bg: oklch(16% 0.004 80);
-  --surface: oklch(20% 0.005 80);
-  --surface-2: oklch(25% 0.006 80);
-  --ink: oklch(94% 0.01 85);
-  --muted: oklch(70% 0.012 85);
-  --accent: oklch(78% 0.11 85);
-  --accent-ink: oklch(16% 0.004 80);
-  --field: oklch(93% 0.012 85);      /* the one light field per page */
-  --field-ink: oklch(16% 0.004 80);
+  --bg: oklch(9% 0.002 80);
+  --surface: oklch(13% 0.003 80);
+  --surface-2: oklch(18% 0.004 80);
+  --ink: oklch(94% 0.008 85);
+  --muted: oklch(66% 0.01 85);
+  --accent: oklch(84% 0.075 85);
+  --accent-ink: oklch(12% 0.003 80);
+  --field: var(--surface);
+  --field-ink: var(--ink);
+  --light: oklch(100% 0 0 / .07);
   --logo: invert(1);
-  --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wght: 800; --fd-wdth: 125; --fd-ls: -0.03em; --fd-lh: 0.92; --fd-case: none;
+  --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wght: 300; --fd-wdth: 125; --fd-ls: -0.025em; --fd-lh: 0.95; --fd-case: none;
 }
-/* ── 2 · Dark luxury: warm graphite, champagne, serif display ── */
-[data-theme='luxury'] {
+/* ── 2 · Champagne: warm black, champagne ink, serif display ── */
+[data-theme='champagne'] {
   color-scheme: dark;
-  --bg: oklch(18% 0.012 60);
-  --surface: oklch(22% 0.014 60);
-  --surface-2: oklch(27% 0.015 60);
-  --ink: oklch(93% 0.02 80);
-  --muted: oklch(70% 0.02 75);
-  --accent: oklch(82% 0.08 80);
-  --accent-ink: oklch(18% 0.012 60);
-  --field: oklch(90% 0.025 80);
-  --field-ink: oklch(18% 0.012 60);
+  --bg: oklch(11% 0.008 70);
+  --surface: oklch(15% 0.01 70);
+  --surface-2: oklch(20% 0.012 70);
+  --ink: oklch(93% 0.025 85);
+  --muted: oklch(68% 0.025 80);
+  --accent: oklch(82% 0.09 82);
+  --accent-ink: oklch(12% 0.008 70);
+  --field: var(--surface);
+  --field-ink: var(--ink);
+  --light: oklch(95% 0.05 85 / .08);
   --logo: invert(1);
-  --fd: var(--font-fraunces); --fb: var(--font-archivo); --fd-wght: 400; --fd-wdth: 100; --fd-ls: -0.02em; --fd-lh: 0.98; --fd-case: none;
+  --fd: var(--font-fraunces); --fb: var(--font-archivo); --fd-wght: 300; --fd-wdth: 100; --fd-ls: -0.02em; --fd-lh: 1; --fd-case: none;
 }
-/* ── 3 · Modern minimal: paper white, near-black, no accent beyond ink ── */
-[data-theme='minimal'] {
+/* ── 3 · Platinum: cold graphite, silver ink, ice-blue light ── */
+[data-theme='platinum'] {
+  color-scheme: dark;
+  --bg: oklch(10% 0.008 250);
+  --surface: oklch(14% 0.01 250);
+  --surface-2: oklch(19% 0.012 250);
+  --ink: oklch(93% 0.008 240);
+  --muted: oklch(67% 0.014 240);
+  --accent: oklch(88% 0.045 225);
+  --accent-ink: oklch(11% 0.008 250);
+  --field: var(--surface);
+  --field-ink: var(--ink);
+  --light: oklch(95% 0.03 230 / .08);
+  --logo: invert(1);
+  --fd: var(--font-unbounded); --fb: var(--font-archivo); --fd-wght: 300; --fd-wdth: 100; --fd-ls: -0.03em; --fd-lh: 1; --fd-case: none;
+}
+/* ── 4 · Rose: rose-black ground, blush ink, rose-gold light ── */
+[data-theme='rose'] {
+  color-scheme: dark;
+  --bg: oklch(11% 0.01 20);
+  --surface: oklch(15% 0.012 20);
+  --surface-2: oklch(20% 0.015 20);
+  --ink: oklch(94% 0.015 40);
+  --muted: oklch(70% 0.02 35);
+  --accent: oklch(80% 0.08 45);
+  --accent-ink: oklch(12% 0.01 20);
+  --field: var(--surface);
+  --field-ink: var(--ink);
+  --light: oklch(92% 0.06 45 / .09);
+  --logo: invert(1);
+  --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wght: 250; --fd-wdth: 75; --fd-ls: -0.01em; --fd-lh: 0.95; --fd-case: none;
+}
+/* ── 5 · Daylight: the same idea inverted for comparison, bone paper and black ink ── */
+[data-theme='daylight'] {
   color-scheme: light;
-  --bg: oklch(98% 0.003 90);
-  --surface: oklch(95.5% 0.004 90);
-  --surface-2: oklch(92% 0.005 90);
-  --ink: oklch(18% 0.005 80);
-  --muted: oklch(48% 0.008 80);
-  --accent: oklch(18% 0.005 80);
-  --accent-ink: oklch(98% 0.003 90);
-  --field: oklch(18% 0.005 80);
-  --field-ink: oklch(96% 0.004 90);
+  --bg: oklch(96% 0.006 85);
+  --surface: oklch(92.5% 0.008 85);
+  --surface-2: oklch(88% 0.01 85);
+  --ink: oklch(14% 0.004 80);
+  --muted: oklch(44% 0.01 80);
+  --accent: oklch(14% 0.004 80);
+  --accent-ink: oklch(96% 0.006 85);
+  --field: oklch(12% 0.003 80);
+  --field-ink: oklch(95% 0.006 85);
+  --light: oklch(100% 0 0 / 0);
   --logo: none;
-  --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wght: 500; --fd-wdth: 100; --fd-ls: -0.04em; --fd-lh: 0.95; --fd-case: none;
-}
-/* ── 4 · Streetwear editorial: stone paper, black ink, one flat red, condensed caps ── */
-[data-theme='street'] {
-  color-scheme: light;
-  --bg: oklch(93% 0.008 85);
-  --surface: oklch(89% 0.01 85);
-  --surface-2: oklch(85% 0.012 85);
-  --ink: oklch(15% 0.01 60);
-  --muted: oklch(45% 0.015 60);
-  --accent: oklch(55% 0.21 28);
-  --accent-ink: oklch(97% 0.005 85);
-  --field: oklch(15% 0.01 60);
-  --field-ink: oklch(93% 0.008 85);
-  --logo: none;
-  --fd: var(--font-shoulders); --fb: var(--font-archivo); --fd-wght: 800; --fd-wdth: 100; --fd-ls: 0.005em; --fd-lh: 0.88; --fd-case: uppercase;
-}
-/* ── 5 · Cinematic chrome: cold graphite, silver ink, ice accent, wide display ── */
-[data-theme='chrome'] {
-  color-scheme: dark;
-  --bg: oklch(14% 0.01 250);
-  --surface: oklch(18% 0.012 250);
-  --surface-2: oklch(23% 0.014 250);
-  --ink: oklch(92% 0.01 240);
-  --muted: oklch(68% 0.015 240);
-  --accent: oklch(86% 0.06 230);
-  --accent-ink: oklch(14% 0.01 250);
-  --field: oklch(90% 0.012 240);
-  --field-ink: oklch(14% 0.01 250);
-  --logo: invert(1);
-  --fd: var(--font-unbounded); --fb: var(--font-archivo); --fd-wght: 700; --fd-wdth: 100; --fd-ls: -0.03em; --fd-lh: 0.95; --fd-case: none;
+  --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wght: 200; --fd-wdth: 125; --fd-ls: -0.03em; --fd-lh: 0.95; --fd-case: none;
 }
 
-/* Font-pair overrides from the design controller (data-fd / data-fb on <html>) */
-[data-fd='archivo'] { --fd: var(--font-archivo); --fd-wdth: 125; --fd-wght: 800; }
-[data-fd='archivo-narrow'] { --fd: var(--font-archivo); --fd-wdth: 75; --fd-wght: 700; --fd-ls: -0.01em; }
-[data-fd='fraunces'] { --fd: var(--font-fraunces); --fd-wdth: 100; --fd-wght: 400; --fd-ls: -0.02em; --fd-lh: 0.98; }
-[data-fd='shoulders'] { --fd: var(--font-shoulders); --fd-wdth: 100; --fd-wght: 800; --fd-ls: 0.005em; --fd-lh: 0.88; --fd-case: uppercase; }
-[data-fd='unbounded'] { --fd: var(--font-unbounded); --fd-wdth: 100; --fd-wght: 700; --fd-ls: -0.03em; }
-[data-fb='archivo'] { --fb: var(--font-archivo); }
-[data-fb='fraunces'] { --fb: var(--font-fraunces); }
-[data-fb='unbounded'] { --fb: var(--font-unbounded); }
-[data-fb='system'] { --fb: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+/* Font pairs from the design controller (data-pair on <html>) */
+[data-pair='wide-light'] { --fd: var(--font-archivo); --fb: var(--font-archivo); --fd-wdth: 125; --fd-wght: 300; --fd-ls: -0.025em; --fd-lh: 0.95; --fd-case: none; }
+[data-pair='serif'] { --fd: var(--font-fraunces); --fb: var(--font-archivo); --fd-wdth: 100; --fd-wght: 300; --fd-ls: -0.02em; --fd-lh: 1; --fd-case: none; }
+[data-pair='future'] { --fd: var(--font-unbounded); --fb: var(--font-archivo); --fd-wdth: 100; --fd-wght: 300; --fd-ls: -0.03em; --fd-lh: 1; --fd-case: none; }
+[data-pair='street'] { --fd: var(--font-shoulders); --fb: var(--font-archivo); --fd-wdth: 100; --fd-wght: 800; --fd-ls: 0.005em; --fd-lh: 0.88; --fd-case: uppercase; }
+[data-pair='heavy'] { --fd: var(--font-archivo); --fb: var(--font-fraunces); --fd-wdth: 125; --fd-wght: 850; --fd-ls: -0.035em; --fd-lh: 0.9; --fd-case: none; }

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, Phone } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
@@ -9,6 +9,8 @@ import { bestSellers, byHandle, collectionByHandle, defaultSelection, findVarian
 import { BRAND } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
+import { getLenis, reduced } from '../lib/motion'
+import gsap from 'gsap'
 
 /** Text that rises line by line from behind a mask (motion.ts animates `.ln > span`). */
 export const Lines = ({ lines, d = 0 }: { lines: React.ReactNode[]; d?: number }) => <>{lines.map((l, i) => <span key={i} className="ln" data-d={d + i * 0.1}><span>{l}</span></span>)}</>
@@ -29,11 +31,33 @@ export default function HomeV1() {
   )
 }
 
-/* 1 · Hero: the piece is the only light. */
+/* 1 · Hero: the doors of 3 W 47th Street. Press the buzzer (or scroll) and they slide open onto the
+   piece, the only light on the page. Once per session; skipped for reduced motion and automated browsers. */
+const BUZZED = 'jojo-buzzed'
 function Hero() {
   const p = PIECES[0]
+  const skip = typeof window === 'undefined' || reduced() || navigator.webdriver || (() => { try { return sessionStorage.getItem(BUZZED) === '1' } catch { return false } })()
+  const [doors, setDoors] = useState<'closed' | 'opening' | 'gone'>(skip ? 'gone' : 'closed')
+  const open = () => {
+    if (doors !== 'closed') return
+    try { sessionStorage.setItem(BUZZED, '1') } catch { /* private mode */ }
+    navigator.vibrate?.(30)
+    setDoors('opening'); setTimeout(() => setDoors('gone'), 1700)
+    // the headline rises as the doors part
+    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 0.75 })
+    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.05 })
+  }
+  useEffect(() => {
+    if (doors !== 'closed') return
+    // while the doors are shut the page holds still; any scroll, swipe or key opens them
+    const l = getLenis(); l?.stop(); document.documentElement.classList.add('doors-shut')
+    const intent = (e: Event) => { if (e.type === 'keydown' && !['ArrowDown', 'PageDown', ' ', 'Enter'].includes((e as KeyboardEvent).key)) return; open() }
+    const evs = ['wheel', 'touchmove', 'keydown'] as const
+    evs.forEach((t) => addEventListener(t, intent, { passive: true }))
+    return () => { evs.forEach((t) => removeEventListener(t, intent)); document.documentElement.classList.remove('doors-shut'); getLenis()?.start() }
+  }) // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <section className="hero">
+    <section className={'hero hero--' + doors}>
       <div className="hero__media"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
       <div className="hero__txt wrap">
         <h1 className="display"><Lines lines={['Done the', 'JoJo way']} /></h1>
@@ -41,6 +65,15 @@ function Hero() {
         <div className="hero__cta rv" data-d="0.4"><Link className="btn btn--lg" to="/collections/chains">Shop chains</Link><Link className="link" to="/custom">Start a custom piece</Link></div>
       </div>
       <p className="hero__cap rv" data-d="0.6">Custom R money-bag pendant, iced rose gold</p>
+      {doors !== 'gone' && (
+        <div className="doors" aria-hidden={doors === 'opening'}>
+          <div className="doors__leaf doors__leaf--l"><span>3 W</span></div>
+          <div className="doors__leaf doors__leaf--r"><span>47th</span></div>
+          <i className="doors__seam" />
+          <p className="doors__top"><span>JoJo The Jeweler · New York Diamond District</span></p>
+          <button className="doors__buzz" onClick={open}><i /><span>Press to buzz in</span><small>or scroll</small></button>
+        </div>
+      )}
     </section>
   )
 }
@@ -141,7 +174,6 @@ function Proof() {
     <section className="proof wrap">
       <div className="proof__head">
         <h2 className="h2"><Lines lines={['Who wears it']} /></h2>
-        <p className="lede rv">Recent custom work and the people wearing it, from JoJo’s Instagram, with his captions.</p>
       </div>
       <div className="proof__grid rail-m">
         {PROOF_POSTS.slice(0, 5).map((x, i) => (
