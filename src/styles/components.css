@@ -253,3 +253,35 @@
 .dot::before { content: ''; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px oklch(0% 0 0 / .25); transition: transform .18s var(--ease-out); }
 .dot:hover::before, .dot.on::before { transform: scale(1.25); box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ink); }
 .card__frame img, .gallery__slide img, .qv__img img, .builder__img img, .lines img, .sticky img { transition: filter .45s var(--ease-out), opacity .5s var(--ease-out), transform 1.2s var(--ease-soft); }
+
+/* controller v2 */
+.dc__panel { width: min(22rem, calc(100vw - 1.75rem)); max-height: 80vh; }
+.dc__tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: .25rem; position: sticky; top: -1rem; margin: -1rem -1rem 0; padding: 1rem 1rem .5rem; background: #151412; z-index: 1; }
+.dc__tabs button { padding: .5rem 0; border-radius: .25rem; background: #262320; color: inherit; font-size: .8125rem; }
+.dc__tabs button.on { background: #efece4; color: #151412; }
+.dc__aa { width: 2.75rem; flex: none; font-size: 1.5rem; line-height: 1; text-align: center; }
+.dc__pair--wide-light .dc__aa { font-family: var(--font-archivo); font-variation-settings: 'wdth' 125; font-weight: 300; }
+.dc__pair--serif .dc__aa { font-family: var(--font-fraunces); font-weight: 300; }
+.dc__pair--future .dc__aa { font-family: var(--font-unbounded); font-weight: 300; }
+.dc__pair--street .dc__aa { font-family: var(--font-shoulders); font-weight: 800; text-transform: uppercase; }
+.dc__pair--heavy .dc__aa { font-family: var(--font-archivo); font-variation-settings: 'wdth' 125; font-weight: 850; }
+.dc__sl { display: grid; gap: .375rem; }
+.dc__sl > span { display: flex; justify-content: space-between; font-size: .8125rem; opacity: .85; }
+.dc__sl b { font-variant-numeric: tabular-nums; font-weight: 500; }
+.dc__sl input { width: 100%; accent-color: #d2ad5e; }
+.dc__foot { display: flex; gap: .5rem; flex-wrap: wrap; padding-top: .5rem; border-top: 1px solid #ffffff1a; }
+.dc__btn { display: inline-flex; align-items: center; gap: .375rem; padding: .5rem .75rem; border-radius: .25rem; background: #efece4; color: #151412; font-size: .8125rem; font-weight: 600; }
+.dc__btn--ghost { background: #262320; color: #efece4; }
+.dc__hint { font-size: .75rem; opacity: .55; margin: 0; }
+
+/* ── "Ice is light" effects, switched from the controller ── */
+@media (hover: hover) {
+  html[data-light='soft'] body::after, html[data-light='strong'] body::after { content: ''; position: fixed; inset: 0; z-index: 45; pointer-events: none; background: radial-gradient(30rem circle at var(--mx, 60%) var(--my, 30%), var(--light), transparent 70%); mix-blend-mode: screen; }
+  html[data-light='strong'] body::after { background: radial-gradient(36rem circle at var(--mx, 60%) var(--my, 30%), oklch(100% 0 0 / .15), transparent 70%); }
+  html[data-cards='dim'] .card__media::before { content: ''; position: absolute; inset: 0; z-index: 1; background: var(--bg); opacity: .5; pointer-events: none; transition: opacity .6s var(--ease-out); }
+  html[data-cards='dim'] .card:hover .card__media::before, html[data-cards='dim'] .card:focus-within .card__media::before { opacity: 0; }
+}
+html[data-grain='on'] body::before { content: ''; position: fixed; inset: -50%; z-index: 46; pointer-events: none; opacity: .08; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: grain 1s steps(4) infinite; }
+@keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -2%); } }
+html[data-img='contrast'] .stage { filter: contrast(1.12) saturate(1.1); }
+html[data-img='mono'] .stage { filter: grayscale(1) contrast(1.08); }

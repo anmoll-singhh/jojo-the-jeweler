@@ -142,7 +142,7 @@
 .ct-visit { display: grid; gap: 1.25rem; align-content: start; }
 .ct-map { aspect-ratio: 4/3; max-height: 60svh; }
 .ct-map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(1) invert(.92) contrast(.9); }
-[data-theme='minimal'] .ct-map iframe, [data-theme='street'] .ct-map iframe { filter: grayscale(1); }
+[data-theme='daylight'] .ct-map iframe { filter: grayscale(1); }
 .ct-facts { display: grid; gap: 1rem; margin: 0; }
 .ct-facts dt { color: var(--muted); font-size: .875rem; }
 .ct-facts dd { margin: 0.125rem 0 0; }
