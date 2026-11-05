@@ -48,11 +48,17 @@ function Hero() {
     navigator.vibrate?.([20, 60, 20])
     document.documentElement.classList.add('gate-anim')
     setGate('buzz')                                   // LED turns green, the lock clicks
-    setTimeout(() => setGate('open'), 520)            // doors swing in
-    setTimeout(() => { setGate('gone'); document.documentElement.classList.remove('gate-anim') }, 520 + 1750)
-    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 1.3 })
-    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.6 })
+    setTimeout(() => setGate('open'), 650)            // doors swing in
+    setTimeout(() => { setGate('gone'); document.documentElement.classList.remove('gate-anim') }, 650 + 1900)
+    gsap.fromTo('.hero .ln > span', { yPercent: 110 }, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 1.45 })
+    gsap.fromTo('.hero .rv', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08, delay: 1.75 })
   }
+  // the film waits, paused on its first frame, until you're through the doors (nothing plays unseen behind them)
+  useEffect(() => {
+    const v = document.querySelector<HTMLVideoElement>('.hero__media video'); if (!v) return
+    if (gate === 'gone') { v.play().catch(() => {}); return }
+    v.pause(); const hold = () => v.pause(); v.addEventListener('play', hold); return () => v.removeEventListener('play', hold)
+  }, [gate])
   useEffect(() => {
     if (gate !== 'shut') return
     // the page holds still until someone buzzes; there is no other way in
