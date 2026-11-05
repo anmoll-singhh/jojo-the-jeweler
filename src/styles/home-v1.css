@@ -297,50 +297,21 @@ html.doors-shut, html.doors-shut body { overflow: hidden; }
   .gate__shelf { position: absolute; left: .625rem; right: .625rem; bottom: calc(.625rem + 14%); height: .5rem; background: linear-gradient(oklch(30% 0.01 60), oklch(14% 0.005 60)); box-shadow: 0 -.5rem 1rem oklch(85% 0.07 85 / .12); }
 }
 @media (max-width: 26em) { .gate { --gw: 56vw; } .gate__intercom { width: 3.125rem; padding: .625rem .375rem .75rem; right: max(.375rem, calc((100vw - var(--gw)) / 2 - 3.75rem)); } .gate__btn { width: 2.25rem; } }
-/* size from the screen: the entrance fills the height under the nav and sign; width follows a door's proportions */
-.gate { --gh: min(calc(100svh - var(--nav-h) - 6.5rem), 62rem); --gw: min(calc(var(--gh) * .78), 46vw); }
-@media (max-width: 43.75em) { .gate { --gh: calc(100svh - var(--nav-h) - 7rem); --gw: min(calc(var(--gh) * .56), 70vw); } }
-@media (max-width: 26em) { .gate { --gw: min(calc(var(--gh) * .56), 64vw); } }
-.gate__win { display: none !important; }
-@media (min-width: 68.75em) { .gate__win { display: grid !important; width: min(calc((100vw - var(--gw)) / 2 - 9rem), 24rem); } }
-/* smooth: no live blur over the playing film. The glass shows a still of the store light, blurred once. */
-.gate__glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
-.gate__inside { position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; object-position: 30% 50%; filter: blur(14px) brightness(.62) saturate(1.2) sepia(.15); z-index: -1; }
-.gate__inside--r { object-position: 70% 50%; }
-.gate__glass { isolation: isolate; }
-.gate, .gate__door { will-change: transform; }
-.gate__door { transition: transform 1.1s cubic-bezier(.65, 0, .3, 1); }
-.hero--open .gate { transform: scale(2.4); opacity: 0; transition: transform 1.5s .3s cubic-bezier(.6, 0, .25, 1), opacity .6s 1.1s linear; }
-.hero--open .hero__media video { transition: transform 1.9s .25s cubic-bezier(.2, .7, .2, 1); }
-.hero--buzz .gate__door { animation: rattle .1s 3 linear; }
-/* lighter opening: a short dolly instead of a 2.4× zoom, and the film settles from 1.05 */
-.hero--open .gate { transform: scale(1.35); transition: transform 1.3s .35s cubic-bezier(.55, 0, .3, 1), opacity .55s 1.05s linear; }
-.hero--shut .hero__media video, .hero--buzz .hero__media video { transform: scale(1.05); }
-.hero--open .hero__media video { transition: transform 1.6s .3s cubic-bezier(.2, .7, .2, 1); }
-.gate__door { box-shadow: none; }
-/* keep the opening cheap: the page light rests while the gate is up, and the doors sit on their own layers from the start */
-html.doors-shut body::after, html.gate-anim body::after { display: none; }
-.gate__door { transform: translateZ(0); }
-.hero--open .gate__door--l { transform: rotateY(82deg); }
-.hero--open .gate__door--r { transform: rotateY(-82deg); }
-/* final opening: the doors swing in, then the storefront fades away; nothing large is scaled */
-.hero--open .gate { transform: none; opacity: 0; transition: opacity .7s .85s cubic-bezier(.4, 0, .2, 1); }
-.hero--shut .hero__media video, .hero--buzz .hero__media video, .hero--open .hero__media video { transform: none; transition: none; }
-.gate { will-change: opacity; }
-/* sizing: room for the hint and the sign above the door at every height; scales up on big screens */
-.gate { --gh: min(calc(100svh - var(--nav-h) - 9rem), 80rem); --gw: min(calc(var(--gh) * .78), 46vw); }
-@media (max-width: 43.75em) { .gate { --gh: calc(100svh - var(--nav-h) - 9rem); --gw: min(calc(var(--gh) * .56), 70vw); } }
-@media (max-width: 26em) { .gate { --gw: min(calc(var(--gh) * .56), 64vw); } }
-.gate__hint { top: calc(var(--nav-h) + 1rem); }
-/* frosted glass with the store's warm light behind it (static: no live blur over the film) */
-.gate__glass { background:
-  linear-gradient(115deg, transparent 18%, oklch(100% 0 0 / .14) 24%, transparent 31%, transparent 62%, oklch(100% 0 0 / .07) 66%, transparent 70%),
+
+/* ── smoother entrance, same look and motion ──
+   1 the glass is a static frosted light instead of a live blur of the playing film (the biggest cost)
+   2 doors and the storefront sit on their own GPU layers from the start, so the swing and zoom don't repaint
+   3 the page's cursor light rests while the gate is up */
+.gate__glass { -webkit-backdrop-filter: none; backdrop-filter: none; background:
+  linear-gradient(115deg, transparent 18%, oklch(100% 0 0 / .16) 24%, transparent 31%, transparent 62%, oklch(100% 0 0 / .08) 66%, transparent 70%),
   repeating-linear-gradient(180deg, transparent 0 22%, oklch(96% 0.05 85 / .1) 22% 22.6%, transparent 22.6% 40%),
   radial-gradient(70% 40% at 50% 12%, oklch(92% 0.06 85 / .4), transparent 70%),
   radial-gradient(90% 60% at 50% 85%, oklch(70% 0.07 70 / .35), transparent 75%),
-  linear-gradient(oklch(52% 0.035 80), oklch(40% 0.03 75) 60%, oklch(30% 0.025 70)); }
-/* details scale with the door */
-.gate__decal b { font-size: clamp(1.25rem, calc(var(--gh) * .05), 3.25rem); }
-.gate__decal svg { width: clamp(2.25rem, calc(var(--gh) * .07), 5rem); }
-.gate__decal small, .gate__hours { font-size: clamp(.5625rem, calc(var(--gh) * .014), 1rem); }
-@media (min-width: 43.8125em) { .gate__intercom { width: clamp(3.5rem, calc(var(--gh) * .085), 6.5rem); } .gate__btn { width: clamp(2.5rem, calc(var(--gh) * .06), 4.5rem); } .gate__fascia span { font-size: clamp(1rem, calc(var(--gh) * .034), 2.5rem); } }
+  linear-gradient(oklch(54% 0.035 80), oklch(42% 0.03 75) 60%, oklch(32% 0.025 70)); }
+.gate { will-change: transform, opacity; backface-visibility: hidden; }
+.gate__door { will-change: transform; }
+html.doors-shut body::after { display: none; }
+html.gate-anim body::after { display: none; }
+/* build the doors' 3D layers during the buzz, so the swing starts without a hitch */
+.hero--buzz .gate__door--l { transform: rotateY(.01deg); }
+.hero--buzz .gate__door--r { transform: rotateY(-.01deg); }

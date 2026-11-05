@@ -5,7 +5,7 @@
 ### Performance and compatibility
 - Homepage video on load cut from about 44 MB to 2.7 MB: the four films re-encoded for background playback (6–12 MB down to 2.6–3.7 MB each, no visible loss), and every video except the one at the top of a page now downloads nothing until it is about a screen away.
 - Every WebP image has a JPG (or PNG with transparency) copy; browsers without WebP (Safari 13 and older) are detected once and get those instead. Videos ship WebM with an MP4 fallback.
-- Gate: sized from the screen height at every width (320 to 2560), details scale with it; the opening no longer zooms the whole storefront or blurs live video, so it holds frame rate on phones.
+- Gate: the original entrance is kept (display windows, doors swinging in, zoom through into the hero). It runs smoother: the glass is a static frosted light instead of a live blur of the film, the doors and storefront sit on their own GPU layers, the door layers are prepared during the buzz, the cursor light rests while the gate is up, and the film waits on its first frame until you're through.
 
 ### Changed
 - Direction A chosen in /lab: the page is true black and the jewellery is the only light. Light, wide display type; champagne only on the action; the custom-process field is dark now, so the site is one black world. A soft light follows the cursor, and product cards stay dim until pointed at (both switchable).
