@@ -142,14 +142,18 @@ test.describe('commerce', () => {
     await expect(page.locator('.grid .card')).toHaveCount(n)
   })
 
-  test('homepage Cuban builder prices and adds', async ({ page }) => {
+  test('homepage Weigh it: grams and price change, adds to bag', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
-    const out = page.locator('.builder__out dd.num').first()
+    const out = page.locator('.weigh__out b')
+    const lcd = page.locator('.weigh__lcd')
     await out.scrollIntoViewIfNeeded()
-    const a = await out.textContent()
-    await page.locator('.builder').getByRole('radio', { name: '12mm' }).click()
+    const a = await out.textContent(), g = await lcd.textContent()
+    await page.locator('.weigh').getByRole('radio', { name: '12mm' }).click()
     await expect(out).not.toHaveText(a!)
-    await page.locator('.builder .addbtn').click()
+    await expect(lcd).not.toHaveText(g!)
+    await page.locator('.weigh').getByRole('radio', { name: 'Rose gold' }).click()
+    await expect(page.locator('.weigh').getByRole('radio', { name: 'Rose gold' })).toHaveAttribute('aria-checked', 'true')
+    await page.locator('.weigh .addbtn').click()
     await expect(page.locator('.drawer.is-open')).toBeVisible({ timeout: 5000 })
   })
 })
@@ -285,7 +289,7 @@ test.describe('round 2', () => {
   test('homepage order', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
     const order = await page.$$eval('main > section', (s) => s.map((e) => e.className.split(' ')[0]))
-    expect(order).toEqual(['hero', 'sbp', 'field', 'picks', 'look', 'proof', 'room'])
+    expect(order).toEqual(['hero', 'sbp', 'weigh', 'picks', 'look', 'proof', 'room'])
   })
 
   test('custom inquiry: validation, three steps, review', async ({ page }) => {

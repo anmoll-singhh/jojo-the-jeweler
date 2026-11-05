@@ -6,6 +6,7 @@
 - Direction A chosen in /lab: the page is true black and the jewellery is the only light. Light, wide display type; champagne only on the action; the custom-process field is dark now, so the site is one black world. A soft light follows the cursor, and product cards stay dim until pointed at (both switchable).
 - Homepage hero: the doors of 3 W 47th Street. A lit seam and a brass buzzer; press it, scroll or swipe and the doors slide apart onto the hero film while the headline rises. Once per session; skipped for reduced motion.
 - Product photos colour-graded to one look (`scripts/grade-products.py`): satin matched to the same depth and neutral tone; originals kept in `content/media-originals/products`.
+- "Price your Cuban" replaced by "Weigh it": the Miami Cuban drops onto a 47th Street gold scale whenever an option changes; the green display counts the grams and the price rolls up. Metal recolours the chain, width sizes it, add to bag from there.
 - Removed the line under "Who wears it".
 - Design controller v2 (dev or `?design=1`): five themes in the A family (Ice, Champagne, Platinum, Rose, Daylight), five font pairs, sliders for heading size, body text, heading letter-spacing, section spacing, page margins and corner radius; cursor light, card dimming, photography treatment (natural, high contrast, mono), film grain and motion (full, calm, still). "Copy this look" makes a link that opens the site with those settings.
 - /lab: previews for choosing the direction, hero and the "Price your Cuban" replacement.
