@@ -19,6 +19,7 @@ import { useRadioKeys } from './lib/a11y'
 import { Link } from 'react-router-dom'
 
 const HomeV2 = lazy(() => import('./pages/HomeV2'))
+const Lab = lazy(() => import('./pages/Lab').then((m) => ({ default: m.Lab })))
 
 function Shell() {
   const { pathname } = useLocation()
@@ -41,6 +42,7 @@ function Shell() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/lab" element={<Suspense fallback={<main id="main" className="page" />}><Lab /></Suspense>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Boundary>

@@ -10,7 +10,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 export type Metal = 'yellow' | 'white' | 'rose'
 const COLORS: Record<Metal, number> = { yellow: 0xd9b25c, white: 0xd8dadd, rose: 0xd9a38a }
 
-export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { metal?: Metal; width?: number; className?: string }) {
+export function Chain3D({ metal = 'yellow', width = 12, className = '', drop = false }: { metal?: Metal; width?: number; className?: string; drop?: boolean }) {
   const host = useRef<HTMLDivElement>(null)
   const matRef = useRef<THREE.MeshStandardMaterial | null>(null)
   const groupRef = useRef<THREE.Group | null>(null)
@@ -47,6 +47,9 @@ export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { meta
       group.add(m)
     }
     group.rotation.x = 0.35
+    // drop: the chain falls in from above and swings to rest (damped spring on y, pendulum on z)
+    let y = drop ? 9 : 0, vy = 0, swing = drop ? 0.5 : 0, vs = 0
+    group.position.y = y
     let rotY = 0, vel = 0.003, drag = false, lastX = 0
     const size = () => { const w = el.clientWidth, h = el.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.position.z = cam.aspect < 1.2 ? 12.5 * (1.2 / cam.aspect) : 12.5; cam.updateProjectionMatrix() }
     size(); const ro = new ResizeObserver(size); ro.observe(el)
@@ -62,6 +65,7 @@ export function Chain3D({ metal = 'yellow', width = 12, className = '' }: { meta
       if (!visible) return
       if (!drag) { vel += (0.003 - vel) * 0.03; if (!reduced) rotY += vel }
       group.rotation.y = rotY
+      if (drop) { vy += (-y * 0.045) - vy * 0.12; y += vy; vs += (-swing * 0.03) - vs * 0.04; swing += vs + (drag ? vel * 0.15 : 0); group.position.y = y; group.rotation.z = swing }
       renderer.render(scene, cam)
     }
     loop()
