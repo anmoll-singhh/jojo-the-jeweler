@@ -16,6 +16,7 @@ import { Contact } from './pages/Contact'
 import { Checkout } from './pages/Checkout'
 import { Boundary } from './components/Boundary'
 import { useRadioKeys } from './lib/a11y'
+import { useFormatFallback } from './lib/formats'
 import { Link } from 'react-router-dom'
 
 const HomeV2 = lazy(() => import('./pages/HomeV2'))
@@ -23,7 +24,7 @@ const Lab = lazy(() => import('./pages/Lab').then((m) => ({ default: m.Lab })))
 
 function Shell() {
   const { pathname } = useLocation()
-  useSmoothScroll(); useRouteMotion(); useMagnetic(); useImageSkeletons(); useRadioKeys()
+  useSmoothScroll(); useRouteMotion(); useMagnetic(); useImageSkeletons(); useRadioKeys(); useFormatFallback()
   const over = pathname === '/' || pathname === '/v2' || pathname === '/about'
   return (
     <>

@@ -129,7 +129,7 @@ export function Custom() {
         </div>
 
         <figure className="cu-film">
-          <div className="stage"><Video mp4={film.mp4} webm={film.webm} poster={film.poster} label={film.title} /></div>
+          <div className="stage"><Video priority mp4={film.mp4} webm={film.webm} poster={film.poster} label={film.title} /></div>
           <figcaption className="small muted">{film.title}: {film.line}</figcaption>
         </figure>
       </section>

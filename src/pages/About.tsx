@@ -60,7 +60,7 @@ export function About() {
   const followersK = Math.floor((IG_PROFILE?.followers ?? 109000) / 1000)
   return (
     <main id="main" ref={root} className="page about">
-      <Shutter className="ab-shutter" media={<Video mp4={HERO_REEL.mp4} webm={HERO_REEL.webm} poster={HERO_REEL.poster} label="JoJo The Jeweler" />}>
+      <Shutter className="ab-shutter" media={<Video priority mp4={HERO_REEL.mp4} webm={HERO_REEL.webm} poster={HERO_REEL.poster} label="JoJo The Jeweler" />}>
         <h1 className="display">Meet JoJo</h1>
         <p className="lede">The jeweler at 3 W 47th Street, New York Diamond District. Jewelry, watches and custom pieces.</p>
       </Shutter>

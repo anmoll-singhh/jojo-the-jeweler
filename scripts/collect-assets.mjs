@@ -90,8 +90,8 @@ function drive() {
         const out = `${M}/drive/${name}.mp4`
         const d = Number(probe(f).format?.duration || 0)
         // Web hero loop: first 14s, 1080 tall max, muted, faststart. Originals stay in Drive.
-        ff(['-i', f, '-t', '14', '-vf', "scale='if(gt(ih,1080),-2,iw)':'min(ih,1080)',fps=30", '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '23', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out])
-        ff(['-i', out, '-c:v', 'libvpx-vp9', '-crf', '34', '-b:v', '0', '-deadline', 'good', '-cpu-used', '3', '-row-mt', '1', '-an', `${M}/drive/${name}.webm`])
+        ff(['-i', f, '-t', '14', '-vf', "scale='if(gt(ih,1080),-2,iw)':'min(ih,1080)',fps=30", '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '28', '-maxrate', '2M', '-bufsize', '4M', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out])
+        ff(['-i', out, '-c:v', 'libvpx-vp9', '-crf', '40', '-b:v', '1400k', '-deadline', 'good', '-cpu-used', '3', '-row-mt', '1', '-an', `${M}/drive/${name}.webm`])
         ff(['-i', out, '-frames:v', '1', '-c:v', 'libwebp', '-quality', '82', `${M}/drive/${name}.webp`])
         const j = probe(out)
         manifest.push({ kind: 'video', name: basename(f), src: `/media/drive/${name}.mp4`, webm: `/media/drive/${name}.webm`, poster: `/media/drive/${name}.webp`, w: j.streams?.[0]?.width, h: j.streams?.[0]?.height, originalSeconds: Math.round(d), bytes: statSync(out).size })

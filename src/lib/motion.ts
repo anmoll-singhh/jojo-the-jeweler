@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import gsap from 'gsap'
+import { fallbackOf } from './formats'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 gsap.registerPlugin(ScrollTrigger)
@@ -103,7 +104,8 @@ export function useImageSkeletons() {
       if (!img.dataset.retried) {
         img.dataset.retried = '1'; img.dataset.retriedAt = String(Date.now() + 600)
         const base = img.getAttribute('src') || ''
-        setTimeout(() => { img.removeAttribute('srcset'); img.src = base + (base.includes('?') ? '&' : '?') + 'r=' + Date.now() }, 600)
+        // a WebP that won't decode goes straight to its JPG/PNG copy; anything else is retried once
+        setTimeout(() => { img.removeAttribute('srcset'); img.src = /\.webp(\?|$)/.test(base) && /no-webp/.test(document.documentElement.className) ? fallbackOf(base) : base + (base.includes('?') ? '&' : '?') + 'r=' + Date.now() }, 600)
       } else { img.classList.add('img-failed'); img.closest('.stage')?.classList.add('ready') }
     }
     document.addEventListener('load', onLoad, true)

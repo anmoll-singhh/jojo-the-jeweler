@@ -53,7 +53,7 @@ function Opening() {
   const p = PIECES[0]
   return (
     <section ref={root} className="v2-open">
-      <div className="v2-open__film"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+      <div className="v2-open__film"><Video priority mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
       <div className="v2-open__word" aria-hidden="true">JoJo</div>
       <div className="v2-open__h wrap">
         <h1 className="display">Done the JoJo way</h1>
