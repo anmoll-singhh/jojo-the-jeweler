@@ -4,7 +4,7 @@
 
 ### Changed
 - Direction A chosen in /lab: the page is true black and the jewellery is the only light. Light, wide display type; champagne only on the action; the custom-process field is dark now, so the site is one black world. A soft light follows the cursor, and product cards stay dim until pointed at (both switchable).
-- Homepage hero: the doors of 3 W 47th Street. A lit seam and a brass buzzer; press it, scroll or swipe and the doors slide apart onto the hero film while the headline rises. Once per session; skipped for reduced motion.
+- Homepage hero: the street entrance of the store. Granite front, backlit "JoJo The Jeweler" fascia with the brass 3, steel-framed glass doors with gold-leaf lettering and the hours, lit display windows either side with real pieces, and an intercom (camera, speaker, red LED, brass buzzer). The page doesn't scroll until the buzzer is pressed: the LED turns green, the lock rattles, the doors swing in and you walk through onto the hero film as the headline rises. Once per session; skipped for reduced motion.
 - Product photos colour-graded to one look (`scripts/grade-products.py`): satin matched to the same depth and neutral tone; originals kept in `content/media-originals/products`.
 - "Price your Cuban" replaced by "Weigh it": the Miami Cuban drops onto a 47th Street gold scale whenever an option changes; the green display counts the grams and the price rolls up. Metal recolours the chain, width sizes it, add to bag from there.
 - Removed the line under "Who wears it".
