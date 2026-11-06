@@ -46,7 +46,7 @@ const fmtDay = (iso: string) => (iso ? new Date(iso + 'T12:00').toLocaleDateStri
 
 export function Engagement() {
   useTitle('Custom engagement rings')
-  const [f, setF] = useState<F>(load)
+  const [f, setF] = useState<F>(() => { const q = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('shape') : null; const d = load(); return q && SHAPES.some((x) => x.shape === q) ? { ...d, shape: q } : d })
   const [step, setStep] = useState(0)
   const [err, setErr] = useState('')
   const [sent, setSent] = useState<SendMode | null>(null)
