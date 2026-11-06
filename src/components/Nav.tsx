@@ -61,6 +61,7 @@ export function Nav({ over = false }: { over?: boolean }) {
               </div>
             </div>
             <NavLink to="/custom">Custom</NavLink>
+            <NavLink to="/engagement-rings">Engagement</NavLink>
             <NavLink to="/clients">Clients</NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>

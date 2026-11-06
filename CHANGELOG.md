@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-06 (engagement rings, round 3)
+- Homepage: new engagement-rings section after Custom work (ring photo, headline, six diamond shapes that open the builder with that shape chosen, Design your ring). "Engagement" added to the desktop nav.
+- Engagement hero: the photo sits on the right and fades into black, so the headline and copy sit on clean black at every width; phones stack the photo above the text; headline holds two lines.
+
 ## 2026-11-06 (engagement rings, round 2; favicon and share images)
 - Engagement page: live preview removed; drawn diamond shapes replaced with photographs of each cut and photographs of each setting (two generated grids, sliced into tiles); colour added (champagne-to-rose step bar and button, coloured icons for lab-grown/natural/help, how-it-works and consultation icons, soft coloured glow behind the builder); builder centred.
 - Favicon set: gold monogram on black (SVG, 16/32/48 ICO, 180 apple-touch, 192/512 PNG) and a web manifest; the old favicon was black-only and vanished on dark tabs.

@@ -29,6 +29,7 @@ export default function HomeV1({ gate = false }: { gate?: boolean }) {
       <CubanBuilder />
       <Picks />
       <CustomWork />
+      <Bridal />
       <Proof />
       <Showroom />
     </main>
@@ -227,6 +228,25 @@ function CubanBuilder() {
             <Link className="link" to={'/products/' + p.handle}>Full details</Link>
           </div>
         </div>
+      </div>
+    </section>
+  )
+}
+
+/* Engagement rings: the photo, one line, and the first choice of the builder (a shape) as the way in. */
+const BRIDAL_SHAPES = ['Round', 'Oval', 'Emerald', 'Pear', 'Cushion', 'Marquise']
+function Bridal() {
+  return (
+    <section className="bridal screen">
+      <div className="bridal__pic"><img src="/media/engagement/hero.webp" alt="Oval diamond engagement ring on a pavé band" loading="lazy" /></div>
+      <div className="bridal__txt wrap">
+        <p className="bridal__kick rv">Bespoke engagement rings</p>
+        <h2 className="h1"><Lines lines={['Make the ring', 'she says yes to']} /></h2>
+        <p className="lede rv">Pick the diamond, the setting and the metal in eight quick steps, then book a consultation with JoJo.</p>
+        <div className="bridal__shapes rv-group" aria-label="Start with a shape">
+          {BRIDAL_SHAPES.map((sh) => <Link key={sh} to={'/engagement-rings?shape=' + sh} className="bridal__shape"><img src={`/media/engagement/shape-${sh.toLowerCase()}.webp`} alt="" loading="lazy" /><span>{sh}</span></Link>)}
+        </div>
+        <Link className="btn btn--lg rv" to="/engagement-rings">Design your ring <ArrowRight size={18} /></Link>
       </div>
     </section>
   )

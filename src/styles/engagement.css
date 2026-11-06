@@ -161,3 +161,17 @@
 @media (min-width: 37.5em) { .eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 56.25em) { .eng-shapes { grid-template-columns: repeat(4, minmax(0, 1fr)); } .eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .eng-shape.on, .eng-cards:has(.eng-ringimg) .eng-card.on { background: oklch(6% 0 0); }
+/* hero readability: the photo sits on the right and fades into black; the words sit on clean black */
+.eng-hero::after { background: none; }
+.eng-hero__img { left: auto; right: 0; width: min(68%, 72rem); object-position: 62% 50%; -webkit-mask: linear-gradient(90deg, transparent 0, #000 32%); mask: linear-gradient(90deg, transparent 0, #000 32%); }
+.eng-hero__txt { max-width: min(46rem, 52%); margin-left: 0; }
+.eng-hero__txt .display { text-shadow: 0 .1em .6em oklch(0% 0 0 / .6); }
+@media (max-width: 56.24em) {
+  .eng-hero { display: grid; grid-template-rows: auto auto; align-items: start; min-height: 0; }
+  .eng-hero__img { position: relative; inset: auto; width: 100%; height: 56svh; object-position: 64% 50%; -webkit-mask: linear-gradient(#000 70%, transparent); mask: linear-gradient(#000 70%, transparent); }
+  .eng-hero__txt { max-width: none; padding-block: 0 3rem; margin-top: -3rem; }
+}
+.eng-hero .display { font-size: clamp(2.25rem, .9rem + 4vw, 5rem); }
+.eng-hero .display .ln > span, .bridal h2 .ln > span { white-space: nowrap; }
+@media (min-width: 56.25em) { .eng-hero__txt { max-width: min(48rem, 56%); } }
+@media (min-width: 56.25em) { .eng-hero__img { width: 66%; } }

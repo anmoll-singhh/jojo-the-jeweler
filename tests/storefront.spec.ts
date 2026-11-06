@@ -297,7 +297,7 @@ test.describe('round 2', () => {
   test('homepage order', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
     const order = await page.$$eval('main > section', (s) => s.map((e) => e.className.split(' ')[0]))
-    expect(order).toEqual(['hero', 'sbp', 'weigh', 'picks', 'look', 'proof', 'room'])
+    expect(order).toEqual(['hero', 'sbp', 'weigh', 'picks', 'look', 'bridal', 'proof', 'room'])
   })
 
   test('custom inquiry: validation, three steps, review', async ({ page }) => {
