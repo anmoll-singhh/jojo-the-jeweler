@@ -55,6 +55,7 @@ export function metaFor(seo, path, { catalog, faq } = {}) {
   }
   if (path === '/about' && faq) return { ...base, ...page, ld: [orgLd(seo), { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }] }
   if (path === '/contact') return { ...base, ...page, ld: [orgLd(seo)] }
+  if (path === '/engagement-rings') return { ...base, ...page, image: seo.origin + '/media/engagement/hero.jpg', ld: [{ '@type': 'Service', name: 'Custom engagement rings', serviceType: 'Custom engagement ring design', areaServed: 'Worldwide', provider: { '@id': seo.origin + '/#store' }, url: base.url }, orgLd(seo)] }
   if (path === '/custom') return { ...base, ...page, ld: [{ '@type': 'Service', name: 'Custom jewelry design', serviceType: 'Custom jewelry', areaServed: 'Worldwide', provider: { '@id': seo.origin + '/#store' }, url: base.url }, orgLd(seo)] }
   return { ...base, ...(page || { title: seo.siteName }) }
 }

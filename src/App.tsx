@@ -15,6 +15,7 @@ import { Custom } from './pages/Custom'
 import { Contact } from './pages/Contact'
 import { Checkout } from './pages/Checkout'
 import { Clients } from './pages/Clients'
+import { Engagement } from './pages/Engagement'
 import { Boundary } from './components/Boundary'
 import { useRadioKeys } from './lib/a11y'
 import { useFormatFallback } from './lib/formats'
@@ -26,7 +27,7 @@ const Lab = lazy(() => import('./pages/Lab').then((m) => ({ default: m.Lab })))
 function Shell() {
   const { pathname } = useLocation()
   useSmoothScroll(); useRouteMotion(); useMagnetic(); useImageSkeletons(); useRadioKeys(); useFormatFallback()
-  const over = ['/', '/v2', '/film', '/about', '/clients'].includes(pathname)
+  const over = ['/', '/v2', '/film', '/about', '/clients', '/engagement-rings'].includes(pathname)
   return (
     <>
       <Nav key={pathname} over={over} />
@@ -36,6 +37,7 @@ function Shell() {
         <Route path="/v2" element={<HomeV1 gate />} />
         <Route path="/film" element={<Suspense fallback={<main id="main" className="page" />}><HomeV2 /></Suspense>} />
         <Route path="/clients" element={<Clients />} />
+        <Route path="/engagement-rings" element={<Engagement />} />
         <Route path="/collections/:handle" element={<Collection />} />
         <Route path="/collections" element={<Collection />} />
         <Route path="/products/:handle" element={<ProductPage />} />

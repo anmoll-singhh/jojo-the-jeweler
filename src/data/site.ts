@@ -51,7 +51,7 @@ export const NAV = {
     ['Watches', '/collections/watches'],
     ['All pieces', '/collections/all'],
   ],
-  more: [['Custom', '/custom'], ['Clients', '/clients'], ['About', '/about'], ['Contact', '/contact']],
+  more: [['Custom', '/custom'], ['Engagement rings', '/engagement-rings'], ['Clients', '/clients'], ['About', '/about'], ['Contact', '/contact']],
 }
 
 /** Sample copy the client must confirm or replace. */

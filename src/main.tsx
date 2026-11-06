@@ -13,5 +13,6 @@ import './styles/home-v2.css'
 import './styles/pages.css'
 import './styles/pages-r2.css'
 import './styles/clients.css'
+import './styles/engagement.css'
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
 ReactDOM.createRoot(document.getElementById('root')!).render(<BrowserRouter><App /></BrowserRouter>)
