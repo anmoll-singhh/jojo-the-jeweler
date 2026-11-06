@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-06 (engagement rings)
+- New `/engagement-rings` page, separate from `/custom`, modelled on Rocco's custom ring enquiry and extended: photographic hero, how-it-works with icons, an eight-step builder (shape with drawn diamond illustrations for 11 cuts plus Other, carat, lab-grown or natural, setting with line drawings, metal and US ring size, budget and timing, consultation type with a react-day-picker calendar (no Sundays or past days, next 60 days) and store-hours time slots, details with a review and edit links). A live ring preview updates with every choice. Sends through the same text/email hand-off as the other forms; draft kept on the device. Own title, description and Service schema; in the sitemap, footer and phone menu.
+- Magnific: 65 credits (hero image).
+
 ## 2026-11-06 (clients page, homepage split)
 - `/` is the homepage without the entrance; `/v2` is the same homepage behind the buzz-in storefront door; the earlier film version moved to `/film`.
 - New `/clients` page ("Worn by"): hero with three rows of client names sliding against each other over the Lil Baby clip; an index where the piece follows the cursor (thumbnails on phones); a chapter per client (Lil Baby, Young Thug, Richard Ríos, NAV, 22Gz) with the film opening from a slit, a drifting chapter number and a second picture; Lil Mabu listed; a dome gallery of the Drive photos; a custom-piece close. Every name, piece and line comes from JoJo's Instagram captions or the store. Clips cut from the full reels (720p). Linked in the nav, phone menu and footer; in the sitemap with its own title and description.

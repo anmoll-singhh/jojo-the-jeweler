@@ -86,7 +86,7 @@ export function Nav({ over = false }: { over?: boolean }) {
                 </div>
               </div>
             </div>
-            {[['Custom', '/custom'], ['Clients', '/clients'], ['About', '/about'], ['Contact', '/contact']].map(([t, h], i) => <Link key={h} to={h} className="menu__a" style={{ ['--i' as string]: i + 1 }}>{t}</Link>)}
+            {[['Custom', '/custom'], ['Engagement', '/engagement-rings'], ['Clients', '/clients'], ['About', '/about'], ['Contact', '/contact']].map(([t, h], i) => <Link key={h} to={h} className="menu__a" style={{ ['--i' as string]: i + 1 }}>{t}</Link>)}
           </nav>
           <nav className="menu__more" aria-label="More">
             <Link to="/wishlist" style={{ ['--i' as string]: 5 }}>Wishlist{wl.length > 0 && <span className="num"> {wl.length}</span>}</Link>

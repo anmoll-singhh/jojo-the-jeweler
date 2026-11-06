@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
-const ROUTES = ['/', '/v2', '/film', '/clients', '/collections/all', '/collections/chains', '/products/miami-cuban-link-chain', '/products/custom-grillz', '/custom', '/about', '/contact', '/search?q=cuban', '/cart', '/wishlist', '/nope-404']
+const ROUTES = ['/', '/v2', '/film', '/clients', '/engagement-rings', '/collections/all', '/collections/chains', '/products/miami-cuban-link-chain', '/products/custom-grillz', '/custom', '/about', '/contact', '/search?q=cuban', '/cart', '/wishlist', '/nope-404']
 const VIEWPORTS = [['small phone', 320, 568], ['phone', 390, 844], ['tablet', 820, 1180], ['laptop', 1366, 768], ['desktop', 1920, 1080]] as const
 
 /** Collect console errors and failed requests for a page. */
@@ -347,5 +347,25 @@ test.describe('round 2', () => {
     await page.goto('/products/rope-chain', { waitUntil: 'networkidle' })
     await expect.poll(() => hits, { timeout: 8000 }).toBeGreaterThanOrEqual(2)
     await expect(page.locator('.gallery__slide img').first()).toHaveClass(/img-failed/)
+  })
+
+  test('engagement ring: steps validate, preview updates, review composes the enquiry', async ({ page }) => {
+    await page.goto('/engagement-rings', { waitUntil: 'networkidle' })
+    await page.evaluate(() => localStorage.removeItem('jojo-engagement-draft')); await page.reload({ waitUntil: 'networkidle' })
+    const next = page.getByRole('button', { name: /Next step/ })
+    await next.click(); await expect(page.locator('.cu-err')).toContainText('shape')
+    await page.getByRole('radio', { name: /^Oval/ }).click(); await expect(page.locator('.eng-preview')).toContainText('Oval'); await next.click()
+    await page.getByRole('radio', { name: /2 – 3 ct/ }).click(); await next.click()
+    await page.getByRole('radio', { name: /Natural diamond/ }).click(); await next.click()
+    await page.getByRole('radio', { name: /^Halo/ }).click(); await next.click()
+    await page.getByRole('radio', { name: 'Platinum' }).click(); await next.click()
+    await page.getByRole('radio', { name: '$10,000 – $15,000' }).click(); await page.getByRole('radio', { name: 'One month' }).click(); await next.click()
+    await next.click(); await expect(page.locator('.cu-err')).toContainText('day')
+    await page.locator('.eng-cal button.rdp-day_button:not([disabled])').nth(2).click()
+    await page.getByRole('radio', { name: '2:00 PM', exact: true }).click(); await next.click()
+    await page.getByLabel('Name').fill('Test Buyer'); await page.getByLabel('Phone').fill('(212) 555-0100')
+    await page.getByRole('button', { name: /Send enquiry/ }).click()
+    await expect(page.locator('.send .cu-msg')).toContainText('Shape: Oval')
+    await expect(page.locator('.send .cu-msg')).toContainText('Consultation: In store')
   })
 })
