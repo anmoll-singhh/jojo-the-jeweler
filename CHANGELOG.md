@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-06 (engagement rings, round 2; favicon and share images)
+- Engagement page: live preview removed; drawn diamond shapes replaced with photographs of each cut and photographs of each setting (two generated grids, sliced into tiles); colour added (champagne-to-rose step bar and button, coloured icons for lab-grown/natural/help, how-it-works and consultation icons, soft coloured glow behind the builder); builder centred.
+- Favicon set: gold monogram on black (SVG, 16/32/48 ICO, 180 apple-touch, 192/512 PNG) and a web manifest; the old favicon was black-only and vanished on dark tabs.
+- Share images: 1200×630 cards for home, engagement rings, clients, about and custom (the old one was a tall portrait crop); og:image width/height set; products keep their own photo.
+- Magnific: 130 credits (diamond shapes grid, settings grid).
+
 ## 2026-11-06 (engagement rings)
 - New `/engagement-rings` page, separate from `/custom`, modelled on Rocco's custom ring enquiry and extended: photographic hero, how-it-works with icons, an eight-step builder (shape with drawn diamond illustrations for 11 cuts plus Other, carat, lab-grown or natural, setting with line drawings, metal and US ring size, budget and timing, consultation type with a react-day-picker calendar (no Sundays or past days, next 60 days) and store-hours time slots, details with a review and edit links). A live ring preview updates with every choice. Sends through the same text/email hand-off as the other forms; draft kept on the device. Own title, description and Service schema; in the sitemap, footer and phone menu.
 - Magnific: 65 credits (hero image).

@@ -21,7 +21,7 @@ const crumbs = (seo, list) => ({ '@type': 'BreadcrumbList', itemListElement: lis
 /** Everything the head needs for one route. */
 export function metaFor(seo, path, { catalog, faq } = {}) {
   const page = seo.pages[path]
-  const base = { url: seo.origin + (path === '/' ? '/' : path), image: abs(seo.origin, seo.image), type: 'website', ld: [] }
+  const base = { url: seo.origin + (path === '/' ? '/' : path), image: abs(seo.origin, (seo.pageImages || {})[path] || seo.image), type: 'website', ld: [] }
   if (path === '/') {
     return { ...base, ...page, ld: [orgLd(seo), { '@type': 'WebSite', '@id': seo.origin + '/#site', name: seo.siteName, url: seo.origin + '/', potentialAction: { '@type': 'SearchAction', target: seo.origin + '/search?q={query}', 'query-input': 'required name=query' } }] }
   }
@@ -55,7 +55,7 @@ export function metaFor(seo, path, { catalog, faq } = {}) {
   }
   if (path === '/about' && faq) return { ...base, ...page, ld: [orgLd(seo), { '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }] }
   if (path === '/contact') return { ...base, ...page, ld: [orgLd(seo)] }
-  if (path === '/engagement-rings') return { ...base, ...page, image: seo.origin + '/media/engagement/hero.jpg', ld: [{ '@type': 'Service', name: 'Custom engagement rings', serviceType: 'Custom engagement ring design', areaServed: 'Worldwide', provider: { '@id': seo.origin + '/#store' }, url: base.url }, orgLd(seo)] }
+  if (path === '/engagement-rings') return { ...base, ...page, ld: [{ '@type': 'Service', name: 'Custom engagement rings', serviceType: 'Custom engagement ring design', areaServed: 'Worldwide', provider: { '@id': seo.origin + '/#store' }, url: base.url }, orgLd(seo)] }
   if (path === '/custom') return { ...base, ...page, ld: [{ '@type': 'Service', name: 'Custom jewelry design', serviceType: 'Custom jewelry', areaServed: 'Worldwide', provider: { '@id': seo.origin + '/#store' }, url: base.url }, orgLd(seo)] }
   return { ...base, ...(page || { title: seo.siteName }) }
 }

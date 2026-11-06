@@ -28,7 +28,7 @@ function head(m) {
     !m.noindex && `<link rel="canonical" href="${m.url}" />`,
     `<meta property="og:title" content="${t}" />`, m.description && `<meta property="og:description" content="${esc(m.description)}" />`,
     `<meta property="og:url" content="${m.url}" />`, `<meta property="og:type" content="${m.type === 'product' ? 'product' : 'website'}" />`,
-    m.image && `<meta property="og:image" content="${m.image}" />`,
+    m.image && `<meta property="og:image" content="${m.image}" />`, m.image && /\/brand\/og-/.test(m.image) && '<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />',
     `<meta name="twitter:title" content="${t}" />`, m.description && `<meta name="twitter:description" content="${esc(m.description)}" />`, m.image && `<meta name="twitter:image" content="${m.image}" />`,
     ldJson(m) && `<script type="application/ld+json" id="ld-page">${ldJson(m)}</script>`,
   ].filter(Boolean).join('\n')
@@ -47,7 +47,7 @@ function body(path, m) {
 const strip = (html) => html
   .replace(/<title>[\s\S]*?<\/title>\n?/, '')
   .replace(/<meta name="description"[^>]*>\n?/, '')
-  .replace(/<meta property="og:(title|description|image|type|url)"[^>]*>\n?/g, '')
+  .replace(/<meta property="og:(title|description|image|image:width|image:height|image:alt|type|url)"[^>]*>\n?/g, '')
   .replace(/<meta name="twitter:(title|description|image)"[^>]*>\n?/g, '')
   .replace(/<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>\n?/, '')
 let n = 0

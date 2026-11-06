@@ -1,7 +1,7 @@
 {
  "origin": "https://jojo-the-jeweler-two.vercel.app",
  "siteName": "JoJo The Jeweler",
- "image": "/media/stills/r-money-2.jpg",
+ "image": "/media/brand/og-home.jpg",
  "org": {
   "name": "JoJo The Jeweler",
   "telephone": "+1-917-715-0337",
@@ -88,5 +88,11 @@
  "collection": {
   "title": "{title} | Solid Gold & Diamond Jewelry | JoJo The Jeweler",
   "description": "{description} Shop {lower} from JoJo The Jeweler, 3 W 47th Street, New York Diamond District. Shipped worldwide."
+ },
+ "pageImages": {
+  "/engagement-rings": "/media/brand/og-engagement.jpg",
+  "/clients": "/media/brand/og-clients.jpg",
+  "/about": "/media/brand/og-about.jpg",
+  "/custom": "/media/brand/og-custom.jpg"
  }
 }
