@@ -24,7 +24,7 @@ export function Nav({ over = false }: { over?: boolean }) {
   const [search, setSearch] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [shop, setShop] = useState(false)
-  const [shopOpen, setShopOpen] = useState(true)
+  const [shopOpen, setShopOpen] = useState(false)
   const shut = useRef<number | undefined>(undefined)
   const closeBtn = useRef<HTMLButtonElement>(null)
   const openShop = () => { clearTimeout(shut.current); setShop(true) }
