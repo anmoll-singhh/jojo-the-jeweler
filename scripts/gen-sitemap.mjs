@@ -12,7 +12,7 @@ const pages = [
   ['/', '1.0'],
   ['/collections/all', '0.9'],
   ...cat.collections.map((c) => [`/collections/${c.handle}`, '0.9']),
-  ['/custom', '0.8'], ['/about', '0.6'], ['/contact', '0.6'],
+  ['/custom', '0.8'], ['/clients', '0.8'], ['/about', '0.6'], ['/contact', '0.6'],
   ...cat.products.map((p) => [`/products/${p.handle}`, '0.7']),
 ]
 
@@ -31,6 +31,7 @@ Disallow: /search
 Disallow: /checkout
 Disallow: /lab
 Disallow: /v2
+Disallow: /film
 Sitemap: ${ORIGIN}/sitemap.xml
 `
 writeFileSync(new URL('../public/sitemap.xml', import.meta.url), xml)

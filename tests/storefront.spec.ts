@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
-const ROUTES = ['/', '/v2', '/collections/all', '/collections/chains', '/products/miami-cuban-link-chain', '/products/custom-grillz', '/custom', '/about', '/contact', '/search?q=cuban', '/cart', '/wishlist', '/nope-404']
+const ROUTES = ['/', '/v2', '/film', '/clients', '/collections/all', '/collections/chains', '/products/miami-cuban-link-chain', '/products/custom-grillz', '/custom', '/about', '/contact', '/search?q=cuban', '/cart', '/wishlist', '/nope-404']
 const VIEWPORTS = [['small phone', 320, 568], ['phone', 390, 844], ['tablet', 820, 1180], ['laptop', 1366, 768], ['desktop', 1920, 1080]] as const
 
 /** Collect console errors and failed requests for a page. */
@@ -34,7 +34,7 @@ test.describe('routes', () => {
 
 test.describe('responsive', () => {
   for (const [name, w, h] of VIEWPORTS) {
-    for (const r of ['/', '/v2', '/collections/all', '/products/miami-cuban-link-chain', '/custom', '/about']) {
+    for (const r of ['/', '/film', '/clients', '/collections/all', '/products/miami-cuban-link-chain', '/custom', '/about']) {
       test(`${r} has no horizontal overflow at ${name} (${w}×${h})`, async ({ page }) => {
         await page.setViewportSize({ width: w, height: h })
         await page.goto(r, { waitUntil: 'networkidle' })
@@ -249,7 +249,7 @@ test.describe('accessibility and seo', () => {
     const page = await ctx.newPage()
     await page.goto('/', { waitUntil: 'load' })
     await expect(page.locator('.hero__txt .lede')).toBeVisible()
-    await page.goto('/v2', { waitUntil: 'load' })
+    await page.goto('/film', { waitUntil: 'load' })
     await expect(page.locator('.v2-open__h .display')).toBeVisible()
     await ctx.close()
   })

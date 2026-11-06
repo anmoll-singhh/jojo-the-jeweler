@@ -61,6 +61,7 @@ export function Nav({ over = false }: { over?: boolean }) {
               </div>
             </div>
             <NavLink to="/custom">Custom</NavLink>
+            <NavLink to="/clients">Clients</NavLink>
             <NavLink to="/about">About</NavLink>
           </nav>
         </div>
@@ -85,7 +86,7 @@ export function Nav({ over = false }: { over?: boolean }) {
                 </div>
               </div>
             </div>
-            {[['Custom', '/custom'], ['About', '/about'], ['Contact', '/contact']].map(([t, h], i) => <Link key={h} to={h} className="menu__a" style={{ ['--i' as string]: i + 1 }}>{t}</Link>)}
+            {[['Custom', '/custom'], ['Clients', '/clients'], ['About', '/about'], ['Contact', '/contact']].map(([t, h], i) => <Link key={h} to={h} className="menu__a" style={{ ['--i' as string]: i + 1 }}>{t}</Link>)}
           </nav>
           <nav className="menu__more" aria-label="More">
             <Link to="/wishlist" style={{ ['--i' as string]: 5 }}>Wishlist{wl.length > 0 && <span className="num"> {wl.length}</span>}</Link>
