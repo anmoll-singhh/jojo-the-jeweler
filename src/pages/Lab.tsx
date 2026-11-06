@@ -8,6 +8,7 @@ import { Video } from '../components/Media'
 import type { Metal } from '../components/Chain3D'
 import { Boundary } from '../components/Boundary'
 import '../styles/lab.css'
+import { Circular, Contact as Sheet, Dome, Trail } from './LabStrip'
 
 const Chain3D = lazy(() => import('../components/Chain3D'))
 const Chain = (p: { metal?: Metal; width?: number; drop?: boolean; className?: string }) => (
@@ -27,8 +28,9 @@ export function Lab() {
         <p className="lab__tag">Lab · previews to choose from, not the live site</p>
         <h1>Pick a direction</h1>
         <p>Three directions, four homepage moments and three takes on “Price your Cuban”. Each one works: move the cursor, drag, tap. Use the tabs to switch.</p>
-        <nav className="lab__jump"><a href="#dir">1 · Directions</a><a href="#hero">2 · Hero moment</a><a href="#cuban">3 · Price your Cuban</a></nav>
+        <nav className="lab__jump"><a href="#strip">4 · Photo strip (new)</a><a href="#dir">1 · Directions</a><a href="#hero">2 · Hero moment</a><a href="#cuban">3 · Price your Cuban</a></nav>
       </header>
+      <Group id="strip" n="4" title="About page · replacing the photo strip" tabs={[['1', 'Dome gallery', <Dome key="1" />], ['2', 'Circular ribbon', <Circular key="2" />], ['3', 'Image trail', <Trail key="3" />], ['4', 'Contact sheet', <Sheet key="4" />]]} />
       <Group id="dir" n="1" title="Overall direction" chosen="A · Ice is light" tabs={[['A', 'Ice is light', <DirA key="a" />], ['B', '3 W 47th Street', <DirB key="b" />], ['C', 'Liner notes', <DirC key="c" />]]} />
       <Group id="hero" n="2" title="Homepage wow moment" chosen="Buzz in" start={2} tabs={[['1', 'The drop', <HeroDrop key="1" />], ['2', 'The loupe', <HeroLoupe key="2" />], ['3', 'Buzz in', <HeroBuzz key="3" />], ['4', 'Pavé wordmark', <HeroPave key="4" />]]} />
       <Group id="cuban" n="3" title="Replacing “Price your Cuban” · round 2" tabs={[['4', 'The caliper', <CubanCaliper key="4" />], ['5', 'Scroll to size', <CubanScroll key="5" />], ['6', 'Weigh it', <CubanScale key="6" />]]} />
