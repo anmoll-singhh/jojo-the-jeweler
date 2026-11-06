@@ -146,7 +146,7 @@ test.describe('commerce', () => {
   test('homepage Weigh it: grams and price change, adds to bag', async ({ page }) => {
     await page.goto('/', { waitUntil: 'networkidle' })
     const out = page.locator('.weigh__out b')
-    const lcd = page.locator('.weigh__lcd')
+    const lcd = page.locator('.weigh .lcd__val')
     await out.scrollIntoViewIfNeeded()
     const a = await out.textContent(), g = await lcd.textContent()
     await page.locator('.weigh').getByRole('radio', { name: '12mm' }).click()

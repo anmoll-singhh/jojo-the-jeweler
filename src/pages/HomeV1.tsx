@@ -10,6 +10,7 @@ import { BRAND } from '../data/site'
 import { PIECES, PROOF_POSTS } from '../data/content'
 import { useCart } from '../lib/store'
 import { Monogram } from '../components/Logo'
+import { Lcd } from '../components/Lcd'
 import { getLenis, reduced } from '../lib/motion'
 import gsap from 'gsap'
 
@@ -160,6 +161,18 @@ function CustomWork() {
 
 /* 4 · Weigh it: gold is sold by weight on 47th Street. Pick the chain and it drops onto the scale;
    the display counts the grams and the price rolls up. */
+/* the display window of the scale photo (1024² px): top-left, top-right, bottom-right, bottom-left, inset from the bezel */
+const LCD_QUAD: [number, number][] = [[541, 619], [674, 592], [704, 621], [572, 652]]
+function RollLcd({ v }: { v: number }) {
+  const [n, setN] = useState(v); const from = useRef(v)
+  useEffect(() => {
+    if (reduced()) { setN(v); from.current = v; return }
+    const a = from.current, t0 = performance.now(); let r = 0
+    const step = (t: number) => { const k = Math.min(1, (t - t0) / 650), e = 1 - (1 - k) ** 3; setN(a + (v - a) * e); if (k < 1) r = requestAnimationFrame(step); else from.current = v }
+    r = requestAnimationFrame(step); return () => cancelAnimationFrame(r)
+  }, [v])
+  return <Lcd value={n} quad={LCD_QUAD} size={1024} />
+}
 const SCALE_METALS: [string, string][] = [['Yellow gold', 'yellow'], ['White gold', 'white'], ['Rose gold', 'rose']]
 function Roll({ v, fmt }: { v: number; fmt: (n: number) => string }) {
   const [n, setN] = useState(v); const from = useRef(v)
@@ -194,9 +207,9 @@ function CubanBuilder() {
         <div className="weigh__photo">
           <img className="weigh__img" src="/media/gate/scale.webp" alt="" loading="lazy" />
           <div className="weigh__chain" key={drop} style={{ '--s': 0.92 + (width - 8) * 0.08 } as React.CSSProperties}>
-            <img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt="" />
+            <img src="/media/gate/cuban-cut.webp" style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt="" />
           </div>
-          <div className="weigh__lcd" key={'l' + drop}><Roll v={grams} fmt={(n) => n.toFixed(1)} /><small>g</small></div>
+          <RollLcd v={grams} key={'l' + drop} />
         </div>
       </div>
       <div className="weigh__ui">
@@ -242,11 +255,11 @@ function Showroom() {
   return (
     <section className="room wrap">
       <h2 className="h1"><Lines lines={['3 W 47th', 'Street']} /></h2>
-      <div className="room__cols rv-group">
-        <div><b>New York, NY 10036</b><p className="muted">{BRAND.district}</p></div>
-        <div><b>{BRAND.hours}</b><p className="muted">Walk in, or text ahead.</p></div>
-        <div><a className="btn" href={BRAND.smsHref}><Phone size={18} /> Text {BRAND.phone}</a></div>
-      </div>
+      <dl className="room__cols rv-group">
+        <div><dt>Address</dt><dd><b>3 W 47th Street, New York, NY 10036</b><span className="muted">{BRAND.district}</span></dd><a className="btn btn--ghost" href="https://maps.google.com/?q=3+W+47th+St,+New+York,+NY+10036" target="_blank" rel="noreferrer">Directions <ArrowUpRight size={16} /></a></div>
+        <div><dt>Hours</dt><dd><b>9 a.m. to 6 p.m.</b><span className="muted">Six days a week. Walk in, or text ahead.</span></dd><Link className="btn btn--ghost" to="/contact">Plan a visit</Link></div>
+        <div><dt>Text or call</dt><dd><b className="num">{BRAND.phone}</b><span className="muted">During store hours, or leave a message.</span></dd><a className="btn" href={BRAND.smsHref}><Phone size={18} /> Text JoJo</a></div>
+      </dl>
     </section>
   )
 }

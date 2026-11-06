@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-06 (round 4)
+- Weigh it: the baked-in "0.00" is removed from the scale photo's display; the live reading is seven-segment digits (DSEG7) with faint unlit segments, warped into the display's perspective. The chain is cut out of its satin and rests on the pan.
+- Showroom: address, hours and phone in three aligned columns (label, value, note, action).
+- Who wears it: centred block, equal margins.
+- Films re-cut from the 4K originals at their original start points (Danny Phantom opens on the pendant again; R money opens on the pendant, sharp); posters are each film's exact first frame. Safari gets the MP4 and loops reliably; an end-of-clip guard restarts any browser that stalls.
+- Entry door locked as approved.
+
 ## 2026-11-06 (round 3)
 - Hero gate rebuilt on a photograph of a Diamond District storefront (wide for desktop, tall for phones): the two glass doors are cut from the photo and hinge open over the doorway, "JoJo The Jeweler" glows on the sign band, the buzzer sits on the jamb (desktop) or over the photo's intercom (phone). Same press-only entry and zoom-through.
 - Weigh it uses a photograph of a jeweler's scale: the chain lands on its pan and the grams read on its own LCD.
