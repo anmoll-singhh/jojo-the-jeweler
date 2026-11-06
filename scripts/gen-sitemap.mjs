@@ -9,7 +9,7 @@ const ORIGIN = (process.env.SITE_ORIGIN || 'https://jojo-the-jeweler-two.vercel.
 const cat = JSON.parse(readFileSync(new URL('../src/data/catalog.json', import.meta.url), 'utf8'))
 
 const pages = [
-  ['/', '1.0'], ['/v2', '0.5'],
+  ['/', '1.0'],
   ['/collections/all', '0.9'],
   ...cat.collections.map((c) => [`/collections/${c.handle}`, '0.9']),
   ['/custom', '0.8'], ['/about', '0.6'], ['/contact', '0.6'],
@@ -18,7 +18,7 @@ const pages = [
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(([p, pr]) => `  <url><loc>${ORIGIN}${p}</loc><priority>${pr}</priority></url>`).join('\n')}
+${pages.map(([p, pr]) => `  <url><loc>${ORIGIN}${p}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod><priority>${pr}</priority></url>`).join('\n')}
 </urlset>
 `
 const robots = `# JoJo The Jeweler — ${ORIGIN}
@@ -28,6 +28,9 @@ Allow: /
 Disallow: /cart
 Disallow: /wishlist
 Disallow: /search
+Disallow: /checkout
+Disallow: /lab
+Disallow: /v2
 Sitemap: ${ORIGIN}/sitemap.xml
 `
 writeFileSync(new URL('../public/sitemap.xml', import.meta.url), xml)

@@ -129,7 +129,7 @@ export function Custom() {
         </div>
 
         <figure className="cu-film">
-          <div className="stage"><Video priority mp4={film.mp4} webm={film.webm} poster={film.poster} label={film.title} /></div>
+          <div className="stage"><Video priority mp4={film.mp4} webm={film.webm} hd={film.hd} poster={film.poster} label={film.title} /></div>
           <figcaption className="small muted">{film.title}: {film.line}</figcaption>
         </figure>
       </section>
@@ -145,7 +145,7 @@ export function Custom() {
         <div className="pieces__rail">
           {PIECES.filter((_, i) => i !== 1).map((p) => (
             <article key={p.id} className="piece">
-              <div className="piece__media stage"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+              <div className="piece__media stage"><Video mp4={p.mp4} webm={p.webm} hd={p.hd} poster={p.poster} label={p.title} /></div>
               <div className="piece__txt"><h3 className="h3">{p.title}</h3><p>{p.line}</p></div>
             </article>))}
         </div>

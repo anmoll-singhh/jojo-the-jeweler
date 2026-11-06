@@ -1,0 +1,78 @@
+{
+ "origin": "https://jojo-the-jeweler-two.vercel.app",
+ "siteName": "JoJo The Jeweler",
+ "image": "/media/stills/r-money-2.jpg",
+ "org": {
+  "name": "JoJo The Jeweler",
+  "telephone": "+1-917-715-0337",
+  "street": "3 W 47th Street",
+  "locality": "New York",
+  "region": "NY",
+  "postal": "10036",
+  "country": "US",
+  "hours": "Mo-Sa 09:00-18:00",
+  "priceRange": "$$$",
+  "logo": "/media/brand/monogram-120.png",
+  "sameAs": [
+   "https://www.instagram.com/jojothejeweler_/",
+   "https://www.tiktok.com/@jojothejeweler_",
+   "https://www.youtube.com/@jojothejeweler_",
+   "https://www.facebook.com/profile.php?id=61552054877926"
+  ]
+ },
+ "pages": {
+  "/": {
+   "title": "JoJo The Jeweler | Custom Jewelry & Cuban Chains, NYC",
+   "description": "Custom pieces, solid gold Miami Cuban chains, iced pendants and luxury watches from JoJo The Jeweler, 3 W 47th Street, NYC Diamond District. Shipped worldwide.",
+   "h1": "Custom jewelry and solid gold chains, done the JoJo way"
+  },
+  "/custom": {
+   "title": "Custom Jewelry in NYC | Design Your Piece | JoJo The Jeweler",
+   "description": "Start a custom pendant, chain, ring or grillz with JoJo The Jeweler. Send your idea, approve the sketch, then it's made, polished and inspected on 47th Street.",
+   "h1": "Custom pieces"
+  },
+  "/about": {
+   "title": "About JoJo | America's Youngest Jeweler, NYC",
+   "description": "JoJo started in jewelry at 15. Custom pieces, Miami Cuban chains and luxury watches from 3 W 47th Street, New York, worn by Lil Baby, Young Thug and more.",
+   "h1": "Meet JoJo"
+  },
+  "/contact": {
+   "title": "Contact JoJo The Jeweler | 3 W 47th Street, New York",
+   "description": "Call or text JoJo at 917-715-0337, message on Instagram or visit 3 W 47th Street in the New York Diamond District, 9 a.m. to 6 p.m., six days a week.",
+   "h1": "Call or text your jeweler"
+  },
+  "/collections/all": {
+   "title": "Shop All Jewelry: Chains, Pendants & Watches | JoJo",
+   "description": "Shop every JoJo The Jeweler piece: Miami Cuban and tennis chains, iced pendants, bracelets, rings, earrings, grillz and watches. Solid gold, natural diamonds.",
+   "h1": "All pieces"
+  },
+  "/checkout": {
+   "title": "Checkout | JoJo The Jeweler",
+   "noindex": true
+  },
+  "/cart": {
+   "title": "Bag | JoJo The Jeweler",
+   "noindex": true
+  },
+  "/wishlist": {
+   "title": "Wishlist | JoJo The Jeweler",
+   "noindex": true
+  },
+  "/search": {
+   "title": "Search | JoJo The Jeweler",
+   "noindex": true
+  },
+  "/lab": {
+   "title": "Lab | JoJo The Jeweler",
+   "noindex": true
+  },
+  "/v2": {
+   "title": "The Film | JoJo The Jeweler",
+   "noindex": true
+  }
+ },
+ "collection": {
+  "title": "{title} | Solid Gold & Diamond Jewelry | JoJo The Jeweler",
+  "description": "{description} Shop {lower} from JoJo The Jeweler, 3 W 47th Street, New York Diamond District. Shipped worldwide."
+ }
+}

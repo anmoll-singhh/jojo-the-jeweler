@@ -210,3 +210,53 @@ body, .btn { word-spacing: 0.06em; }
 /* keeps the nav legible over bright footage */
 .nav::before { content: ''; position: absolute; inset: 0 0 -2.5rem; z-index: -1; pointer-events: none; background: linear-gradient(oklch(0% 0 0 / .5), oklch(0% 0 0 / 0)); opacity: 0; transition: opacity .3s; }
 .nav--over::before { opacity: 1; }
+
+/* ── round 3 ── */
+/* PDP supporting copy: about 0.75× body (description, details, shipping notes, sample note) */
+.buy__desc, .pdp .acc__body, .pdp .acc__body p, .pdp .specs, .buy .sample { font-size: clamp(.75rem, .72rem + .1vw, .8125rem); line-height: 1.6; }
+/* footer email: a visible field on the surface-coloured footer */
+.foot__row input { border: 1px solid color-mix(in oklch, var(--ink) 35%, transparent); background: var(--bg); min-height: 2.875rem; padding-inline: 0.875rem; transition: border-color .2s; }
+.foot__row input:hover { border-color: color-mix(in oklch, var(--ink) 55%, transparent); }
+.foot__row input:focus-visible { border-color: var(--ink); outline: none; }
+/* smooth accordion */
+.acx { border-top: 1px solid var(--surface-2); }
+.acx:last-child { border-bottom: 1px solid var(--surface-2); }
+.acx__h { margin: 0; font: inherit; }
+.acx__h button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.5rem; padding-block: 1rem; text-align: left; font-weight: 600; font-size: 1rem; color: var(--ink); transition: color .2s; }
+.acx__h button:hover { color: var(--accent); }
+.acx__icon { display: grid; place-items: center; flex: none; width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid var(--surface-2); transition: transform .45s var(--ease-expo), background .3s, border-color .3s; }
+.acx.is-open .acx__icon { transform: rotate(180deg); background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.acx__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease-expo); }
+.acx.is-open .acx__panel { grid-template-rows: 1fr; }
+.acx__inner { overflow: hidden; min-height: 0; }
+.acx__body { display: grid; gap: .625rem; padding-bottom: 1.25rem; max-width: 62ch; color: var(--muted); opacity: 0; transform: translateY(-.5rem); transition: opacity .35s ease, transform .5s var(--ease-expo); }
+.acx.is-open .acx__body { opacity: 1; transform: none; transition-delay: .08s; }
+@media (prefers-reduced-motion: reduce) { .acx__panel, .acx__body, .acx__icon { transition: none; } }
+.pdp .acx__h button { min-height: 3.25rem; padding-block: .75rem; }
+.pdp .acx__body { color: var(--ink); }
+/* About FAQ: centred column on desktop */
+@media (min-width: 56.25em) {
+  .about .faq { justify-items: center; text-align: center; }
+  .about .faq__list { width: min(100%, 48rem); text-align: left; }
+}
+/* "Started at fifteen": text and picture closer, picture leans in */
+@media (min-width: 56.25em) {
+  .ab-story { grid-template-columns: minmax(0, 36rem) minmax(0, 28rem); justify-content: center; gap: clamp(2.5rem, 5vw, 5.5rem); }
+  .ab-story__pic { justify-self: start; width: 100%; }
+}
+/* About · how a piece gets made: two films side by side, steps underneath */
+.ab-steps { grid-template-columns: minmax(0, 1fr) !important; gap: clamp(1.75rem, 4vw, 3rem); }
+.ab-steps__head { position: static !important; max-width: 40rem; }
+.ab-steps__films { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(.5rem, 1.5vw, 1.25rem); }
+.ab-steps__film { position: relative; margin: 0; width: 100%; max-height: none !important; aspect-ratio: 9 / 14; justify-self: stretch; }
+@media (min-width: 56.25em) { .ab-steps__film { aspect-ratio: 4 / 5; max-height: min(82svh, 52rem) !important; } }
+.ab-steps__film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ab-steps__film figcaption { position: absolute; left: .75rem; bottom: .75rem; z-index: 2; padding: .375rem .625rem; background: oklch(0% 0 0 / .55); font-size: .75rem; color: oklch(96% 0.01 85); }
+.ab-steps__body { max-width: 44rem; }
+.ab-steps__list { gap: clamp(1.75rem, 5svh, 3rem); }
+/* less dead scroll before the watches */
+.ab-watch { padding-top: clamp(2.5rem, 6vw, 5rem); }
+.ab-watch__pic video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.ab-watch__pic { position: relative; }
+@media (max-width: 56.24em) { .ab-watch__pic { width: min(100%, 26rem); max-height: 64svh; } }
+.ab-watch__pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }

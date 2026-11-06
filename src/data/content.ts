@@ -3,14 +3,14 @@
  */
 import ig from '../../content/instagram/manifest.json'
 
-export type Piece = { id: string; title: string; line: string; mp4: string; webm: string; poster: string; still: string; stills: string[]; source: string }
+export type Piece = { id: string; title: string; line: string; mp4: string; webm: string; poster: string; still: string; stills: string[]; source: string; hd?: { mp4: string; webm: string } }
 
 /** The four custom-piece films from the client's Drive (4K, shot on black satin). */
 export const PIECES: Piece[] = [
-  { id: 'r-money', title: 'R money-bag pendant', line: 'A money bag with a face and an R, fully iced in rose gold, shot on hundreds.', mp4: '/media/drive/r-money.mp4', webm: '/media/drive/r-money.webm', poster: '/media/drive/r-money.webp', still: '/media/stills/r-money-2.webp', stills: ['/media/stills/r-money-1.webp', '/media/stills/r-money-2.webp', '/media/stills/r-money-3.webp'], source: 'Drive: R money.mov' },
-  { id: 'sp5der', title: 'Sp5der pieces for Young Thug', line: 'Rose and white gold Sp5der logos, mosaic set, on a tennis chain. Done the JoJo way.', mp4: '/media/drive/young-thug-v3.mp4', webm: '/media/drive/young-thug-v3.webm', poster: '/media/drive/young-thug-v3.webp', still: '/media/stills/starburst-2.webp', stills: ['/media/stills/starburst-1.webp', '/media/stills/starburst-2.webp', '/media/stills/starburst-3.webp'], source: 'Drive: young thug v3.mov; Instagram DSdEg59ERnC' },
-  { id: 'm-ring', title: 'Letter M ring with a bee', line: 'Baguette-cut letter on a rose-gold pavé shank, with a sculpted bee on the shoulder.', mp4: '/media/drive/m-ring.mp4', webm: '/media/drive/m-ring.webm', poster: '/media/drive/m-ring.webp', still: '/media/stills/m-ring-3.webp', stills: ['/media/stills/m-ring-1.webp', '/media/stills/m-ring-2.webp', '/media/stills/m-ring-3.webp'], source: 'Drive: M ring .mov' },
-  { id: 'danny-p', title: 'Danny Phantom pendant', line: 'A full character in white gold and black diamonds, green eyes, iced to the fingertips.', mp4: '/media/drive/danny-p.mp4', webm: '/media/drive/danny-p.webm', poster: '/media/drive/danny-p.webp', still: '/media/stills/danny-p-2.webp', stills: ['/media/stills/danny-p-1.webp', '/media/stills/danny-p-2.webp', '/media/stills/danny-p-3.webp'], source: 'Drive: danny P.mov' },
+  { id: 'r-money', title: 'R money-bag pendant', line: 'A money bag with a face and an R, fully iced in rose gold, shot on hundreds.', mp4: '/media/drive/r-money.mp4', webm: '/media/drive/r-money.webm', hd: { mp4: '/media/drive/r-money-hd.mp4', webm: '/media/drive/r-money-hd.webm' }, poster: '/media/drive/r-money.webp', still: '/media/stills/r-money-2.webp', stills: ['/media/stills/r-money-1.webp', '/media/stills/r-money-2.webp', '/media/stills/r-money-3.webp'], source: 'Drive: R money.mov' },
+  { id: 'sp5der', title: 'Sp5der pieces for Young Thug', line: 'Rose and white gold Sp5der logos, mosaic set, on a tennis chain. Done the JoJo way.', mp4: '/media/drive/young-thug-v3.mp4', webm: '/media/drive/young-thug-v3.webm', hd: { mp4: '/media/drive/young-thug-v3-hd.mp4', webm: '/media/drive/young-thug-v3-hd.webm' }, poster: '/media/drive/young-thug-v3.webp', still: '/media/stills/starburst-2.webp', stills: ['/media/stills/starburst-1.webp', '/media/stills/starburst-2.webp', '/media/stills/starburst-3.webp'], source: 'Drive: young thug v3.mov; Instagram DSdEg59ERnC' },
+  { id: 'm-ring', title: 'Letter M ring with a bee', line: 'Baguette-cut letter on a rose-gold pavé shank, with a sculpted bee on the shoulder.', mp4: '/media/drive/m-ring.mp4', webm: '/media/drive/m-ring.webm', hd: { mp4: '/media/drive/m-ring-hd.mp4', webm: '/media/drive/m-ring-hd.webm' }, poster: '/media/drive/m-ring.webp', still: '/media/stills/m-ring-3.webp', stills: ['/media/stills/m-ring-1.webp', '/media/stills/m-ring-2.webp', '/media/stills/m-ring-3.webp'], source: 'Drive: M ring .mov' },
+  { id: 'danny-p', title: 'Danny Phantom pendant', line: 'A full character in white gold and black diamonds, green eyes, iced to the fingertips.', mp4: '/media/drive/danny-p.mp4', webm: '/media/drive/danny-p.webm', hd: { mp4: '/media/drive/danny-p-hd.mp4', webm: '/media/drive/danny-p-hd.webm' }, poster: '/media/drive/danny-p.webp', still: '/media/stills/danny-p-2.webp', stills: ['/media/stills/danny-p-1.webp', '/media/stills/danny-p-2.webp', '/media/stills/danny-p-3.webp'], source: 'Drive: danny P.mov' },
 ]
 
 /** Lifestyle photography from the client's Drive. */
@@ -41,12 +41,12 @@ export const IG_PROFILE = ig.profile as { account: string; full_name: string; bi
 export const IG_POSTS = (ig.posts as IgPost[]).filter((p) => p.images?.length)
 /** Posts that show a piece and name it, used as proof with the caption as the credit. */
 export const PROOF_POSTS = [
-  { code: 'DdKzkilpMaT', title: 'YSL chain and pendant for Lil Baby', note: 'Mosaic set with three shapes of diamond' },
-  { code: 'DSdEg59ERnC', title: 'Sp5der bracelet for Young Thug', note: 'Done the JoJo way' },
-  { code: 'DeVFs6dpFqb', title: 'RR6 pendant, with seven friends-and-family pieces', note: 'Fancy-shape mosaic setting, rose gold' },
-  { code: 'Dc4hhnPp0Sh', title: 'J pendant with a custom eagle bail', note: 'All mosaic set, big rocks' },
-  { code: 'DLF_8ZaS40c', title: 'Lil Baby', note: '“Take notes from the youngin”' },
-  { code: 'DfS42D8psCT', title: 'Birthday with NAV', note: 'Harbor, New York City' },
-].map((p) => ({ ...p, post: IG_POSTS.find((x) => x.code === p.code) })).filter((p) => p.post) as { code: string; title: string; note: string; post: IgPost }[]
+  // Sharp sources: frames and a clip from the full reels (720p) and the 4K Drive film, not the 640px thumbnails.
+  { code: 'Dc4hhnPp0Sh', title: 'J pendant with a custom eagle bail', note: 'All mosaic set, big rocks', img: '/media/proof/j-pendant.webp', video: { mp4: '/media/proof/j-pendant.mp4', webm: '/media/proof/j-pendant.webm' } },
+  { code: 'DdKzkilpMaT', title: 'YSL chain and pendant for Lil Baby', note: 'Mosaic set with three shapes of diamond', img: '/media/proof/ysl-lil-baby.webp' },
+  { code: 'DSdEg59ERnC', title: 'Sp5der pieces for Young Thug', note: 'Rose and white gold, mosaic set', img: '/media/proof/sp5der.webp' },
+  { code: 'DeVFs6dpFqb', title: 'RR6 pendant, with seven friends-and-family pieces', note: 'Fancy-shape mosaic setting, rose gold', img: '/media/proof/rr6.webp' },
+  { code: 'DLF_8ZaS40c', title: 'Lil Baby', note: '“Take notes from the youngin”', img: '/media/proof/lil-baby.webp' },
+].map((p) => ({ ...p, post: IG_POSTS.find((x) => x.code === p.code) })).filter((p) => p.post) as { code: string; title: string; note: string; img: string; video?: { mp4: string; webm: string }; post: IgPost }[]
 
 export const HERO_REEL = { mp4: '/media/store/reel.mp4', webm: '/media/store/reel.webm', poster: '/media/store/reel.webp' }

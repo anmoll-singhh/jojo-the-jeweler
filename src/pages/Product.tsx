@@ -7,6 +7,7 @@ import { getLenis } from '../lib/motion'
 import { AddButton, OptionPicker, Qty, Rail, RecentlyViewed } from '../components/Product'
 import { byHandle, chosenMetal, collectionByHandle, defaultSelection, findVariant, metalFilter, money, related, rs } from '../data/catalog'
 import { SAMPLE_REVIEWS, rating, reviewsFor } from '../data/reviews'
+import { Accordion } from '../components/Accordion'
 import { Stars } from '../components/Stars'
 import { BRAND, SAMPLE, SIZING } from '../data/site'
 import { recent, useCart, useWish, wish } from '../lib/store'
@@ -89,6 +90,7 @@ function ProductView({ p }: { p: Product }) {
             <button className={'btn btn--ghost' + (on ? ' on' : '')} aria-pressed={on} onClick={() => wish.toggle(p.handle)}><Heart size={18} weight={on ? 'fill' : 'regular'} /> {on ? 'Saved' : 'Save'}</button>
           </div>
           {madeToOrder && <p className="small muted">A 50% deposit starts production. JoJo confirms the timeline once the design is approved.</p>}
+          <h2 className="sr-only">Details, shipping and payment</h2>
           <div className="accs">
             <Acc title="Details" open><dl className="specs">{p.specs.map((s) => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}</dd></div>)}{Object.entries(sel).map(([k, val]) => <div key={k}><dt>{k}</dt><dd>{val}</dd></div>)}</dl></Acc>
             <Acc title="Shipping and returns"><p>{SAMPLE.shipping}</p><p>{SAMPLE.returns}</p><p>{SAMPLE.warranty}</p></Acc>
@@ -118,7 +120,7 @@ function ProductView({ p }: { p: Product }) {
 }
 
 function Acc({ title, children, open = false }: { title: string; children: React.ReactNode; open?: boolean }) {
-  return <details className="acc" open={open}><summary>{title}<CaretDown size={16} /></summary><div className="acc__body">{children}</div></details>
+  return <Accordion title={title} open={open}>{children}</Accordion>
 }
 
 /** Sample reviews, labelled as such (see src/data/reviews.ts). */

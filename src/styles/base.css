@@ -85,3 +85,5 @@ img.ld { animation: none; }
 
 /* an image that failed twice: no broken-image icon or alt-text overlay, just the dark stage */
 img.img-failed { opacity: 0; }
+/* plain-HTML summary written into #root at build time for crawlers; the app replaces it on load */
+.seo-static { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

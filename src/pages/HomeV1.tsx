@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, Phone } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
@@ -14,7 +14,8 @@ import { getLenis, reduced } from '../lib/motion'
 import gsap from 'gsap'
 
 /** Text that rises line by line from behind a mask (motion.ts animates `.ln > span`). */
-export const Lines = ({ lines, d = 0 }: { lines: React.ReactNode[]; d?: number }) => <>{lines.map((l, i) => <span key={i} className="ln" data-d={d + i * 0.1}><span>{l}</span></span>)}</>
+/* lines are blocks; the space between them keeps the heading's text (for search and screen readers) as words */
+export const Lines = ({ lines, d = 0 }: { lines: React.ReactNode[]; d?: number }) => <>{lines.map((l, i) => <Fragment key={i}>{i > 0 && ' '}<span className="ln" data-d={d + i * 0.1}><span>{l}</span></span></Fragment>)}</>
 
 export default function HomeV1() {
   useTitle('')
@@ -37,7 +38,6 @@ export default function HomeV1() {
    buzzer lets you in: the lock clicks, the doors swing open onto the piece, the headline rises.
    Once per session; skipped for reduced motion and automated browsers. */
 const BUZZED = 'jojo-buzzed'
-const WINDOW = [['iced-cross-pendant', 'miami-cuban-link-chain', 'money-bag-pendant'], ['iced-watch-bust-down', 'iced-cuban-link-chain', 'baguette-letter-pendant']]
 function Hero() {
   const p = PIECES[0]
   const skip = typeof window === 'undefined' || reduced() || navigator.webdriver || (() => { try { return sessionStorage.getItem(BUZZED) === '1' } catch { return false } })()
@@ -76,7 +76,7 @@ function Hero() {
   }, [gate])
   return (
     <section className={'hero hero--' + gate}>
-      <div className="hero__media"><Video priority mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+      <div className="hero__media"><Video priority mp4={p.mp4} webm={p.webm} hd={p.hd} poster={p.poster} label={p.title} /></div>
       <div className="hero__txt wrap">
         <h1 className="display"><Lines lines={['Done the', 'JoJo way']} /></h1>
         <p className="lede rv" data-d="0.3">Custom pieces, Miami Cuban chains and watches from 3 W 47th Street, New York. Shipped worldwide.</p>
@@ -85,29 +85,17 @@ function Hero() {
       <p className="hero__cap rv" data-d="0.6">Custom R money-bag pendant, iced rose gold</p>
       {gate !== 'gone' && (
         <div className="gate" aria-hidden={gate !== 'shut'}>
-          <div className="gate__wall" />
-          <div className="gate__fascia"><Monogram size={30} /><span>JoJo The Jeweler</span><i className="gate__no">3</i></div>
-          {(['l', 'r'] as const).map((side, k) => (
-            <div key={side} className={'gate__win gate__win--' + side}>
-              <div className="gate__case">{WINDOW[k].map((h) => { const q = byHandle(h); return q && <img key={h} {...rs(q.images[0].src, '10vw')} alt="" /> })}</div>
-              <span className="gate__shelf" />
+          {(['wide', 'tall'] as const).map((k) => (
+            <div key={k} className={'gate__photo gate__photo--' + k}>
+              <img className="gate__base" src={`/media/gate/${k}.webp`} alt="" fetchPriority="high" />
+              <img className="gate__leaf gate__leaf--l" src={`/media/gate/${k}-l.webp`} alt="" />
+              <img className="gate__leaf gate__leaf--r" src={`/media/gate/${k}-r.webp`} alt="" />
+              <p className="gate__sign"><Monogram size={40} /><span>JoJo The Jeweler</span></p>
+              <span className="gate__glow" />
+              <button className="gate__buzz" onClick={open} aria-label="Press the buzzer to enter the store"><i /></button>
             </div>
           ))}
-          <div className="gate__entry">
-            <div className="gate__frame">
-              <div className="gate__door gate__door--l"><div className="gate__glass"><span className="gate__decal"><Monogram size={54} /><b>JoJo</b><small>The Jeweler</small></span></div><i className="gate__bar" /></div>
-              <div className="gate__door gate__door--r"><div className="gate__glass"><span className="gate__hours">Mon – Sat<br />9 a.m. – 6 p.m.<br /><em>Ring for entry</em></span></div><i className="gate__bar" /></div>
-            </div>
-            <div className="gate__step" />
-          </div>
-          <div className="gate__intercom">
-            <i className="gate__cam" />
-            <div className="gate__grille" />
-            <span className="gate__led" />
-            <button className="gate__btn" onClick={open} aria-label="Press the buzzer to enter the store"><i /></button>
-            <small>Press for<br />entry</small>
-          </div>
-          <p className="gate__hint">{gate === 'shut' ? 'Press the buzzer to come in' : 'Come in'}</p>
+          <p className="gate__hint"><span>{gate === 'shut' ? 'Press the buzzer to come in' : 'Come in'}</span></p>
         </div>
       )}
     </section>
@@ -161,7 +149,7 @@ function CustomWork() {
         <div className="look__track">
           {PIECES.map((p) => (
             <figure key={p.id} className="look__item">
-              <div className="stage"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+              <div className="stage"><Video mp4={p.mp4} webm={p.webm} hd={p.hd} poster={p.poster} label={p.title} /></div>
               <figcaption><b>{p.title}</b><span>{p.line}</span></figcaption>
             </figure>))}
         </div>
@@ -203,12 +191,12 @@ function CubanBuilder() {
   return (
     <section className="weigh screen">
       <div className="weigh__stage" aria-hidden="true">
-        <div className="weigh__chain" key={drop} style={{ '--s': 0.72 + (width - 8) * 0.06 } as React.CSSProperties}>
-          <img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt="" />
-        </div>
-        <div className="weigh__scale">
-          <div className="weigh__pan" key={'p' + drop} />
-          <div className="weigh__body"><div className="weigh__lcd"><Roll v={grams} fmt={(n) => n.toFixed(1)} /><small>g</small></div><span>JoJo · 47th St.</span></div>
+        <div className="weigh__photo">
+          <img className="weigh__img" src="/media/gate/scale.webp" alt="" loading="lazy" />
+          <div className="weigh__chain" key={drop} style={{ '--s': 0.92 + (width - 8) * 0.08 } as React.CSSProperties}>
+            <img {...rs(p.images[0].src, '(min-width: 56.25em) 30vw, 70vw')} style={{ filter: metalFilter(p.photoMetal, sel.Metal) }} alt="" />
+          </div>
+          <div className="weigh__lcd" key={'l' + drop}><Roll v={grams} fmt={(n) => n.toFixed(1)} /><small>g</small></div>
         </div>
       </div>
       <div className="weigh__ui">
@@ -240,7 +228,7 @@ function Proof() {
       <div className="proof__grid rail-m">
         {PROOF_POSTS.slice(0, 5).map((x, i) => (
           <a key={x.code} href={x.post.url} target="_blank" rel="noreferrer" className={'proof__item' + (i === 0 ? ' proof__item--big' : '')}>
-            <span className="stage"><img src={x.post.images[0].src} alt={x.title} loading="lazy" /></span>
+            <span className="stage">{x.video ? <Video mp4={x.video.mp4} webm={x.video.webm} poster={x.img} label={x.title} /> : <img src={x.img} alt={x.title} loading="lazy" />}</span>
             <span className="proof__cap"><b>{x.title}</b><small>{x.note}</small></span>
           </a>))}
       </div>

@@ -7,7 +7,7 @@ import { useEffect } from 'react'
  * rewritten, now and for anything added later. Modern browsers never request the fallbacks.
  * Videos already ship WebM with an MP4 fallback in <source> order.
  */
-const PNG = new Set(['/media/shopify/richard-mille-1.webp'])
+const PNG = new Set(['/media/shopify/richard-mille-1.webp', '/media/gate/wide.webp', '/media/gate/tall.webp'])
 export const fallbackOf = (u: string) => u.replace(/(\/media\/[^\s,?"']+?)\.webp/g, (_, p: string) => p + (PNG.has(p + '.webp') ? '.png' : '.jpg'))
 let noWebp = false
 const swap = (root: ParentNode) => {

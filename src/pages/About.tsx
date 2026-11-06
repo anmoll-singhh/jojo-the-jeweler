@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Minus, Plus } from '@phosphor-icons/react'
+import { Accordion } from '../components/Accordion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useTitle } from '../lib/seo'
@@ -94,7 +94,9 @@ export function About() {
         <div className="ab-steps__head">
           <h2 className="h2"><Lines lines={['How a piece', 'gets made']} /></h2>
           <p className="rv">The same three steps for every custom order, in the store’s own words.</p>
-          <div className="ab-steps__film stage"><Video mp4={PIECES[2].mp4} webm={PIECES[2].webm} poster={PIECES[2].poster} label={PIECES[2].title} /></div>
+        </div>
+        <div className="ab-steps__films">
+          {[PIECES[2], PIECES[3]].map((f) => <figure key={f.id} className="ab-steps__film stage"><Video mp4={f.mp4} webm={f.webm} hd={f.hd} poster={f.poster} label={f.title} /><figcaption>{f.title}</figcaption></figure>)}
         </div>
         <div className="ab-steps__body">
           <span className="ab-steps__line" aria-hidden="true"><i /></span>
@@ -103,7 +105,7 @@ export function About() {
       </section>
 
       <section className="ab-watch wrap" id="watches">
-        <div className="ab-watch__pic stage"><img src="/media/store/jojo-watch.webp" alt="Holding up two iced watches" loading="lazy" /></div>
+        <div className="ab-watch__pic stage"><img className="drift" src="/media/products/iced-watch-bust-down-1.webp" alt="Iced bust-down watch on black satin" loading="lazy" /></div>
         <div className="ab-watch__txt">
           <h2 className="h2"><Lines lines={['Watches,', 'both ways']} /></h2>
           <p className="rv">JoJo sources luxury watches and buys them. Bring one in or ship it: it is inspected for authenticity and condition, paperwork included, and you get a one-time offer with prompt, secure payment. Part-exchange against a piece can be considered.</p>
@@ -124,7 +126,7 @@ export function About() {
 
       <section className="faq wrap" id="faq">
         <h2 className="h2"><Lines lines={['Questions']} /></h2>
-        <div className="faq__list rv-group">{FAQ.map(([q, a]) => <details key={q} className="acc"><summary>{q}<Plus size={16} className="acc__plus" /><Minus size={16} className="acc__minus" /></summary><div className="acc__body"><p>{a}</p></div></details>)}</div>
+        <div className="faq__list rv-group">{FAQ.map(([q, a]) => <Accordion key={q} title={q}><p>{a}</p></Accordion>)}</div>
       </section>
     </main>
   )

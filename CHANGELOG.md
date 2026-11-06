@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-06 (round 3)
+- Hero gate rebuilt on a photograph of a Diamond District storefront (wide for desktop, tall for phones): the two glass doors are cut from the photo and hinge open over the doorway, "JoJo The Jeweler" glows on the sign band, the buzzer sits on the jamb (desktop) or over the photo's intercom (phone). Same press-only entry and zoom-through.
+- Weigh it uses a photograph of a jeweler's scale: the chain lands on its pan and the grams read on its own LCD.
+- Films re-encoded from the 4K Drive originals: 1920-tall for desktop, 1080-tall for phones (no more pixelation on big screens); posters are the first HD frame.
+- Who wears it: J pendant leads as a looping clip; every tile now comes from the full reels or the 4K film instead of 640px thumbnails.
+- About: two films side by side in "How a piece gets made", steps below, less dead scroll; watch section uses the sharp product photo; FAQ opens and closes smoothly and is centred on desktop; "Started at fifteen" text and photo closer.
+- Footer email field has a border. PDP supporting copy about 0.75× body size.
+- SEO: per-route title, description, canonical, robots, Open Graph/Twitter and JSON-LD (JewelryStore, WebSite search, Product + breadcrumbs, CollectionPage, FAQPage, Service), written live and as static HTML per route at build (scripts/seo-pages.mjs); headings read as words; heading levels fixed; sitemap lastmod; /lab, /v2, /checkout kept out of the index.
+- Magnific: 195 credits (3 images × 65: storefront wide, storefront tall, scale).
+
 ## 2026-11-05 (direction A, "Ice is light")
 
 ### Performance and compatibility
