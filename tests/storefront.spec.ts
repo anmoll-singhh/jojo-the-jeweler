@@ -11,7 +11,8 @@ function watch(page: Page) {
   page.on('console', (m) => m.type() === 'error' && errs.push(m.text()))
   page.on('pageerror', (e) => errs.push(String(e)))
   // third-party embeds (the map) depend on the test machine's network, so only our own requests count
-  page.on('requestfailed', (r) => { if (!/favicon|\.webm$/.test(r.url()) && r.url().startsWith('http://localhost')) errs.push('request failed: ' + r.url()) })
+  // Safari cancels a video's first request and re-asks in byte ranges; that's normal, not a failure
+  page.on('requestfailed', (r) => { if (/cancel/i.test(r.failure()?.errorText ?? '') && /\.(mp4|webm)$/.test(r.url())) return; if (!/favicon|\.webm$/.test(r.url()) && r.url().startsWith('http://localhost')) errs.push('request failed: ' + r.url()) })
   page.on('response', (r) => { if (r.status() >= 400 && /\.(webp|png|jpg|svg|mp4|js|css)(\?|$)/.test(r.url())) errs.push(`${r.status()} ${r.url()}`) })
   return errs
 }
