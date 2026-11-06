@@ -8,4 +8,5 @@ Disallow: /search
 Disallow: /checkout
 Disallow: /lab
 Disallow: /v2
+Disallow: /film
 Sitemap: https://jojo-the-jeweler-two.vercel.app/sitemap.xml

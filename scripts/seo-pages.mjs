@@ -15,9 +15,9 @@ const shell = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8
 writeFileSync(new URL('../dist/app.html', import.meta.url), shell)
 const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-const routes = ['/', '/custom', '/about', '/contact', '/collections/all',
+const routes = ['/', '/custom', '/clients', '/about', '/contact', '/collections/all',
   ...catalog.collections.map((c) => '/collections/' + c.handle), ...catalog.products.map((p) => '/products/' + p.handle)]
-const nav = [['Shop all', '/collections/all'], ...catalog.collections.map((c) => [c.title, '/collections/' + c.handle]), ['Custom pieces', '/custom'], ['About JoJo', '/about'], ['Contact', '/contact']]
+const nav = [['Shop all', '/collections/all'], ...catalog.collections.map((c) => [c.title, '/collections/' + c.handle]), ['Custom pieces', '/custom'], ['Clients', '/clients'], ['About JoJo', '/about'], ['Contact', '/contact']]
 
 function head(m) {
   const t = esc(m.title)

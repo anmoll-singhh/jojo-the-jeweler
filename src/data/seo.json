@@ -67,8 +67,17 @@
    "noindex": true
   },
   "/v2": {
+   "title": "JoJo The Jeweler | Step Inside 3 W 47th Street",
+   "noindex": true
+  },
+  "/film": {
    "title": "The Film | JoJo The Jeweler",
    "noindex": true
+  },
+  "/clients": {
+   "title": "Celebrity Clients | Lil Baby, Young Thug & More | JoJo The Jeweler",
+   "description": "Custom pieces JoJo The Jeweler made for Lil Baby, Young Thug, Richard Ríos and more, with the story of each piece in the store's own words. 3 W 47th Street, NYC.",
+   "h1": "Worn by"
   }
  },
  "collection": {

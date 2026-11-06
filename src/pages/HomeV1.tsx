@@ -18,12 +18,13 @@ import gsap from 'gsap'
 /* lines are blocks; the space between them keeps the heading's text (for search and screen readers) as words */
 export const Lines = ({ lines, d = 0 }: { lines: React.ReactNode[]; d?: number }) => <>{lines.map((l, i) => <Fragment key={i}>{i > 0 && ' '}<span className="ln" data-d={d + i * 0.1}><span>{l}</span></span></Fragment>)}</>
 
-export default function HomeV1() {
+/** `/` is the homepage without the entrance; `/v2` is the same page behind the buzz-in storefront door. */
+export default function HomeV1({ gate = false }: { gate?: boolean }) {
   useTitle('')
   return (
     <main id="main" className="home">
       {/* Order: what it is → browse by piece → price the signature chain → the pieces → have one made → who wears it → where to buy it. Each section is sized to one screen. */}
-      <Hero />
+      <Hero gate={gate} />
       <ShopByPiece />
       <CubanBuilder />
       <Picks />
@@ -39,9 +40,9 @@ export default function HomeV1() {
    buzzer lets you in: the lock clicks, the doors swing open onto the piece, the headline rises.
    Once per session; skipped for reduced motion and automated browsers. */
 const BUZZED = 'jojo-buzzed'
-function Hero() {
+function Hero({ gate: withGate }: { gate: boolean }) {
   const p = PIECES[0]
-  const skip = typeof window === 'undefined' || reduced() || navigator.webdriver || (() => { try { return sessionStorage.getItem(BUZZED) === '1' } catch { return false } })()
+  const skip = !withGate || typeof window === 'undefined' || reduced() || navigator.webdriver || (() => { try { return sessionStorage.getItem(BUZZED) === '1' } catch { return false } })()
   const [gate, setGate] = useState<'shut' | 'buzz' | 'open' | 'gone'>(skip ? 'gone' : 'shut')
   const open = () => {
     if (gate !== 'shut') return

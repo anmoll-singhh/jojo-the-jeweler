@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-06 (clients page, homepage split)
+- `/` is the homepage without the entrance; `/v2` is the same homepage behind the buzz-in storefront door; the earlier film version moved to `/film`.
+- New `/clients` page ("Worn by"): hero with three rows of client names sliding against each other over the Lil Baby clip; an index where the piece follows the cursor (thumbnails on phones); a chapter per client (Lil Baby, Young Thug, Richard Ríos, NAV, 22Gz) with the film opening from a slit, a drifting chapter number and a second picture; Lil Mabu listed; a dome gallery of the Drive photos; a custom-piece close. Every name, piece and line comes from JoJo's Instagram captions or the store. Clips cut from the full reels (720p). Linked in the nav, phone menu and footer; in the sitemap with its own title and description.
+
 ## 2026-11-06 (round 4)
 - Weigh it: the baked-in "0.00" is removed from the scale photo's display; the live reading is seven-segment digits (DSEG7) with faint unlit segments, warped into the display's perspective. The chain is cut out of its satin and rests on the pan.
 - Showroom: address, hours and phone in three aligned columns (label, value, note, action).
