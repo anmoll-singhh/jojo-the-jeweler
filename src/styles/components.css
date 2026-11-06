@@ -285,3 +285,6 @@ html[data-grain='on'] body::before { content: ''; position: fixed; inset: -50%; 
 @keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -2%); } }
 html[data-img='contrast'] .stage { filter: contrast(1.12) saturate(1.1); }
 html[data-img='mono'] .stage { filter: grayscale(1) contrast(1.08); }
+/* balanced nav: three links left of the logo, two on the right before the icons */
+.nav__links--r { margin-inline: 0 1.25rem; }
+@media (min-width: 56.3125em) and (max-width: 68.75em) { .nav__links { gap: 1.125rem; font-size: .875rem; } .nav__links--r { margin-right: .75rem; } }

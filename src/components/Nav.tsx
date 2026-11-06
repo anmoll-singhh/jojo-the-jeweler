@@ -62,12 +62,11 @@ export function Nav({ over = false }: { over?: boolean }) {
             </div>
             <NavLink to="/custom">Custom</NavLink>
             <NavLink to="/engagement-rings">Engagement</NavLink>
-            <NavLink to="/clients">Clients</NavLink>
-            <NavLink to="/about">About</NavLink>
           </nav>
         </div>
         <Link to="/" className="nav__logo" aria-label={BRAND.name + ' home'}><Logo /></Link>
         <div className="nav__r">
+          <nav className="nav__links nav__links--r only-d" aria-label="Secondary"><NavLink to="/clients">Clients</NavLink><NavLink to="/about">About</NavLink></nav>
           <button className="icon" aria-label="Search" onClick={() => setSearch(true)}><MagnifyingGlass size={22} /></button>
           <Link className="icon badge only-d" to="/wishlist" aria-label={`Wishlist, ${wl.length} saved`}><Heart size={22} />{wl.length > 0 && <i>{wl.length}</i>}</Link>
           <button className="icon badge bag" aria-label={`Bag, ${count} ${count === 1 ? "item" : "items"}`} onClick={() => setOpen(true)}><Handbag size={22} />{count > 0 && <i key={count}>{count}</i>}</button>
