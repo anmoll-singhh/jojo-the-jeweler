@@ -203,115 +203,75 @@ html.doors-shut, html.doors-shut body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .weigh__chain, .weigh__pan { animation: none; } }
 @media (min-width: 56.25em) { .home > .weigh.screen { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-content: stretch; } .home > .weigh.screen .weigh__stage { min-height: 100svh; } }
 
-/* ── Hero gate: a Diamond District security entrance ── */
-.gate { --gw: min(46vw, 34rem); --gh: min(74svh, 46rem); position: absolute; inset: 0; z-index: 5; overflow: hidden; perspective: 110rem; perspective-origin: 50% 60%; transform-origin: 50% 70%; color: oklch(92% 0.02 85); }
-@media (max-width: 43.75em) { .gate { --gw: 62vw; --gh: min(66svh, 34rem); } }
-/* polished black granite, with a hole where the entrance is */
-.gate__wall { position: absolute; inset: 0; background:
-  radial-gradient(circle at 20% 30%, oklch(100% 0 0 / .05) 0 1px, transparent 1.5px) 0 0 / 7px 9px,
-  radial-gradient(circle at 70% 60%, oklch(100% 0 0 / .04) 0 1px, transparent 1.5px) 0 0 / 11px 13px,
-  linear-gradient(100deg, transparent 20%, oklch(100% 0 0 / .045) 35%, transparent 45%, transparent 70%, oklch(100% 0 0 / .03) 80%, transparent 90%),
-  linear-gradient(oklch(13% 0.003 80), oklch(8% 0.002 80));
-  -webkit-mask: linear-gradient(#000 0 0), linear-gradient(#000 0 0) 50% 100% / calc(var(--gw) + 2px) calc(var(--gh) + 2px) no-repeat; -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) exclude, linear-gradient(#000 0 0) 50% 100% / calc(var(--gw) + 2px) calc(var(--gh) + 2px) no-repeat; }
-.gate__wall::after { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 100%, oklch(80% 0.06 80 / .12), transparent 70%); }
-/* brass number and street over the door */
-.gate__sign { position: absolute; left: 50%; bottom: calc(var(--gh) + clamp(.75rem, 2svh, 1.5rem)); translate: -50% 0; display: flex; align-items: center; gap: 1rem; white-space: nowrap; }
-.gate__no { display: grid; place-items: center; width: clamp(2.75rem, 5vw, 3.75rem); aspect-ratio: 1; border-radius: .25rem; background: linear-gradient(135deg, oklch(88% 0.09 85), oklch(62% 0.1 75) 55%, oklch(80% 0.09 82)); color: oklch(22% 0.03 70); font: 700 clamp(1.5rem, 1rem + 2vw, 2.25rem)/1 var(--font-archivo); font-variation-settings: 'wdth' 110; box-shadow: inset 0 1px 0 oklch(98% 0.03 90 / .7), 0 .5rem 1rem oklch(0% 0 0 / .6); }
-.gate__st { font-size: clamp(.6875rem, .6rem + .3vw, .8125rem); letter-spacing: .28em; text-transform: uppercase; color: oklch(72% 0.02 85); }
-/* the entrance: steel frame, two glass doors, threshold */
-.gate__entry { position: absolute; left: 50%; bottom: 0; width: var(--gw); height: var(--gh); translate: -50% 0; transform-style: preserve-3d; }
-.gate__frame { position: absolute; inset: 0; padding: clamp(.5rem, 1vw, .875rem) clamp(.5rem, 1vw, .875rem) 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; transform-style: preserve-3d; background: linear-gradient(90deg, oklch(42% 0.005 250), oklch(78% 0.005 250) 12%, oklch(50% 0.005 250) 30%, oklch(70% 0.005 250) 70%, oklch(40% 0.005 250)); box-shadow: inset 0 0 0 1px oklch(0% 0 0 / .5), 0 0 4rem oklch(0% 0 0 / .8); }
-.gate__door { position: relative; padding: clamp(.375rem, .8vw, .625rem); background: linear-gradient(90deg, oklch(55% 0.005 250), oklch(80% 0.004 250) 40%, oklch(52% 0.005 250)); transition: transform 1.25s cubic-bezier(.55, 0, .15, 1); backface-visibility: hidden; }
-.gate__door--l { transform-origin: 0 50%; }
-.gate__door--r { transform-origin: 100% 50%; }
-.gate__glass { position: relative; height: 100%; overflow: hidden; background:
-  linear-gradient(115deg, transparent 18%, oklch(100% 0 0 / .14) 24%, transparent 31%, transparent 62%, oklch(100% 0 0 / .07) 66%, transparent 70%),
-  radial-gradient(80% 60% at 50% 70%, oklch(80% 0.08 75 / .28), transparent 75%),
-  oklch(16% 0.01 70 / .35);
-  -webkit-backdrop-filter: blur(.6rem) brightness(.75) saturate(1.15); backdrop-filter: blur(.6rem) brightness(.75) saturate(1.15);
-  box-shadow: inset 0 0 0 1px oklch(0% 0 0 / .6), inset 0 0 3rem oklch(0% 0 0 / .45); }
-/* gold-leaf lettering on the left door, white vinyl hours on the right */
-.gate__decal { position: absolute; left: 0; right: 0; top: 30%; display: grid; justify-items: center; gap: .25rem; text-align: center; color: oklch(84% 0.09 82); filter: drop-shadow(0 1px 0 oklch(0% 0 0 / .6)); }
-.gate__decal svg { width: clamp(2.25rem, 4vw, 3.5rem); height: auto; stroke-width: 5; }
-.gate__decal b { font: 300 clamp(1.25rem, .8rem + 1.6vw, 2.25rem)/1 var(--font-archivo); font-variation-settings: 'wdth' 125; letter-spacing: .02em; background: linear-gradient(180deg, oklch(94% 0.06 88), oklch(72% 0.11 78) 60%, oklch(86% 0.08 84)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.gate__decal small { font-size: clamp(.5625rem, .5rem + .2vw, .6875rem); letter-spacing: .32em; text-transform: uppercase; }
-.gate__hours { position: absolute; left: 0; right: 0; top: 34%; text-align: center; font: 500 clamp(.5625rem, .5rem + .25vw, .75rem)/1.7 var(--fb); letter-spacing: .16em; text-transform: uppercase; color: oklch(96% 0 0 / .78); }
-.gate__hours em { font-style: normal; display: inline-block; margin-top: .5rem; padding-top: .5rem; border-top: 1px solid oklch(96% 0 0 / .35); }
-/* long steel pull bars at the meeting edge */
-.gate__bar { position: absolute; top: 32%; height: 36%; width: clamp(.4rem, .7vw, .6rem); border-radius: 1rem; background: linear-gradient(90deg, oklch(55% 0.005 250), oklch(96% 0.003 250) 45%, oklch(60% 0.005 250)); box-shadow: .25rem .4rem .6rem oklch(0% 0 0 / .55); }
-.gate__door--l .gate__bar { right: clamp(.75rem, 1.6vw, 1.25rem); }
-.gate__door--r .gate__bar { left: clamp(.75rem, 1.6vw, 1.25rem); }
-/* the intercom on the jamb */
-.gate__intercom { position: absolute; left: calc(50% + var(--gw) / 2 + clamp(.5rem, 2vw, 1.75rem)); bottom: calc(var(--gh) * .34); width: clamp(3.5rem, 5vw, 4.75rem); display: grid; justify-items: center; gap: .625rem; padding: .875rem .5rem 1rem; border-radius: .375rem; background: linear-gradient(90deg, oklch(48% 0.005 250), oklch(82% 0.004 250) 45%, oklch(52% 0.005 250)); box-shadow: inset 0 0 0 1px oklch(0% 0 0 / .45), 0 1rem 1.5rem oklch(0% 0 0 / .7); }
-.gate__cam { width: 1rem; height: 1rem; border-radius: 50%; background: radial-gradient(circle at 35% 35%, oklch(70% 0.08 250), oklch(10% 0.02 260) 45%, oklch(3% 0 0)); box-shadow: 0 0 0 .2rem oklch(25% 0.005 250); }
-.gate__grille { width: 70%; aspect-ratio: 1.2; background: radial-gradient(circle, oklch(15% 0 0) 0 .09rem, transparent .11rem) 0 0 / .35rem .35rem; border-radius: .25rem; }
-.gate__led { width: .4rem; height: .4rem; border-radius: 50%; background: oklch(60% 0.2 25); box-shadow: 0 0 .5rem oklch(65% 0.22 25); animation: led 1.6s steps(2) infinite; }
-@keyframes led { 50% { opacity: .35; } }
-.gate__btn { position: relative; width: clamp(2.5rem, 3.6vw, 3.25rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 50%, oklch(35% 0.005 250), oklch(20% 0.005 250)); box-shadow: inset 0 0 0 2px oklch(70% 0.004 250), 0 0 0 .25rem oklch(20% 0.005 250 / .4); cursor: pointer; }
-.gate__btn i { position: absolute; inset: 18%; border-radius: 50%; background: radial-gradient(circle at 38% 32%, oklch(97% 0.04 88), oklch(74% 0.1 80) 55%, oklch(45% 0.07 72)); box-shadow: 0 .15rem .25rem oklch(0% 0 0 / .6), 0 0 1.25rem oklch(85% 0.09 85 / .55); transition: transform .12s, box-shadow .12s; animation: btnGlow 2.2s ease-in-out infinite; }
-@keyframes btnGlow { 50% { box-shadow: 0 .15rem .25rem oklch(0% 0 0 / .6), 0 0 2.25rem oklch(85% 0.09 85 / .9); } }
-.gate__btn:hover i { transform: scale(1.05); }
-.gate__btn:active i, .hero--buzz .gate__btn i { transform: scale(.9); box-shadow: inset 0 .15rem .3rem oklch(0% 0 0 / .5); animation: none; }
-.gate__btn:focus-visible { outline: 2px solid oklch(85% 0.09 85); outline-offset: .3rem; }
-.gate__intercom small { font-size: .5625rem; line-height: 1.25; letter-spacing: .14em; text-transform: uppercase; text-align: center; color: oklch(20% 0.005 250); font-weight: 700; }
-.gate__hint { position: absolute; top: calc(var(--nav-h) + 1.25rem); left: 0; right: 0; text-align: center; font-size: .75rem; letter-spacing: .24em; text-transform: uppercase; color: oklch(70% 0.02 85); transition: opacity .4s; }
-@media (max-width: 43.75em) { .gate__intercom { left: auto; right: max(.375rem, calc((100vw - var(--gw)) / 2 - 3.875rem)); } .gate__intercom small { display: none; } }
-/* buzz: LED goes green, the doors rattle on the lock */
-.hero--buzz .gate__led { background: oklch(78% 0.2 145); box-shadow: 0 0 .75rem oklch(80% 0.2 145); animation: none; }
-.hero--buzz .gate__door { animation: rattle .12s 3; }
-@keyframes rattle { 50% { translate: 1px 0; } }
-/* open: the doors swing in, then you walk through */
-.hero--open .gate__door--l { transform: rotateY(82deg); }
-.hero--open .gate__door--r { transform: rotateY(-82deg); }
-.hero--open .gate__led { background: oklch(78% 0.2 145); animation: none; }
+/* ── Hero gate: a photograph of the storefront (desktop: wide, phone: tall). The two door leaves are cut
+   out of the photo and hinge open over the doorway; behind them is the hero film. Coordinates are
+   percentages of the photo, and the photo is sized to cover the screen, so everything stays aligned. ── */
+.gate { position: absolute; inset: 0; z-index: 5; overflow: hidden; transform-origin: 50% 58%; will-change: transform, opacity; }
+.gate__photo { --ar: 1376 / 768; position: absolute; left: 50%; top: 50%; width: max(100vw, calc(100svh * 1.7917)); aspect-ratio: var(--ar); translate: -50% -50%; perspective: 160rem; perspective-origin: 50% 55%; }
+.gate__photo--tall { --ar: 768 / 1376; width: max(100vw, calc(100svh * .5581)); display: none; }
+@media (max-aspect-ratio: 4 / 5) { .gate__photo--wide { display: none; } .gate__photo--tall { display: block; } }
+.gate__base { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.gate__leaf { position: absolute; z-index: 1; height: auto; backface-visibility: hidden; transition: transform 1.25s cubic-bezier(.55, 0, .15, 1); will-change: transform; }
+/* wide photo: doorway x 510–872, y 192–648 of 1376×768 */
+.gate__photo--wide .gate__leaf { top: 25%; height: 59.375%; }
+.gate__photo--wide .gate__leaf--l { left: 37.064%; width: 13.081%; transform-origin: 0 50%; }
+.gate__photo--wide .gate__leaf--r { left: 50.145%; width: 13.227%; transform-origin: 100% 50%; }
+/* tall photo: doorway x 194–578, y 402–1060 of 768×1376 */
+.gate__photo--tall .gate__leaf { top: 29.215%; height: 47.82%; }
+.gate__photo--tall .gate__leaf--l { left: 25.26%; width: 25%; transform-origin: 0 50%; }
+.gate__photo--tall .gate__leaf--r { left: 50.26%; width: 25%; transform-origin: 100% 50%; }
+/* the leaves sit in front of the photo's frame while shut (the hole is only seen once they swing) */
+.gate__leaf { z-index: 3; }
+/* backlit letters on the sign band */
+.gate__sign { position: absolute; z-index: 4; display: flex; align-items: center; justify-content: center; gap: .6em; margin: 0; white-space: nowrap; color: oklch(93% 0.06 88); font: 300 1rem/1 var(--font-archivo); font-variation-settings: 'wdth' 125; letter-spacing: .06em; text-shadow: 0 0 .35em oklch(88% 0.1 85 / .9), 0 0 1.2em oklch(80% 0.1 80 / .55); }
+.gate__sign svg { width: 1.1em; height: 1.1em; stroke-width: 5; filter: drop-shadow(0 0 .3em oklch(88% 0.1 85 / .9)); }
+.gate__photo--wide .gate__sign { left: 10.3%; width: 79.7%; top: 1.4%; height: 16.5%; font-size: calc(var(--gw, 100vw) * .022); }
+.gate__photo--tall .gate__sign { left: 17%; width: 66.3%; top: 12.5%; height: 12.5%; font-size: calc(var(--gw, 100vw) * .036); }
+.gate__photo--wide { --gw: max(100vw, calc(100svh * 1.7917)); }
+.gate__photo--tall { --gw: max(100vw, calc(100svh * .5581)); }
+/* warm light spilling out once the doors part */
+.gate__glow { position: absolute; z-index: 0; pointer-events: none; background: radial-gradient(closest-side, oklch(92% 0.07 85 / .9), oklch(80% 0.08 75 / .4) 60%, transparent); opacity: 0; transition: opacity .9s; }
+.gate__photo--wide .gate__glow { left: 37%; width: 26.4%; top: 25%; height: 59.4%; }
+.gate__photo--tall .gate__glow { left: 25.26%; width: 50%; top: 29.2%; height: 47.8%; }
+/* the buzzer: on the right jamb (wide), over the intercom's brass button in the photo (tall) */
+.gate__buzz { position: absolute; z-index: 5; width: clamp(2.75rem, calc(var(--gw) * .028), 3.75rem); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; cursor: pointer; background: none; }
+.gate__photo--wide .gate__buzz { left: 64.75%; top: 52%; }
+.gate__photo--tall .gate__buzz { left: 78.8%; top: 53.8%; width: 3rem; }
+.gate__buzz i { position: absolute; inset: 22%; border-radius: 50%; background: radial-gradient(circle at 38% 32%, oklch(96% 0.05 88), oklch(72% 0.1 78) 55%, oklch(42% 0.07 70)); box-shadow: 0 0 0 .2rem oklch(30% 0.005 250), 0 .15rem .3rem oklch(0% 0 0 / .7), 0 0 1rem oklch(85% 0.09 85 / .6); transition: transform .12s; }
+.gate__photo--tall .gate__buzz i { background: none; box-shadow: 0 0 0 0 oklch(85% 0.09 85 / .7); }
+.gate__buzz::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid oklch(88% 0.08 85 / .8); animation: gateRing 2s ease-out infinite; }
+@keyframes gateRing { from { transform: scale(.55); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+.gate__buzz:hover i { transform: scale(1.06); }
+.gate__buzz:active i, .hero--buzz .gate__buzz i { transform: scale(.9); }
+.gate__buzz:focus-visible { outline: 2px solid oklch(85% 0.09 85); outline-offset: .25rem; }
+.gate__hint { position: absolute; z-index: 6; left: 0; right: 0; bottom: clamp(1.25rem, 5svh, 2.75rem); margin: 0; text-align: center; pointer-events: none; transition: opacity .4s; }
+.gate__hint span { display: inline-block; padding: .625rem 1rem; background: oklch(8% 0.002 80 / .72); font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: oklch(88% 0.03 85); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+/* buzz: the lock releases, the leaves rattle */
+.hero--buzz .gate__leaf { animation: rattle .1s 3 linear; }
+@keyframes rattle { 50% { translate: .12% 0; } }
+.hero--buzz .gate__leaf--l { transform: rotateY(.01deg); }
+.hero--buzz .gate__leaf--r { transform: rotateY(-.01deg); }
+/* open: the leaves swing in, light spills out, and you walk through into the film */
+.hero--open .gate__leaf--l { transform: rotateY(80deg); }
+.hero--open .gate__leaf--r { transform: rotateY(-80deg); }
+.hero--open .gate__glow { opacity: 1; }
 .hero--open .gate { transform: scale(2.6); opacity: 0; transition: transform 1.6s .45s cubic-bezier(.6, 0, .2, 1), opacity .7s 1.2s; }
 .hero--open .gate__hint, .hero--buzz .gate__hint { opacity: 0; }
-.hero--open .hero__media video { transform: scale(1); transition: transform 2.2s .4s var(--ease-expo); }
 .hero--shut .hero__media video, .hero--buzz .hero__media video { transform: scale(1.12); }
-/* realism pass: backlit fascia, display windows, warmer glass, the store seen through the doorway */
-.gate__sign { display: none; }
-.gate__fascia { position: absolute; left: 50%; bottom: calc(var(--gh) + clamp(1rem, 3svh, 2rem)); translate: -50% 0; display: flex; align-items: center; gap: .875rem; padding: .75rem clamp(1.25rem, 3vw, 2.5rem); white-space: nowrap; background: linear-gradient(oklch(14% 0.003 80), oklch(10% 0.002 80)); border-top: 1px solid oklch(100% 0 0 / .08); box-shadow: 0 1.5rem 3rem oklch(0% 0 0 / .8); color: oklch(88% 0.08 85); }
-.gate__fascia svg { stroke-width: 5; filter: drop-shadow(0 0 .5rem oklch(85% 0.09 85 / .8)); }
-.gate__fascia span { font: 300 clamp(1rem, .7rem + 1.2vw, 1.75rem)/1 var(--font-archivo); font-variation-settings: 'wdth' 125; letter-spacing: .04em; color: oklch(94% 0.06 88); text-shadow: 0 0 .6rem oklch(85% 0.1 85 / .9), 0 0 1.75rem oklch(80% 0.1 80 / .5); }
-.gate__fascia .gate__no { margin-left: .5rem; width: 2.25rem; font-size: 1.25rem; font-style: normal; }
-@media (max-width: 43.75em) { .gate__fascia span { font-size: .9375rem; } .gate__fascia .gate__no { width: 1.75rem; font-size: 1rem; } }
-.gate__frame { background: none; border: clamp(.5rem, 1vw, .875rem) solid; border-bottom: 0; border-image: linear-gradient(90deg, oklch(42% 0.005 250), oklch(80% 0.005 250) 15%, oklch(50% 0.005 250) 35%, oklch(72% 0.005 250) 70%, oklch(40% 0.005 250)) 1; padding: 0; gap: 0; }
-.gate__glass { background:
-  linear-gradient(115deg, transparent 18%, oklch(100% 0 0 / .16) 24%, transparent 31%, transparent 62%, oklch(100% 0 0 / .08) 66%, transparent 70%),
-  repeating-linear-gradient(180deg, transparent 0 22%, oklch(92% 0.06 85 / .12) 22% 23%, transparent 23% 40%),
-  radial-gradient(70% 45% at 50% 18%, oklch(92% 0.07 85 / .35), transparent 70%),
-  radial-gradient(90% 70% at 50% 80%, oklch(75% 0.09 70 / .3), transparent 75%),
-  oklch(20% 0.02 70 / .25);
-  -webkit-backdrop-filter: blur(.75rem) brightness(1) saturate(1.2); backdrop-filter: blur(.75rem) brightness(1) saturate(1.2); }
-/* display windows either side (desktop) */
-.gate__win { display: none; }
-@media (min-width: 56.25em) {
-  .gate__win { display: grid; position: absolute; bottom: calc(var(--gh) * .22); width: min(calc((100vw - var(--gw)) / 2 - 9rem), 22rem); height: calc(var(--gh) * .5); padding: .625rem; background: linear-gradient(90deg, oklch(45% 0.005 250), oklch(78% 0.005 250) 50%, oklch(45% 0.005 250)); box-shadow: 0 2rem 3rem oklch(0% 0 0 / .8); }
-  .gate__win--l { right: calc(50% + var(--gw) / 2 + 2.5rem); }
-  .gate__win--r { left: calc(50% + var(--gw) / 2 + 7.5rem); }
-  .gate__case { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: .5rem; padding: 0 .75rem 18%; overflow: hidden; background: radial-gradient(80% 60% at 50% 0%, oklch(90% 0.05 85 / .35), transparent 70%), linear-gradient(oklch(16% 0.008 60), oklch(9% 0.004 60)); box-shadow: inset 0 0 2.5rem oklch(0% 0 0 / .8); }
-  .gate__case::before { content: ''; position: absolute; inset: 0 8% auto; height: 2px; background: oklch(98% 0.04 88); box-shadow: 0 0 1.5rem .6rem oklch(92% 0.06 85 / .45); }
-  .gate__case::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 25%, oklch(100% 0 0 / .1) 32%, transparent 40%, transparent 72%, oklch(100% 0 0 / .06) 76%, transparent 80%); pointer-events: none; }
-  .gate__case img { width: 100%; aspect-ratio: 1; object-fit: cover; -webkit-mask: radial-gradient(closest-side, #000 55%, transparent); mask: radial-gradient(closest-side, #000 55%, transparent); filter: brightness(1.1) contrast(1.05); }
-  .gate__shelf { position: absolute; left: .625rem; right: .625rem; bottom: calc(.625rem + 14%); height: .5rem; background: linear-gradient(oklch(30% 0.01 60), oklch(14% 0.005 60)); box-shadow: 0 -.5rem 1rem oklch(85% 0.07 85 / .12); }
-}
-@media (max-width: 26em) { .gate { --gw: 56vw; } .gate__intercom { width: 3.125rem; padding: .625rem .375rem .75rem; right: max(.375rem, calc((100vw - var(--gw)) / 2 - 3.75rem)); } .gate__btn { width: 2.25rem; } }
+.hero--open .hero__media video { transform: scale(1); transition: transform 2.2s .4s var(--ease-expo); }
+html.doors-shut body::after, html.gate-anim body::after { display: none; }
 
-/* ── smoother entrance, same look and motion ──
-   1 the glass is a static frosted light instead of a live blur of the playing film (the biggest cost)
-   2 doors and the storefront sit on their own GPU layers from the start, so the swing and zoom don't repaint
-   3 the page's cursor light rests while the gate is up */
-.gate__glass { -webkit-backdrop-filter: none; backdrop-filter: none; background:
-  linear-gradient(115deg, transparent 18%, oklch(100% 0 0 / .16) 24%, transparent 31%, transparent 62%, oklch(100% 0 0 / .08) 66%, transparent 70%),
-  repeating-linear-gradient(180deg, transparent 0 22%, oklch(96% 0.05 85 / .1) 22% 22.6%, transparent 22.6% 40%),
-  radial-gradient(70% 40% at 50% 12%, oklch(92% 0.06 85 / .4), transparent 70%),
-  radial-gradient(90% 60% at 50% 85%, oklch(70% 0.07 70 / .35), transparent 75%),
-  linear-gradient(oklch(54% 0.035 80), oklch(42% 0.03 75) 60%, oklch(32% 0.025 70)); }
-.gate { will-change: transform, opacity; backface-visibility: hidden; }
-.gate__door { will-change: transform; }
-html.doors-shut body::after { display: none; }
-html.gate-anim body::after { display: none; }
-/* build the doors' 3D layers during the buzz, so the swing starts without a hitch */
-.hero--buzz .gate__door--l { transform: rotateY(.01deg); }
-.hero--buzz .gate__door--r { transform: rotateY(-.01deg); }
+/* ── Weigh it, photographic: a real jeweler's scale; the chain lands on its pan and the reading shows on its LCD ── */
+.weigh__stage { display: grid; place-items: center; padding: 0; background: oklch(5% 0.002 80); }
+.weigh__photo { position: relative; width: min(100%, 100svh); aspect-ratio: 1; overflow: hidden; container-type: inline-size; }
+.weigh__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; -webkit-mask: radial-gradient(75% 75% at 52% 55%, #000 55%, transparent 100%); mask: radial-gradient(75% 75% at 52% 55%, #000 55%, transparent 100%); }
+/* pan: centre x 48.4%, surface y ≈ 47% of the 1024² photo */
+.weigh__photo .weigh__chain { position: absolute; left: 48.6%; bottom: 52.5%; width: 30%; translate: -50% 0; scale: var(--s); transform-origin: 50% 92%; animation: wFall .72s cubic-bezier(.3, 0, .4, 1.35) both; filter: drop-shadow(0 .6cqi .6cqi oklch(0% 0 0 / .8)); }
+.weigh__photo .weigh__chain img { width: 100%; aspect-ratio: 1; object-fit: cover; -webkit-mask: radial-gradient(closest-side, #000 58%, transparent 72%); mask: radial-gradient(closest-side, #000 58%, transparent 72%); transform: perspective(40cqi) rotateX(52deg); transform-origin: 50% 80%; }
+/* LCD: x 533–705, y 588–658, tilted with the scale's face */
+.weigh__photo .weigh__lcd { position: absolute; left: 52.3%; top: 57.6%; width: 16.4%; height: 6.4%; min-width: 0; padding: 0 1.2cqi; display: flex; align-items: center; justify-content: flex-end; gap: .4cqi; background: linear-gradient(180deg, oklch(86% 0.12 145), oklch(78% 0.13 145)); color: oklch(22% 0.04 150); font: 700 4.4cqi/1 ui-monospace, 'SF Mono', Menlo, Consolas, monospace; letter-spacing: .02em; text-shadow: none; border-radius: .3cqi; transform: rotate(-3.2deg) skewX(-6deg); box-shadow: inset 0 0 1.2cqi oklch(60% 0.1 145 / .5), 0 0 2cqi oklch(85% 0.15 145 / .35); font-variant-numeric: tabular-nums; animation: lcdBlink .5s steps(2) 2; }
+.weigh__photo .weigh__lcd small { font-size: 2.2cqi; }
+@keyframes lcdBlink { 50% { opacity: .55; } }
+.weigh__scale, .weigh__pan, .weigh__body { display: none; }
+@media (max-width: 56.24em) { .weigh__stage { min-height: 0; } .weigh__photo { width: min(100%, 34rem); } }
+.proof__item .stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }

@@ -5,4 +5,7 @@ Allow: /
 Disallow: /cart
 Disallow: /wishlist
 Disallow: /search
+Disallow: /checkout
+Disallow: /lab
+Disallow: /v2
 Sitemap: https://jojo-the-jeweler-two.vercel.app/sitemap.xml

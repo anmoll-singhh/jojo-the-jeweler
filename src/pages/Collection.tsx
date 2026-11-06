@@ -82,7 +82,8 @@ export function Collection() {
       </div>
       <div className="shop__body wrap">
         <aside className="filters only-d" aria-label="Filters">{filters}</aside>
-        <section className="grid" aria-live="polite">
+        <section className="grid" aria-live="polite" aria-labelledby="grid-h">
+          <h2 id="grid-h" className="sr-only">{list.length} {list.length === 1 ? 'piece' : 'pieces'}</h2>
           {list.map((p, i) => <ProductCard key={p.handle} p={p} eager={i < 4} />)}
           {!list.length && <p className="lede shop__none">Nothing matches those filters. <button className="link" onClick={clearAll}>Clear them</button> or <Link className="link" to="/custom">ask for a custom piece</Link>.</p>}
         </section>

@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
@@ -229,8 +230,14 @@ test.describe('accessibility and seo', () => {
   }
   test('title, description, one h1, lang, sitemap and robots', async ({ page, request }) => {
     await page.goto('/products/tennis-chain')
-    await expect(page).toHaveTitle(/Tennis chain · JoJo The Jeweler/)
+    await expect(page).toHaveTitle(/^Tennis chain \| .*JoJo The Jeweler$/)
     expect(await page.locator('h1').count()).toBe(1)
+    await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href', /\/products\/tennis-chain$/)
+    const ld = JSON.parse((await page.locator('#ld-page').textContent()) || '{}')
+    expect(ld['@graph'].map((x: { '@type': string }) => x['@type'])).toEqual(['Product', 'BreadcrumbList'])
+    // static heads written at build (vite preview serves the SPA shell, Vercel serves these files)
+    const html = readFileSync('dist/about/index.html', 'utf8')
+    expect(html).toContain('FAQPage'); expect(html).toContain('<link rel="canonical" href="https://jojo-the-jeweler-two.vercel.app/about"')
     expect(await page.getAttribute('html', 'lang')).toBe('en-US')
     expect((await page.locator('meta[name=description]').getAttribute('content'))?.length).toBeGreaterThan(50)
     expect((await request.get('/sitemap.xml')).status()).toBe(200)

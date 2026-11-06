@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { reduced } from '../lib/motion'
 
 /**
@@ -6,8 +6,12 @@ import { reduced } from '../lib/motion'
  * Only the `priority` video (the hero) loads up front; every other one downloads nothing until it is
  * about a screen away, then plays while on screen. Reduced motion: the poster stands in.
  */
-export function Video({ mp4, webm, poster, className = '', label, priority = false }: { mp4: string; webm?: string; poster: string; className?: string; label?: string; priority?: boolean }) {
+/** Big screens (or dense ones) get the 1920-tall cut, phones the lighter 1080 one. */
+const wantHd = () => typeof window !== 'undefined' && (matchMedia('(min-width: 56.25em)').matches || innerWidth * devicePixelRatio > 1500)
+export function Video({ mp4, webm, poster, className = '', label, priority = false, hd }: { mp4: string; webm?: string; poster: string; className?: string; label?: string; priority?: boolean; hd?: { mp4: string; webm?: string } }) {
   const ref = useRef<HTMLVideoElement>(null)
+  const [big] = useState(() => !!hd && wantHd())
+  const src = big && hd ? hd : { mp4, webm }
   useEffect(() => {
     const v = ref.current; if (!v) return
     if (reduced()) { v.removeAttribute('autoplay'); v.preload = 'none'; v.pause(); return }
@@ -21,8 +25,8 @@ export function Video({ mp4, webm, poster, className = '', label, priority = fal
   }, [priority])
   return (
     <video ref={ref} className={className} poster={poster} muted loop playsInline autoPlay={priority} preload={priority ? 'auto' : 'none'} aria-label={label} disablePictureInPicture>
-      {webm && <source src={webm} type="video/webm" />}
-      <source src={mp4} type="video/mp4" />
+      {src.webm && <source src={src.webm} type="video/webm" />}
+      <source src={src.mp4} type="video/mp4" />
     </video>
   )
 }

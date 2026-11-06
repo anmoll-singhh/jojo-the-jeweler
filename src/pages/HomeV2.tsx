@@ -53,7 +53,7 @@ function Opening() {
   const p = PIECES[0]
   return (
     <section ref={root} className="v2-open">
-      <div className="v2-open__film"><Video priority mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+      <div className="v2-open__film"><Video priority mp4={p.mp4} webm={p.webm} hd={p.hd} poster={p.poster} label={p.title} /></div>
       <div className="v2-open__word" aria-hidden="true">JoJo</div>
       <div className="v2-open__h wrap">
         <h1 className="display">Done the JoJo way</h1>
@@ -129,7 +129,7 @@ function Films() {
       <h2 className="sr-only">Custom work</h2>
       {PIECES.map((p) => (
         <article key={p.id} className="v2-film">
-          <div className="v2-film__media"><Video mp4={p.mp4} webm={p.webm} poster={p.poster} label={p.title} /></div>
+          <div className="v2-film__media"><Video mp4={p.mp4} webm={p.webm} hd={p.hd} poster={p.poster} label={p.title} /></div>
           <div className="v2-film__txt wrap">
             <h3 className="h1"><Lines lines={p.title.split(' for ').length > 1 ? [p.title.split(' for ')[0], 'for ' + p.title.split(' for ')[1]] : [p.title]} /></h3>
             <p className="lede rv">{p.line}</p>

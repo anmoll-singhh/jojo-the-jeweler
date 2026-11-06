@@ -1,3 +1,4 @@
+import faq from './faq.json'
 /**
  * Brand facts. Everything in BRAND, FAQ, PROCESS and CLIENTS is taken from the client's own sources
  * (existing store jojoxwaves.myshopify.com and the @jojothejeweler_ profile, see docs/research/brand.md).
@@ -37,15 +38,7 @@ export const PROCESS = [
 ]
 
 /** FAQ as published on the store's contact page. */
-export const FAQ = [
-  ['Where are you located?', 'The New York Diamond District: 3 W 47th Street, New York, NY 10036.'],
-  ['What are your opening hours?', '9 a.m. to 6 p.m., six days a week.'],
-  ['Do you require a deposit to get started?', 'Yes. A 50% payment is required before the design and development of a custom piece begins. Deposits are taken by wire, Zelle or Cash App.'],
-  ['How long does a custom pendant take?', 'Every piece has its own production time. Design, quality and the materials used all change the schedule, so JoJo confirms a timeline with you once the design is approved.'],
-  ['What payment methods do you accept?', 'Cash, secure credit and debit card payments, and bank transfers.'],
-  ['Do you accept part-exchange?', 'Depending on the piece’s value, authenticity and quality, a partial swap can be considered.'],
-  ['Do you buy watches?', 'Yes. Fill in the form, bring or ship the watch for inspection, and you get a one-time offer with prompt, secure payment.'],
-]
+export const FAQ = faq as [string, string][]
 
 export const NAV = {
   shop: [
