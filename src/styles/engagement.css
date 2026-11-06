@@ -115,3 +115,49 @@
 /* faq */
 .eng-faq { padding-top: var(--section); display: grid; gap: 1.75rem; }
 @media (min-width: 56.25em) { .eng-faq { justify-items: center; text-align: center; } .eng-faq .faq__list { width: min(100%, 48rem); text-align: left; } }
+
+/* ── round 2: photographs, colour, no preview ── */
+.eng-grid { grid-template-columns: minmax(0, 1fr) !important; max-width: 64rem; }
+.eng-build { justify-items: stretch; }
+/* a warm champagne-to-rose glow behind the builder and the how-it-works band */
+.eng-build { position: relative; isolation: isolate; }
+.eng-build::before { content: ''; position: absolute; inset: 10% -10% auto; height: 70%; z-index: -1; background: radial-gradient(45% 50% at 20% 30%, oklch(70% 0.09 80 / .14), transparent 70%), radial-gradient(40% 45% at 85% 55%, oklch(68% 0.1 20 / .12), transparent 70%), radial-gradient(35% 40% at 55% 90%, oklch(70% 0.08 230 / .1), transparent 70%); filter: blur(10px); pointer-events: none; }
+.eng-steps li.on button { border-image: linear-gradient(90deg, oklch(84% 0.09 85), oklch(76% 0.1 30)) 1; }
+.eng-steps li.done button { border-image: linear-gradient(90deg, oklch(84% 0.09 85 / .7), oklch(84% 0.09 85 / .7)) 1; }
+.eng-steps li.on .eng-steps__n { background: linear-gradient(135deg, oklch(88% 0.09 85), oklch(76% 0.1 35)); }
+/* photographed gems and rings on black tiles */
+.eng-shape { padding: 0 0 1rem; overflow: hidden; background: oklch(6% 0 0); }
+.eng-gem { width: 100%; aspect-ratio: 1; object-fit: contain; padding: 14%; background: radial-gradient(60% 60% at 50% 45%, oklch(22% 0.01 250), oklch(6% 0 0) 75%); transition: transform .6s var(--ease-expo), filter .4s; }
+.eng-shape:hover .eng-gem, .eng-shape.on .eng-gem { transform: scale(1.07) rotate(-3deg); filter: brightness(1.12) saturate(1.3) drop-shadow(0 0 1.25rem oklch(90% 0.05 230 / .4)); }
+.eng-shape b { margin-top: .25rem; }
+.eng-shape small { padding-inline: .75rem; }
+.eng-shape--other { padding: 1.25rem .75rem 1rem; justify-content: center; align-content: center; }
+.eng-ct { width: 6rem; height: 6rem; }
+.eng-ct img { width: 100%; height: 100%; object-fit: contain; transform: scale(var(--k)); filter: drop-shadow(0 0 .8rem oklch(90% 0.05 230 / .35)); }
+.eng-ringimg { width: 100%; max-width: 10rem; aspect-ratio: 1; object-fit: cover; margin-bottom: .25rem; transition: transform .6s var(--ease-expo); }
+.eng-card:hover .eng-ringimg, .eng-card.on .eng-ringimg { transform: scale(1.06); }
+.eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr)); }
+.eng-cards:has(.eng-ringimg) .eng-card { padding: 0 0 1rem; overflow: hidden; background: oklch(6% 0 0); }
+.eng-cards:has(.eng-ringimg) .eng-ringimg { max-width: none; }
+/* selected: a champagne-rose gradient border and glow */
+.eng-shape.on, .eng-card.on, .eng-meet__o.on, .eng-metal.on { border-color: transparent; background-clip: padding-box; box-shadow: 0 0 0 1px oklch(84% 0.09 85), 0 0 0 4px oklch(84% 0.09 85 / .14), 0 1rem 2.5rem -1rem oklch(76% 0.1 35 / .45); }
+/* origin icons in their own colours */
+.eng-orig { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; margin-bottom: .25rem; }
+.eng-orig--lab-grown { background: oklch(72% 0.1 195 / .16); color: oklch(82% 0.11 195); }
+.eng-orig--natural { background: oklch(75% 0.12 70 / .16); color: oklch(84% 0.12 75); }
+.eng-orig--help { background: oklch(70% 0.12 15 / .16); color: oklch(80% 0.11 15); }
+/* how it works: coloured icon rings */
+.eng-how__item:nth-child(1) .eng-how__ic { color: oklch(84% 0.1 80); border-color: oklch(84% 0.1 80 / .4); background: oklch(84% 0.1 80 / .08); }
+.eng-how__item:nth-child(2) .eng-how__ic { color: oklch(80% 0.1 20); border-color: oklch(80% 0.1 20 / .4); background: oklch(80% 0.1 20 / .08); }
+.eng-how__item:nth-child(3) .eng-how__ic { color: oklch(82% 0.09 195); border-color: oklch(82% 0.09 195 / .4); background: oklch(82% 0.09 195 / .08); }
+.eng-how__item:nth-child(4) .eng-how__ic { color: oklch(84% 0.06 300); border-color: oklch(84% 0.06 300 / .4); background: oklch(84% 0.06 300 / .08); }
+.eng-meet__o:nth-child(1) svg { color: oklch(84% 0.1 80); } .eng-meet__o:nth-child(2) svg { color: oklch(82% 0.09 195); } .eng-meet__o:nth-child(3) svg { color: oklch(80% 0.1 20); }
+.eng-nav .btn--accent { background: linear-gradient(100deg, oklch(86% 0.09 85), oklch(80% 0.1 50)); color: oklch(15% 0.01 60); border: 0; }
+.eng-nav .btn--accent:hover { filter: brightness(1.06); }
+.page.eng { overflow-x: clip; }
+.eng-build { max-width: 72rem; margin-inline: auto; width: 100%; }
+.eng-grid { max-width: none; }
+.eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 37.5em) { .eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 56.25em) { .eng-shapes { grid-template-columns: repeat(4, minmax(0, 1fr)); } .eng-cards:has(.eng-ringimg) { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.eng-shape.on, .eng-cards:has(.eng-ringimg) .eng-card.on { background: oklch(6% 0 0); }

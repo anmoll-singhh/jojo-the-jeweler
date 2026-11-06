@@ -349,12 +349,12 @@ test.describe('round 2', () => {
     await expect(page.locator('.gallery__slide img').first()).toHaveClass(/img-failed/)
   })
 
-  test('engagement ring: steps validate, preview updates, review composes the enquiry', async ({ page }) => {
+  test('engagement ring: steps validate and the review composes the enquiry', async ({ page }) => {
     await page.goto('/engagement-rings', { waitUntil: 'networkidle' })
     await page.evaluate(() => localStorage.removeItem('jojo-engagement-draft')); await page.reload({ waitUntil: 'networkidle' })
     const next = page.getByRole('button', { name: /Next step/ })
     await next.click(); await expect(page.locator('.cu-err')).toContainText('shape')
-    await page.getByRole('radio', { name: /^Oval/ }).click(); await expect(page.locator('.eng-preview')).toContainText('Oval'); await next.click()
+    await page.getByRole('radio', { name: /^Oval/ }).click(); await expect(page.getByRole('radio', { name: /^Oval/ })).toHaveAttribute('aria-checked', 'true'); await next.click()
     await page.getByRole('radio', { name: /2 – 3 ct/ }).click(); await next.click()
     await page.getByRole('radio', { name: /Natural diamond/ }).click(); await next.click()
     await page.getByRole('radio', { name: /^Halo/ }).click(); await next.click()

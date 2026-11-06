@@ -2,10 +2,11 @@ import { useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/style.css'
-import { ArrowLeft, ArrowRight, CalendarBlank, Check, ChatCircleText, Diamond as DiamondIcon, Hammer, Package, PencilSimpleLine, Storefront, VideoCamera, Phone } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, CalendarBlank, Check, ChatCircleText, Diamond as DiamondIcon, Hammer, Package, Flask, Mountains, PencilSimpleLine, Storefront, VideoCamera, Phone } from '@phosphor-icons/react'
 import { useTitle } from '../lib/seo'
 import { BRAND } from '../data/site'
-import { Diamond, SHAPES, type Shape } from '../components/Diamond'
+import { SHAPES, type Shape } from '../components/Diamond'
+const gem = (s: Shape) => `/media/engagement/shape-${s.toLowerCase()}.webp`
 import { SendPanel, deliver, validPhone, type SendMode } from '../components/SendPanel'
 import { Accordion } from '../components/Accordion'
 import { Lines } from './HomeV1'
@@ -78,8 +79,6 @@ export function Engagement() {
     f.notes.trim() && `Notes: ${f.notes.trim()}`,
     `Reach me: ${f.phone}${f.email ? ` · ${f.email}` : ''}`,
   ].filter(Boolean).join('\n'), [f])
-  const carat = CARAT.find((c) => c[0] === f.carat)?.[1] ?? 1.5
-  const metal = METAL.find((m) => m[0] === f.metal)?.[1] ?? 'white'
   const today = new Date(); today.setHours(0, 0, 0, 0)
   const last = new Date(today); last.setDate(last.getDate() + 60)
 
@@ -117,19 +116,19 @@ export function Engagement() {
             {sent ? <SendPanel mode={sent} message={message} onBack={() => setSent(null)} onReset={() => { setSent(null); setF(EMPTY); setStep(0); try { localStorage.removeItem(KEY) } catch { /* */ } }} /> : <>
               {step === 0 && <Q title="Select a diamond shape" sub="Every ring starts with the centre stone. Pick the outline you love.">
                 <div className="eng-shapes" role="radiogroup" aria-label="Diamond shape">
-                  {SHAPES.map(({ shape, note }) => <button key={shape} type="button" role="radio" aria-checked={f.shape === shape} className={'eng-shape' + (f.shape === shape ? ' on' : '')} onClick={() => set({ shape })}><Diamond shape={shape} size={56} /><b>{shape}</b><small>{note}</small></button>)}
+                  {SHAPES.map(({ shape, note }) => <button key={shape} type="button" role="radio" aria-checked={f.shape === shape} className={'eng-shape' + (f.shape === shape ? ' on' : '')} onClick={() => set({ shape })}><img className="eng-gem" src={gem(shape)} alt="" loading="lazy" /><b>{shape}</b><small>{note}</small></button>)}
                   <button type="button" role="radio" aria-checked={f.shape === 'Other'} className={'eng-shape eng-shape--other' + (f.shape === 'Other' ? ' on' : '')} onClick={() => set({ shape: 'Other' })}><DiamondIcon size={44} weight="thin" /><b>Other</b><small>Have something specific in mind?</small></button>
                 </div>
                 {f.shape === 'Other' && <label className="cu-field"><span className="lab">Describe the shape</span><input value={f.other} onChange={(e) => set({ other: e.target.value })} placeholder="e.g. old mine cut, kite, hexagon…" autoFocus /></label>}
               </Q>}
               {step === 1 && <Q title="What carat size are you looking for?" sub="Carat is weight. The preview grows with it.">
-                <Cards opts={CARAT.map(([c]) => ({ v: c }))} v={f.carat} set={(carat) => set({ carat })} render={(o) => <><span className="eng-ct" style={{ ['--k' as string]: Math.sqrt(CARAT.find((c) => c[0] === o.v)![1]) / 2.1 }}><Diamond shape={(f.shape in GEOFIX ? f.shape : 'Round') as Shape} size={64} /></span><b>{o.v}</b></>} />
+                <Cards opts={CARAT.map(([c]) => ({ v: c }))} v={f.carat} set={(carat) => set({ carat })} render={(o) => <><span className="eng-ct" style={{ ['--k' as string]: Math.sqrt(CARAT.find((c) => c[0] === o.v)![1]) / 2.1 }}><img src={gem((f.shape in GEOFIX ? f.shape : 'Round') as Shape)} alt="" /></span><b>{o.v}</b></>} />
               </Q>}
               {step === 2 && <Q title="What kind of diamond?" sub="Both are real diamonds. The difference is where they were formed.">
-                <Cards opts={ORIGIN} v={f.origin} set={(origin) => set({ origin })} />
+                <Cards opts={ORIGIN} v={f.origin} set={(origin) => set({ origin })} render={(o) => { const I = o.v.startsWith('Lab') ? Flask : o.v.startsWith('Natural') ? Mountains : ChatCircleText; return <><span className={'eng-orig eng-orig--' + o.v.split(' ')[0].toLowerCase()}><I size={26} weight="duotone" /></span><b>{o.v}</b><small>{o.note}</small></> }} />
               </Q>}
               {step === 3 && <Q title="Choose a setting" sub="How the centre stone sits on the band.">
-                <Cards opts={SETTING} v={f.setting} set={(setting) => set({ setting })} render={(o) => <><SettingIcon kind={o.v} /><b>{o.v}</b><small>{o.note}</small></>} />
+                <Cards opts={SETTING} v={f.setting} set={(setting) => set({ setting })} render={(o) => <><img className="eng-ringimg" src={`/media/engagement/setting-${o.v.toLowerCase().replace(/ /g, '-').replace('é', 'e')}.webp`} alt="" loading="lazy" /><b>{o.v}</b><small>{o.note}</small></>} />
               </Q>}
               {step === 4 && <Q title="Metal and ring size" sub="Not sure of the size? Leave it, JoJo sizes it at the consultation.">
                 <div className="eng-metals" role="radiogroup" aria-label="Metal">{METAL.map(([m, k]) => <button key={m} type="button" role="radio" aria-checked={f.metal === m} className={'eng-metal eng-metal--' + k + (f.metal === m ? ' on' : '')} onClick={() => set({ metal: m })}><i />{m}</button>)}</div>
@@ -168,11 +167,6 @@ export function Engagement() {
             </>}
           </div>
 
-          <aside className="eng-preview" aria-label="Your ring so far">
-            <Ring shape={(f.shape && f.shape !== 'Other' ? f.shape : 'Round') as Shape} carat={carat} metal={metal} setting={f.setting} />
-            <dl>{[['Shape', f.shape === 'Other' ? f.other || 'Other' : f.shape], ['Carat', f.carat], ['Diamond', f.origin], ['Setting', f.setting], ['Metal', f.metal], ['Budget', f.budget]].map(([k, v]) => <div key={k} className={v ? 'set' : ''}><dt>{k}</dt><dd>{v || '—'}</dd></div>)}</dl>
-            <p className="small muted">Preview for reference. Your sketch comes from JoJo after the consultation.</p>
-          </aside>
         </div>
       </section>
 
@@ -201,40 +195,3 @@ function Pills({ label, opts, v, set }: { label: string; opts: string[]; v: stri
   return <fieldset className="cu-choice"><legend className="lab">{label}</legend><div className="pills" role="radiogroup" aria-label={label}>{opts.map((o) => <button type="button" key={o} role="radio" aria-checked={v === o} className={'pill' + (v === o ? ' on' : '')} onClick={() => set(o)}>{o}</button>)}</div></fieldset>
 }
 
-/* setting styles as small side-view line drawings */
-function SettingIcon({ kind }: { kind: string }) {
-  const band = <path d="M8 40 Q32 54 56 40" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-  const stone = (x = 32, s = 1) => <path d={`M${x - 9 * s} ${24} L${x - 5 * s} ${18} H${x + 5 * s} L${x + 9 * s} ${24} L${x} ${34} Z`} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-  const dots = (pts: [number, number][]) => pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="1.6" fill="currentColor" />)
-  return (
-    <svg className="eng-set" width="64" height="56" viewBox="0 0 64 56" aria-hidden="true">
-      {band}
-      {kind === 'Three stone' ? <>{stone(32)}{stone(18, 0.6)}{stone(46, 0.6)}</> : kind === 'Bezel' ? <><rect x="21" y="17" width="22" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />{stone()}</> : stone()}
-      {kind === 'Solitaire' && <path d="M26 24 L28 38 M38 24 L36 38" stroke="currentColor" strokeWidth="1.4" />}
-      {kind === 'Halo' && dots([[20, 22], [22, 30], [26, 35], [38, 35], [42, 30], [44, 22], [24, 17], [40, 17]])}
-      {kind === 'Hidden halo' && dots([[24, 37], [28, 39], [32, 39.5], [36, 39], [40, 37]])}
-      {kind === 'Pavé band' && dots([[12, 44], [17, 46.5], [22, 48], [42, 48], [47, 46.5], [52, 44]])}
-    </svg>
-  )
-}
-
-/* live preview: the ring seen from above-front, stone sized by carat, metal coloured, halo/pavé drawn in */
-function Ring({ shape, carat, metal, setting }: { shape: Shape; carat: number; metal: string; setting: string }) {
-  const col = { white: ['#f6f7f9', '#aeb4bc', '#6c727a'], yellow: ['#fff0bf', '#d6a743', '#7a5520'], rose: ['#ffe3d6', '#d58f70', '#7d4636'] }[metal as 'white']
-  const k = 0.55 + Math.sqrt(carat) * 0.32
-  const halo = setting === 'Halo', pave = setting === 'Pavé band', three = setting === 'Three stone', bezel = setting === 'Bezel'
-  return (
-    <div className="eng-ring" aria-hidden="true">
-      <svg viewBox="0 0 200 200" className="eng-ring__band">
-        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={col[0]} /><stop offset=".5" stopColor={col[1]} /><stop offset="1" stopColor={col[2]} /></linearGradient></defs>
-        <ellipse cx="100" cy="128" rx="62" ry="46" fill="none" stroke="url(#rg)" strokeWidth="11" />
-        <ellipse cx="100" cy="128" rx="62" ry="46" fill="none" stroke="#fff" strokeOpacity=".35" strokeWidth="1.4" />
-        {pave && Array.from({ length: 22 }, (_, i) => { const t = Math.PI * (0.08 + (i / 21) * 0.84); return <circle key={i} cx={100 + 62 * Math.cos(t)} cy={128 + 46 * Math.sin(t)} r="2.6" fill="#fff" stroke="#9fb0c0" strokeWidth=".5" /> })}
-      </svg>
-      <div className="eng-ring__stones" style={{ ['--k' as string]: k }}>
-        {three && <><span className="eng-ring__side l"><Diamond shape={shape} size={40} /></span><span className="eng-ring__side r"><Diamond shape={shape} size={40} /></span></>}
-        <span className={'eng-ring__head' + (halo ? ' halo' : '') + (bezel ? ' bezel' : '')} style={{ ['--m' as string]: col[1] }}><Diamond shape={shape} size={72} /></span>
-      </div>
-    </div>
-  )
-}
